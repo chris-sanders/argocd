@@ -1,0 +1,2 @@
+dashboard:
+    hostname: "dashboard.traefik"

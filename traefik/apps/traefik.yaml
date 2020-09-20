@@ -14,6 +14,7 @@ spec:
         helm:
             valuesfiles:
                 - values.yaml
+                - values-lab.yaml
         repoURL: https://github.com/chris-sanders/argocd.git
     syncPolicy:
         automated: {}

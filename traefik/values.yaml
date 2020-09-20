@@ -1,3 +1,4 @@
+dashboard: {}
 traefik:
     ports:
         udp53:
@@ -11,3 +12,6 @@ traefik:
     service:
         spec:
             externalTrafficPolicy: Local
+    ingressRoute:
+        dashboard:
+            enabled: false

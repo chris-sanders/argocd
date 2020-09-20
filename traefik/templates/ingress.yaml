@@ -1,0 +1,26 @@
+{{- if .Values.dashboard.hostname }}
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: traefik-tls-dashboard
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: {{ .Values.dashboard.hostname }}
+      kind: Rule
+      {{- if .Values.dashboard.users }}
+      middlewares:
+      - name: auth
+      {{- end }}
+      services:
+      - name: api@internal
+        kind: TraefikService
+  {{- if .Values.custom_cert }}
+  tls: 
+    secretName: traefik-cert
+  {{- else }}
+  tls: {}
+  {{- end }}
+{{- end }}
