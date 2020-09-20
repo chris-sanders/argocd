@@ -12,7 +12,7 @@ spec:
         path: traefik
         targetRevison: HEAD
         helm:
-            valuesfiles:
+            valueFiles:
                 - values.yaml
                 - values-lab.yaml
         repoURL: https://github.com/chris-sanders/argocd.git
