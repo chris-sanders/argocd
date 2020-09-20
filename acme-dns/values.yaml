@@ -1,0 +1,9 @@
+acme_dns:
+    name: acme-dns
+    domain: example.com
+    email: admin@example.com
+    public_ip: 127.0.0.1
+    port: 80
+persistence:
+    accessMode: ReadWriteOnce
+    size: 100Mi
