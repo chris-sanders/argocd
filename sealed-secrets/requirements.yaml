@@ -1,0 +1,5 @@
+dependencies:
+    - name: sealed-secrets
+      version: '~1.10.3'
+      repository: "@stable"
+      #repository: https://charts.bitnami.com/bitnami
