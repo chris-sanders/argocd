@@ -1,4 +1,4 @@
-{{- if .Values.templates.dashboard_auth "lab" }}
+{{- if eq .Values.templates.dashboard_auth "lab" }}
 ---
 apiVersion: bitnami.com/v1alpha1
 kind: SealedSecret
