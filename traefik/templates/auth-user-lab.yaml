@@ -1,0 +1,17 @@
+{{- if .Values.templates.dashboard_auth "lab" }}
+---
+apiVersion: bitnami.com/v1alpha1
+kind: SealedSecret
+metadata:
+  creationTimestamp: null
+  name: authsecret
+  namespace: default
+spec:
+  encryptedData:
+    users: AgAdhivEwviJQReKOQfmMmcUN/5wD7WOg3n2qnYsd9ORHOUQj4uJqSMDTcLXDfxRIeTkfn//AT36OAqY50ZBFDDsnoUUOXWSl+8mxk+ww6zNNTvji9NmSQof82YaEMIr0CvarQu2TgJaLdK4/zSAsMDRLmT3JVw7NOhgBByqP2bfCIvkjEnZKFoInSoJk0lNBY2SzD4MJmZXIqZ7+UayK3CGKp8iKPBqIrmyaFaXylMSUPadeXT0j7bTCvlRvsxC/9gWt+hW++Qq53yaCig14ghsZ3FBcFgPD4FRziYbluMTq5btwCiXApHQ7JLan/wBCCMxrrECPxR7xpWu2lB/QP/fgj7j87FiaFcuV6KnkrJUMeG/QLa5/XpZ7YZr6JyFVvcvc7B3bVqs8oGrptkXHP5ISzRdtKMhMwPQOVUGK5ZA7ua+Eu6mcqMPqK4PSyHtyd5rDgVUG0fkQmaprkQdIqSeNODI3Uog77fA3dRaMnL8Mi4mqgp4sXkoXrL65Fmr3vIcPJQ0YwRbDzpBAp2oL9ARzIAyuMWWgMRx9mRWGOaeYdNv4MDPAj/6hJXiBSA9OBd8n+tbjehqMTU413rcB9vSX5LqNC2bhwdG31ilkMFJ9kMPAFPtisV1k+lDv9wd6VOxjeiT4I5DhZtB5Gvv+F5eDZ3z7NL07Wl7OYpF1R+HrnAusNsx8UzB+mK6COkWgCtFGdfwoA7eMgiuLUTxPFe0sjGAlpxdcAL2DVa9CRABn4WtoohBta8PnH3HJr7L
+  template:
+    metadata:
+      creationTimestamp: null
+      name: authsecret
+      namespace: default
+{{- end }}

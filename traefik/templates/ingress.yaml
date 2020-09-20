@@ -10,7 +10,7 @@ spec:
   routes:
     - match: Host(`{{ .Values.templates.dashboard_hostname }}`)
       kind: Rule
-      {{- if .Values.templates.dashboard_users }}
+      {{- if .Values.templates.dashboard_auth }}
       middlewares:
       - name: auth
       {{- end }}
