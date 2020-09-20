@@ -4,8 +4,8 @@ kind: Service
 metadata:
   name: {{ .Release.Name | quote }}
   labels:
-  - app.kubernetes.io/name: {{ .Release.Name | quote }}
-  - app.kubernetes.io/instance: {{ .Release.Name | quote }}
+    app.kubernetes.io/name: {{ .Release.Name | quote }}
+    app.kubernetes.io/instance: {{ .Release.Name | quote }}
 spec:
   ports:
   - name: "443"
@@ -22,7 +22,7 @@ spec:
     port: 80
     targetPort: 80
   selector:
-  - app.kubernetes.io/name: {{ .Release.Name | quote }}
-  - app.kubernetes.io/instance: {{ .Release.Name | quote }}
+    app.kubernetes.io/name: {{ .Release.Name | quote }}
+    app.kubernetes.io/instance: {{ .Release.Name | quote }}
 status:
   loadBalancer: {}
