@@ -1,0 +1,4 @@
+metallb:
+    existingConfigMap: metallb-config
+addresses:
+    - "10.0.9.1-10.0.9.20"
