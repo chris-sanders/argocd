@@ -1,2 +1,2 @@
-dashboard:
-    hostname: "dashboard.traefik"
+templates:
+    dashboard_hostname: "dashboard.traefik"

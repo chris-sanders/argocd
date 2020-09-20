@@ -1,4 +1,4 @@
-dashboard: {}
+templates: {}
 traefik:
     ports:
         udp53:

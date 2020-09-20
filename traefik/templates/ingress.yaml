@@ -1,4 +1,4 @@
-{{- if .Values.dashboard.hostname }}
+{{- if .Values.templates.dashboard_hostname }}
 ---
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
@@ -8,16 +8,16 @@ spec:
   entryPoints:
     - websecure
   routes:
-    - match: Host(`{{ .Values.dashboard.hostname }}`)
+    - match: Host(`{{ .Values.templates.dashboard_hostname }}`)
       kind: Rule
-      {{- if .Values.dashboard.users }}
+      {{- if .Values.templates.dashboard_users }}
       middlewares:
       - name: auth
       {{- end }}
       services:
       - name: api@internal
         kind: TraefikService
-  {{- if .Values.custom_cert }}
+  {{- if .Values.templates.custom_cert }}
   tls: 
     secretName: traefik-cert
   {{- else }}
