@@ -13,13 +13,13 @@ spec:
       priority: 10
       services:
         - name: argocd-server
-          port: 80
+          port: 443
     - kind: Rule
       match: Host(`{{- .Values.templates.argo_uri }}`) && Headers(`Content-Type`, `application/grpc`)
       priority: 11
       services:
         - name: argocd-server
-          port: 80
+          port: 443
           scheme: h2c
   tls:
     certResolver: default
