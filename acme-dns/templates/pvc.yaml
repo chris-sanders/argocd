@@ -1,7 +1,7 @@
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
-  name: {{ .Release.Name | quote }}
+  name: acmedns-pvc
 spec:
   accessModes:
     - {{ .Values.persistence.accessMode | quote }}
