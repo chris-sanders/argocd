@@ -8,7 +8,7 @@ spec:
   entryPoints:
     - websecure
   routes:
-    - match: {{ .Values.dashboard.hostname }}
+    - match: Host(`{{ .Values.dashboard.hostname }}`)
       kind: Rule
       {{- if .Values.dashboard.users }}
       middlewares:
