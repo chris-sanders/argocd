@@ -11,6 +11,6 @@ data:
           - name: deafult
             protocol: layer2
             addresses:
-            {{- range .Values.addresses }}
+            {{- range .Values.templates.addresses }}
                 - {{ . | quote }}
             {{- end }}
