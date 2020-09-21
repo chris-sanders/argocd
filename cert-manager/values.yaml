@@ -1,0 +1,16 @@
+cert-manager:
+    global:
+      leaderElection:
+        # Override the namespace used to store the ConfigMap for leader election
+        namespace: "cert-manager"
+    installCRDs: true
+    extraArgs: 
+        - --cluster-resource-namespace=cert-manager
+        - --enable-certificate-owner-ref=true
+templates:
+    letsencrypt:
+        production: false
+        staging: true
+        email: admin@example.com
+        acme_host: 'dns.example.com'
+    secrets: ''

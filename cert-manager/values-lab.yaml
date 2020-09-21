@@ -1,0 +1,5 @@
+templates:
+    letsencrypt:
+        email: admin@traefik
+        acme_host: 'dns.traefik'
+    secrets: 'lab'
