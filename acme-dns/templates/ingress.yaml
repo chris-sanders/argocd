@@ -1,0 +1,17 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: traefik-acmedns
+  namespace: {{ .Release.Namespace }}
+spec:
+  entryPoints:
+  - web
+  routes:
+  - match: Host(`{{ .Values.acme_dns.domain }}`)
+    kind: Rule
+    middlewares:
+    - name: local-ipwhitelist
+    services:
+    - name: acmedns
+      port: 80
+      namespace: {{ .Release.Namespace }}

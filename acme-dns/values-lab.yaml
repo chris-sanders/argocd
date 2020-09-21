@@ -4,4 +4,3 @@ acme_dns:
     email: admin@dns.traefik
     public_ip: 127.0.0.1
     port: 80
-
