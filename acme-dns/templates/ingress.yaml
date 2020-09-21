@@ -10,7 +10,7 @@ spec:
   - match: Host(`{{ .Values.acme_dns.domain }}`)
     kind: Rule
     middlewares:
-    - name: local-ipwhitelist
+    - name: traefik-local-ipwhitelist
     services:
     - name: acmedns
       port: 80
