@@ -1,4 +1,6 @@
-templates: {}
+templates:
+    install_cert: false
+
 traefik:
     ports:
         udp53:
