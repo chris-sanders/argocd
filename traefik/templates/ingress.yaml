@@ -17,10 +17,7 @@ spec:
       services:
       - name: api@internal
         kind: TraefikService
-  {{- if .Values.templates.custom_cert }}
-  tls: 
-    secretName: traefik-cert
-  {{- else }}
-  tls: {}
-  {{- end }}
+  tls:
+      store:
+          name: default
 {{- end }}
