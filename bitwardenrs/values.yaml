@@ -3,5 +3,7 @@ bitwardenrs:
     bitwardenrs:
         admin:
             enabled: false
-    persistance:
+    persistence:
         enabled: true
+    podAnnotations:
+        backup.velero.io/backup-volumes: bitwarden
