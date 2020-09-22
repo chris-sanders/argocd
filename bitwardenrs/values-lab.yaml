@@ -1,4 +1,4 @@
 bitwardenrs:
     bitwardenrs:
-        domain: "https://bitwarden.traefik"
+        domain: "bitwarden.traefik"
         signupsAllowed: true
