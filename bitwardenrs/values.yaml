@@ -1,0 +1,5 @@
+bitwardenrs:
+    admin:
+        enabled: false
+    persistance:
+        enabled: true
