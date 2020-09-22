@@ -11,9 +11,9 @@ spec:
   - match: Host(`{{ .Values.bitwardenrs.bitwardenrs.domain }}`)
     kind: Rule
     services:
-    - name: bitwardenrs
+    - name: bitwarden
       port: 80
-      namespace: bitwardenrs
+      namespace: bitwarden
   tls:
       store:
           name: default
