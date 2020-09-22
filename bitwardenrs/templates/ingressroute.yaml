@@ -1,4 +1,4 @@
-{{- if .Values.bitwardenrs.domain }}
+{{- if .Values.bitwardenrs.bitwardenrs.domain }}
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
@@ -8,7 +8,7 @@ spec:
   entryPoints:
   - websecure
   routes:
-  - match: Host(`{{ .Values.bitwardenrs.domain }}`)
+  - match: Host(`{{ .Values.bitwardenrs.bitwardenrs.domain }}`)
     kind: Rule
     services:
     - name: bitwardenrs
