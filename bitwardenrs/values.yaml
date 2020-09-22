@@ -1,4 +1,5 @@
 bitwardenrs:
+    fullnameOverride: "bitwarden"
     bitwardenrs:
         admin:
             enabled: false

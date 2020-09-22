@@ -5,16 +5,16 @@ metadata:
   name: traefik-tls-bitwarden
   namespace: {{ .Release.Namespace }}
 spec:
-  entryPoints:
-  - websecure
-  routes:
-  - match: Host(`{{ .Values.bitwardenrs.bitwardenrs.domain }}`)
-    kind: Rule
-    services:
-    - name: bitwarden
-      port: 80
-      namespace: bitwarden
-  tls:
+    entryPoints:
+    - websecure
+    routes:
+    - match: Host(`{{ trimPrefix "https://" .Values.bitwardenrs.bitwardenrs.domain }}`)
+      kind: Rule
+      services:
+      - name: bitwarden
+        port: 80
+        namespace: bitwarden
+    tls:
       store:
-          name: default
+        name: default
 {{- end }}
