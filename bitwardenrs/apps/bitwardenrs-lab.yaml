@@ -1,11 +1,11 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-    name: bitwardenrs
+    name: bitwarden
     namespace: argocd
 spec:
     destination:
-        namespace: bitwardenrs
+        namespace: bitwarden
         server: https://kubernetes.default.svc
     project: default
     source:
