@@ -1,2 +1,3 @@
 bitwardenrs:
     domain: "bitwarden.traefik"
+    signupsAllowed: true
