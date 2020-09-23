@@ -17,5 +17,3 @@ argo-cd:
           value: http://squid.internal:3128
 templates:
     argo_uri: 'argo.traefik'
-    backuplocations:
-    - "home-ro"

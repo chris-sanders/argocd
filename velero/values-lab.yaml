@@ -8,3 +8,5 @@ velero:
             NO_PROXY: 10.0.0.0/8
 templates:
     secrets: "lab"
+    backuplocations:
+    - "home-ro"
