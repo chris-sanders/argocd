@@ -6,3 +6,5 @@ velero:
             HTTP_PROXY: http://squid.internal:3128
             HTTPS_PROXY: http://squid.internal:3128
             NO_PROXY: 10.0.0.0/8
+templates:
+    secrets: "lab"
