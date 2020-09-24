@@ -2,3 +2,5 @@ bitwardenrs:
     bitwardenrs:
         domain: "https://bitwarden.traefik"
         signupsAllowed: true
+templates:
+    backup_schedule: "lab"

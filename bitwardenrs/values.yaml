@@ -8,3 +8,5 @@ bitwardenrs:
         size: 954Mi
     podAnnotations:
         backup.velero.io/backup-volumes: bitwarden
+templates:
+    backup_schedule: ""
