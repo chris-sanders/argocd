@@ -1,0 +1,24 @@
+{{- if has "home-ro" .Values.templates.backuplocations }}
+apiVersion: velero.io/v1
+kind: BackupStorageLocation
+metadata:
+  annotations:
+    helm.sh/hook: post-install,post-upgrade
+    helm.sh/hook-delete-policy: before-hook-creation
+  labels:
+    app.kubernetes.io/instance: velero
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: velero
+    argocd.argoproj.io/instance: velero
+  name: backblaze-home-ro
+  namespace: velero
+spec:
+  accessMode: ReadOnly
+  config:
+    region: backblaze
+    s3ForcePathStyle: "true"
+    s3Url: https://s3.us-west-001.backblazeb2.com
+  objectStorage:
+    bucket: velero-home
+  provider: aws
+{{- end }}
