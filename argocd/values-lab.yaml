@@ -16,4 +16,4 @@ argo-cd:
         - name: HTTPS_PROXY
           value: http://squid.internal:3128
 templates:
-    argo_uri: 'argo.traefik'
+    argo_uri: 'argo.in.lab'

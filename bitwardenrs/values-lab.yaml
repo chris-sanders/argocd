@@ -1,6 +1,6 @@
 bitwardenrs:
     bitwardenrs:
-        domain: "https://bitwarden.traefik"
+        domain: "https://bitwarden.in.lab"
         signupsAllowed: true
 templates:
     backup_schedule: "lab"
