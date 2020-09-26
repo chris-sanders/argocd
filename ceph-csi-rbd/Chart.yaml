@@ -1,0 +1,7 @@
+name: argocd
+apiVersion: v2
+version: 1.0.0
+dependencies:
+  - name: ceph-csi-rbd
+    version: '~3.1.0' 
+    repository: https://ceph.github.io/csi-charts 
