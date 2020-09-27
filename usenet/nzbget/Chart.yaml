@@ -1,0 +1,7 @@
+name: nzbget
+apiVersion: v2
+version: 1.0.0
+dependencies:
+  - name: nzbget
+    version: '~5.0.0'
+    repository: https://k8s-at-home.com/charts/

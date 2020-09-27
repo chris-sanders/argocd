@@ -1,0 +1,8 @@
+nzbget:
+    nzbget:
+        ingress:
+            hosts:
+                - host: in.lab
+                  paths: [/nzbget]
+                - host: nzbget.in.lab
+                  paths: [/]
