@@ -1,0 +1,4 @@
+nzbhydra2:
+    ingress:
+        hosts: [nzbhydra.in.lab]
+        path: "/"

@@ -1,0 +1,15 @@
+nzbhydra2:
+    timezone: America/Chicago
+    puid: "1100"
+    pgid: "1100"
+    ingress:
+        enabled: true
+        annotations:
+            traefik.ingress.kubernetes.io/router.entrypoints: websecure
+            traefik.ingress.kubernetes.io/router.tls: "true"
+            traefik.ingress.kubernetes.io/router.middlewares: "traefik-local-ipwhitelist@kubernetescrd"
+    persistence:
+        config:
+            enabled: true
+    podAnnotations:
+        backup.velero.io/backup-volumes: config
