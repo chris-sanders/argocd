@@ -1,0 +1,13 @@
+sabnzbd:
+    timezone: America/Chicago
+    puid: "1000"
+    pgid: "1000"
+    ingress:
+        enabled: true
+        annotations:
+            traefik.ingress.kubernetes.io/router.entrypoints: websecure
+            traefik.ingress.kubernetes.io/router.tls: "true"
+            traefik.ingress.kubernetes.io/router.middlewares: "traefik-local-ipwhitelist@kubernetescrd"
+    persistence:
+        config:
+            enabled: true

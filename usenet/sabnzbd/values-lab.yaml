@@ -1,0 +1,4 @@
+sabnzbd:
+    ingress:
+        hosts: [sabnzbd.in.lab]
+        path: "/"
