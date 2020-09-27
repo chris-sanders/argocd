@@ -11,3 +11,5 @@ sabnzbd:
     persistence:
         config:
             enabled: true
+    podAnnotations:
+        backup.velero.io/backup-volumes: config
