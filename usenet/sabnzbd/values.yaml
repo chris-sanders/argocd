@@ -1,7 +1,7 @@
 sabnzbd:
     timezone: America/Chicago
-    puid: "1000"
-    pgid: "1000"
+    puid: "1100"
+    pgid: "1100"
     ingress:
         enabled: true
         annotations:

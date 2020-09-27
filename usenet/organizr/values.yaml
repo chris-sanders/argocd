@@ -4,8 +4,8 @@ organizr:
             organization: linuxserver
         env:
             TZ: America/Chicago
-            PUID: "1000"
-            PGID: "1000"
+            PUID: "1100"
+            PGID: "1100"
         ingress:
             enabled: true
             annotations:
