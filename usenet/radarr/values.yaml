@@ -14,6 +14,5 @@ radarr:
             type: statefulset
             config:
                 enabled: true
-    media-common:
         podAnnotations:
             backup.velero.io/backup-volumes: config
