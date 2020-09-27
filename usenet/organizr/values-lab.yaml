@@ -1,0 +1,8 @@
+organizr:
+    organizr:
+        ingress:
+            hosts:
+                - host: in.lab
+                  paths: [/organizr]
+                - host: organizr.in.lab
+                  paths: [/]
