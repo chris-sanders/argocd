@@ -16,5 +16,5 @@ organizr:
             type: statefulset
             config:
                 enabled: true
-    podAnnotations:
-        backup.velero.io/backup-volumes: config
+        podAnnotations:
+            backup.velero.io/backup-volumes: config

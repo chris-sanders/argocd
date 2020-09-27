@@ -16,5 +16,5 @@ nzbget:
                 enabled: true
         additionalVolumes: {}
         additionalVolumeMounts: {}
-    podAnnotations:
-        backup.velero.io/backup-volumes: config
+        podAnnotations:
+            backup.velero.io/backup-volumes: config
