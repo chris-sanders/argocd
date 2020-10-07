@@ -1,0 +1,19 @@
+argo-cd:
+    repoServer:
+        env:
+        - name: NO_PROXY
+          value: argocd-repo-server,argocd-application-controller,argocd-metrics,argocd-server,argocd-server-metrics,argocd-redis,10.0.0.0/8
+        - name: HTTP_PROXY
+          value: http://squid.internal:3128
+        - name: HTTPS_PROXY
+          value: http://squid.internal:3128
+    server:
+        env:
+        - name: NO_PROXY
+          value: argocd-repo-server,argocd-application-controller,argocd-metrics,argocd-server,argocd-server-metrics,argocd-redis,10.0.0.0/8
+        - name: HTTP_PROXY
+          value: http://squid.internal:3128
+        - name: HTTPS_PROXY
+          value: http://squid.internal:3128
+templates:
+    argo_uri: 'argo.in.lab'
