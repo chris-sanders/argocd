@@ -13,7 +13,8 @@ spec:
         targetRevison: HEAD
         helm:
             valueFiles:
-                - values-lab.yaml
+                - values.yaml
+                #- values-lab.yaml
         repoURL: https://github.com/chris-sanders/argocd.git
     syncPolicy:
         automated: {}
