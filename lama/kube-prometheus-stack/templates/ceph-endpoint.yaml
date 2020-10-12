@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Endpoints
+metadata:
+    name: ceph-metrics
+    labels:
+        k8s-app: ceph-metrics
+subsets:
+    - addresses:
+        - ip: "192.168.0.101" 
+        - ip: "192.168.0.106" 
+        - ip: "192.168.0.117" 
+      ports:
+        - name: metrics
+          port: 9283
+          protocol: TCP

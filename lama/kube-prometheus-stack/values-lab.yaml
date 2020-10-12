@@ -1,0 +1,46 @@
+kube-prometheus-stack:
+    fullnameOverride: "kps"
+
+    defaultRules:
+      rules:
+        etcd: false
+        kubeScheduler: false
+
+    alertmanager:
+      ingress:
+        enabled: false
+  
+    grafana:
+        fullnameOverride: grafana
+        adminPassword: prom-operator
+        ingress:
+          enabled: false
+   
+    prometheus-node-exporter:
+        fullnameOverride: node-exporter
+
+    prometheus:
+        ingress:
+          enabled: false
+
+        prometheusSpec:
+            ruleSelectorNilUsesHelmValues: false
+            serviceMonitorSelectorNilUsesHelmValues: false
+            podMonitorSelectorNilUsesHelmValues: false
+    kubelet:
+      enabled: true
+      namespace: lama
+
+    prometheusOperator:
+        kubeletService:
+          namespace: lama
+
+    kube-state-metrics:
+        fullnameOverride: kube-state-metrics
+
+    kubeEtcd:
+      enabled: false
+    kubeScheduler:
+      enabled: false
+    kubeControllerManager:
+      enabled: false

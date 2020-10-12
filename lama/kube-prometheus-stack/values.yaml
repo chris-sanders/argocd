@@ -1,0 +1,62 @@
+kube-prometheus-stack:
+    fullnameOverride: "kps"
+
+    defaultRules:
+      rules:
+        etcd: false
+        kubeScheduler: false
+
+    alertmanager:
+      ingress:
+        enabled: true
+        annotations:
+            traefik.ingress.kubernetes.io/router.entrypoints: websecure
+            traefik.ingress.kubernetes.io/router.tls: "true"
+            traefik.ingress.kubernetes.io/router.middlewares: "traefik-local-ipwhitelist@kubernetescrd"
+        paths:
+            - /
+   
+    grafana:
+        fullnameOverride: grafana
+        adminPassword: prom-operator # change me?
+        ingress:
+          enabled: true
+          annotations:
+              traefik.ingress.kubernetes.io/router.entrypoints: websecure
+              traefik.ingress.kubernetes.io/router.tls: "true"
+              traefik.ingress.kubernetes.io/router.middlewares: "traefik-local-ipwhitelist@kubernetescrd"
+          path: /
+    
+    prometheus-node-exporter:
+        fullnameOverride: node-exporter
+
+    prometheus:
+        ingress:
+          enabled: true
+          annotations:
+              traefik.ingress.kubernetes.io/router.entrypoints: websecure
+              traefik.ingress.kubernetes.io/router.tls: "true"
+              traefik.ingress.kubernetes.io/router.middlewares: "traefik-local-ipwhitelist@kubernetescrd"
+          paths:
+              - /
+        prometheusSpec:
+            ruleSelectorNilUsesHelmValues: false
+            serviceMonitorSelectorNilUsesHelmValues: false
+            podMonitorSelectorNilUsesHelmValues: false
+    kubelet:
+      enabled: true
+      namespace: lama
+
+    prometheusOperator:
+        kubeletService:
+          namespace: lama
+
+    kube-state-metrics:
+        fullnameOverride: kube-state-metrics
+
+    kubeEtcd:
+      enabled: false
+    kubeScheduler:
+      enabled: false
+    kubeControllerManager:
+      enabled: false

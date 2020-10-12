@@ -1,0 +1,18 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+    name: ceph-metrics
+    labels:
+        k8s-app: ceph-metrics
+        release: kube-prometheus-stack
+spec:
+    selector:
+        matchLabels:
+            k8s-app: ceph-metrics
+    namespaceSelector:
+        matchNames:
+        - {{ .Release.Namespace }}
+    endpoints:
+    - port: metrics
+      interval: 15s
+      honorLabels: true

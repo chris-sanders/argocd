@@ -1,0 +1,37 @@
+{{- if has "ceph" .Values.templates.prometheusRules }}
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  labels:
+    prometheus: ceph
+    role: alert-rules
+  name: prometheus-ceph-rules
+spec:
+  groups:
+  - name: ceph_health
+    rules:
+      - alert: CephWarn
+        expr: ceph_health_status > 0
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Ceph is in WARNING state"
+          description: "Ceph has been in warning state for 5 minute."
+      - alert: CephError
+        expr: ceph_health_status > 1
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Ceph is in ERROR state"
+          description: "Ceph has been in error state for 1 minute."
+      - alert: CephOSD_Down
+        expr: ceph_osds_down > 0
+        for: 10m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Ceph has {{"{{ $value }}"}} OSDs down"
+          description: "Ceph has down OSDs for 10 minutes."
+{{- end }}

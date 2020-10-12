@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+    name: ceph-metrics
+    namespace: {{ .Release.Namespace }}
+    labels:
+        k8s-app: ceph-metrics
+spec:
+    clusterIP: None
+    #type: ExternalName
+    #externalName: <gpu-machine-ip>
+    #ports:
+    #- name: metrics
+    #  port: 9100
+    #  protocol: TCP
+    #  targetPort: 9100
