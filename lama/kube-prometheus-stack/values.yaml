@@ -60,3 +60,5 @@ kube-prometheus-stack:
       enabled: false
     kubeControllerManager:
       enabled: false
+templates:
+    prometheusRules: []
