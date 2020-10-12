@@ -1,0 +1,23 @@
+goldilocks:
+    fullnameOverride: "goldilocks"
+    image:
+        pullPolicy: "IfNotPresent"
+    dashboard:
+        replicaCount: 1
+        ingress:
+            enabled: true
+            annotations:
+                traefik.ingress.kubernetes.io/router.entrypoints: websecure
+                traefik.ingress.kubernetes.io/router.tls: "true"
+                traefik.ingress.kubernetes.io/router.middlewares: "traefik-local-ipwhitelist@kubernetescrd"
+vpa:
+    fullnameOverride: "vpa"
+    recommender:
+        image:
+            pullPolicy: "IfNotPresent"
+    updater:
+        image:
+            pullPolicy: "IfNotPresent"
+    admissionController:
+        enabled: false
+        cleanupOnDelete: false

@@ -1,0 +1,10 @@
+name: goldilocks
+apiVersion: v2
+version: 1.0.0
+dependencies:
+  - name: goldilocks
+    version: '^3.0.0'
+    repository: https://charts.fairwinds.com/stable
+  - name: vpa
+    version: '^0.1.5'
+    repository: https://charts.fairwinds.com/stable

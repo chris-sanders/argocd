@@ -1,0 +1,8 @@
+goldilocks:
+    fullnameOverride: "goldilocks"
+    image:
+        pullPolicy: "IfNotPresent"
+    dashboard:
+        replicaCount: 1
+        ingress:
+            enabled: false
