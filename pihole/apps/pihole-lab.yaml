@@ -9,7 +9,7 @@ spec:
         server: https://kubernetes.default.svc
     project: default
     source:
-        path: argocd
+        path: pihole
         targetRevison: HEAD
         helm:
             valueFiles:
