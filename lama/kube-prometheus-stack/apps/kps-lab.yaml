@@ -10,7 +10,7 @@ spec:
     project: default
     source:
         path: lama/kube-prometheus-stack
-        targetRevision: kps
+        targetRevision: HEAD
         helm:
             valueFiles:
                 - values.yaml
