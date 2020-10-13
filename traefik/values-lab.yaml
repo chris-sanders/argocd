@@ -1,4 +1,4 @@
 templates:
     dashboard_hostname: "traefik.in.lab"
-    dashboard_auth: "lab"
+    #dashboard_auth: "lab"
     #default_cert: "traefik-cert"
