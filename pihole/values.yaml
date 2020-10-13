@@ -65,7 +65,7 @@ adminPassword: "admin"
 #  passwordKey: "password"
 
 # extraEnvironmentVars is a list of extra enviroment variables to set for pihole to use
-extraEnvVars: {}
+extraEnvVars:
     TZ: America/Chicago
 
 # extraEnvVarsSecret is a list of secrets to load in as environment variables.
