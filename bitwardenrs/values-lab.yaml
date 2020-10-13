@@ -3,4 +3,4 @@ bitwardenrs:
         domain: "https://bitwarden.in.lab"
         signupsAllowed: true
 templates:
-    backup_schedule: "lab"
+    backup_schedule: ""
