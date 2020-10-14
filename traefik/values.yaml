@@ -2,12 +2,13 @@ templates:
     install_cert: false
 
 traefik:
-    ports:
-        udp53:
-            exposedPort: 53
-            port: 5300
-            expose: true
-            protocol: UDP
+    # Removing to allow IP setting
+    #ports:
+    #    udp53:
+    #        exposedPort: 53
+    #        port: 5300
+    #        expose: true
+    #        protocol: UDP
     globalArguments:
         - "--global.checknewversion"
         - "--serversTransport.insecureSkipVerify=true"
