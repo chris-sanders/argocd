@@ -1,15 +1,15 @@
 velero:
-    configuration:
-        provider: aws
-        backupStorageLocation:
-            name: default
-            # bucket: Required
-            config:
-                region: backblaze
-                s3ForcePathStyle: true
-                s3Url: https://s3.us-west-001.backblazeb2.com
-    credentials:
-        existingSecret: velero-backblaze
+    #configuration:
+    #    provider: aws
+    #    backupStorageLocation:
+    #        name: default
+    #        # bucket: Required
+    #        config:
+    #            region: backblaze
+    #            s3ForcePathStyle: true
+    #            s3Url: https://s3.us-west-001.backblazeb2.com
+    #credentials:
+    #    existingSecret: velero-backblaze
     initContainers:
     - name: velero-plugin-for-aws
       image: velero/velero-plugin-for-aws:v1.1.0
