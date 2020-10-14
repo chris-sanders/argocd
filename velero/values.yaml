@@ -1,9 +1,10 @@
 velero:
     configuration:
         provider: aws
-    #    backupStorageLocation:
-    #        name: default
-    #        # bucket: Required
+        backupStorageLocation:
+            name: default
+            bucket: default
+            # bucket: Required
     #        config:
     #            region: backblaze
     #            s3ForcePathStyle: true
