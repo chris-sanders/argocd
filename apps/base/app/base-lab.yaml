@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-    name: bootstrap
+    name: base
     namespace: argocd
 spec:
     destination:
@@ -9,12 +9,12 @@ spec:
         server: https://kubernetes.default.svc
     project: default
     source:
-        path: apps/bootstrap
+        path: apps/base
         targetRevision: bootstrap
         helm:
             valueFiles:
                 - values.yaml
-                - values-bootstrap.yaml
+                - values-base.yaml
         repoURL: https://github.com/chris-sanders/argocd.git
     syncPolicy:
         automated:
