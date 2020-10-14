@@ -8,25 +8,28 @@ kube-prometheus-stack:
 
     alertmanager:
       ingress:
-        enabled: false
-  
+        hosts:
+          - alertmanager.in.lab
+
     grafana:
         fullnameOverride: grafana
         adminPassword: prom-operator
         ingress:
-          enabled: false
+          hosts:
+            - grafana.in.lab
    
     prometheus-node-exporter:
         fullnameOverride: node-exporter
 
     prometheus:
         ingress:
-          enabled: false
-
+          hosts:
+            - prometheus.in.lab
         prometheusSpec:
             ruleSelectorNilUsesHelmValues: false
             serviceMonitorSelectorNilUsesHelmValues: false
             podMonitorSelectorNilUsesHelmValues: false
+
     kubelet:
       enabled: true
       namespace: lama
