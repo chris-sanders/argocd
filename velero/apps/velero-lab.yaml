@@ -10,7 +10,7 @@ spec:
     project: default
     source:
         path: velero
-        targetRevison: HEAD
+        targetRevision: HEAD
         helm:
             valueFiles:
                 - values.yaml
