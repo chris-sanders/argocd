@@ -10,7 +10,7 @@ spec:
     project: default
     source:
         path: lama/goldilocks
-        targetRevision: HEAD
+        targetRevision: bootstrap
         helm:
             valueFiles:
                 - values.yaml
