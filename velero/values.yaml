@@ -1,6 +1,6 @@
 velero:
-    #configuration:
-    #    provider: aws
+    configuration:
+        provider: aws
     #    backupStorageLocation:
     #        name: default
     #        # bucket: Required
