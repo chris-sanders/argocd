@@ -5,4 +5,5 @@ goldilocks:
     dashboard:
         replicaCount: 1
         ingress:
-            enabled: false
+            hosts:
+              - host: goldilocks.in.lab
