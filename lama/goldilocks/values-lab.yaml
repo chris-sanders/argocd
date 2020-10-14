@@ -7,4 +7,5 @@ goldilocks:
         ingress:
             hosts:
               - host: goldilocks.in.lab
-                paths: []
+                paths:
+                    - "/"
