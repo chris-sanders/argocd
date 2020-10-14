@@ -14,7 +14,7 @@ spec:
         helm:
             valueFiles:
                 - values.yaml
-                - values-base.yaml
+                - values-bootstrap.yaml
         repoURL: https://github.com/chris-sanders/argocd.git
     syncPolicy:
         automated:
