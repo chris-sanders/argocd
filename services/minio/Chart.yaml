@@ -1,0 +1,7 @@
+name: velero
+apiVersion: v2
+version: 1.0.0
+dependencies:
+  - name: minio
+    version: '^7.2.1'
+    repository: https://helm.min.io/

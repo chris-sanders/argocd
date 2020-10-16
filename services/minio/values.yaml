@@ -1,0 +1,45 @@
+minio:
+  accessKey: lab-access-key
+  #existingSecret: ""
+  fullnameOverride: "minio"
+  ingress:
+    annotations:
+      traefik.ingress.kubernetes.io/router.entrypoints: websecure
+      traefik.ingress.kubernetes.io/router.tls: "true"
+    enabled: true
+    # hosts:
+    # - chart-example.local
+    path: /
+  makeBucketJob:
+    annotations: null
+    podAnnotations: null
+    resources:
+      requests:
+        memory: 128Mi
+    securityContext:
+      enabled: false
+      fsGroup: 1100
+      runAsGroup: 1100
+      runAsUser: 1100
+  metrics:
+    serviceMonitor:
+      enabled: true
+  mode: standalone
+  #nasgateway:
+  #  enabled: false
+  #  pv: null
+  #  replicas: 4
+  persistence:
+    VolumeName: ""
+    accessMode: ReadWriteOnce
+    enabled: true
+    existingClaim: ""
+    size: 5Gi
+    storageClass: ""
+    subPath: ""
+  secretKey: lab-secret-key
+  securityContext:
+    enabled: true
+    fsGroup: 1100
+    runAsGroup: 1100
+    runAsUser: 1100
