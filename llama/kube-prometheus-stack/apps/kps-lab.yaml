@@ -5,11 +5,11 @@ metadata:
     namespace: argocd
 spec:
     destination:
-        namespace: lama
+        namespace: llama
         server: https://kubernetes.default.svc
     project: default
     source:
-        path: lama/kube-prometheus-stack
+        path: llama/kube-prometheus-stack
         targetRevision: HEAD
         helm:
             valueFiles:

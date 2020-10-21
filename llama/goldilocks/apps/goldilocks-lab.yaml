@@ -5,11 +5,11 @@ metadata:
     namespace: argocd
 spec:
     destination:
-        namespace: lama
+        namespace: llama
         server: https://kubernetes.default.svc
     project: default
     source:
-        path: lama/goldilocks
+        path: llama/goldilocks
         targetRevision: HEAD
         helm:
             valueFiles:

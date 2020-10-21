@@ -32,11 +32,11 @@ kube-prometheus-stack:
 
     kubelet:
       enabled: true
-      namespace: lama
+      namespace: llama
 
     prometheusOperator:
         kubeletService:
-          namespace: lama
+          namespace: llama
 
     kube-state-metrics:
         fullnameOverride: kube-state-metrics
