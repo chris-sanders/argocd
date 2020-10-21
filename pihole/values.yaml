@@ -4,22 +4,22 @@ pihole:
     # Declare variables to be passed into your templates.
     
     serviceTCP:
-      type: ClusterIP
-      # externalTrafficPolicy: Local
+      type: LoadBalancer
+      externalTrafficPolicy: Local
       # loadBalancerIP: ""
         # a fixed LoadBalancer IP
-      annotations: {}
+      annotations:
         # metallb.universe.tf/address-pool: network-services
-        # metallb.universe.tf/allow-shared-ip: pihole-svc
+        metallb.universe.tf/allow-shared-ip: pihole-svc
     
     serviceUDP:
-      type: ClusterIP
-      # externalTrafficPolicy: Local
+      type: LoadBalancer
+      externalTrafficPolicy: Local
       # loadBalancerIP: ""
         # a fixed LoadBalancer IP
-      annotations: {}
+      annotations:
         # metallb.universe.tf/address-pool: network-services
-        # metallb.universe.tf/allow-shared-ip: pihole-svc
+        metallb.universe.tf/allow-shared-ip: pihole-svc
     
     virtualHost: pi.hole
     
@@ -33,11 +33,6 @@ pihole:
       hosts:
         # virtualHost (default value is pi.hole) will be appended to the hosts
         - pihole.in.lab
-      # tls: []
-      #  - secretName: chart-example-tls
-      #    hosts:
-      #     #- virtualHost (default value is pi.hole) will be appended to the hosts
-      #      - chart-example.local
     
     persistentVolumeClaim:
       # set to true to use pvc
@@ -76,12 +71,12 @@ pihole:
       #   key: secret-key
     
     # default upstream DNS servers to use
-    #DNS1: "8.8.8.8"
-    #DNS2: "8.8.4.4"
+    DNS1: {}
+    DNS2: {}
     
     doh:
       # set to true to enabled DNS over HTTPs via cloudflared
-      enabled: false
+      enabled: true
       name: "cloudflared"
       repository: "crazymax/cloudflared"
       tag: latest
@@ -117,9 +112,18 @@ pihole:
       # - https://hosts-file.net/grm.txt
       # - https://reddestdream.github.io/Projects/MinimalHosts/etc/MinimalHostsBlocker/minimalhosts
     
-    whitelist: {}
+    whitelist:
       # If you want to provide whitelisted domains, add them here.
-      # - clients4.google.com
+        - clients4.google.com
+        - clients2.google.com
+        - s.youtube.com
+        - video-stats.l.google.com
+        - android.clients.google.com
+        - reminders-pa.googleapis.com
+        - firestore.googleapis.com 
+        - dl.google.com
+        - sls.update.microsoft.com.akadns.net
+        - fe3.delivery.dsp.mp.microsoft.com.nsatc.net
     
     blacklist: {}
       # If you want to have special domains blacklisted, add them here
@@ -128,9 +132,5 @@ pihole:
     regex: {}
       # Add regular expression blacklist items
       # - (^|\.)facebook\.com$
-    
-    
-    # webHttp: "80"
-    # webHttps: "443"
-    # hostNetwork: "false"
-    # privileged: "false"
+templates:
+    secrets: {}
