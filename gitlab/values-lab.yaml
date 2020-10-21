@@ -1,0 +1,6 @@
+gitlab:
+    global:
+        hosts:
+            domain: in.lab
+templates:
+    secrets: "lab"

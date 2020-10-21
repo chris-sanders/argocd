@@ -1,5 +1,6 @@
 minio:
   accessKey: lab-access-key
+  secretKey: lab-secret-key
   #existingSecret: ""
   fullnameOverride: "minio"
   ingress:
@@ -37,7 +38,6 @@ minio:
     size: 5Gi
     storageClass: ""
     subPath: ""
-  secretKey: lab-secret-key
   securityContext:
     enabled: true
     fsGroup: 1100

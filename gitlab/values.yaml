@@ -1,0 +1,78 @@
+gitlab:
+    global:
+        hosts:
+            domain: in.lab
+        ingress:
+            configureCertmanager: false
+            annotations:
+                traefik.ingress.kubernetes.io/router.entrypoints: websecure
+                traefik.ingress.kubernetes.io/router.tls: "true"
+            enabled: true
+            class: traefik
+            tls:
+                enabled: true
+                #secretName: ""
+        # Configure external object storage
+        minio:
+            enabled: false
+        registry:
+            bucket: gitlab-registry
+        appConfig:
+            lfs:
+                bucket: gitlab-lfs
+                connection:
+                    secret: object-storage
+                    connection: connection
+            artifacts:
+                bucket: gitlab-artifact
+                connection:
+                    secret: object-storage
+                    connection: connection
+            uploads:
+                bucket: gitlab-upload
+                connection:
+                    secret: object-storage
+                    connection: connection
+            packages:
+                bucket: gitlab-package
+                connection:
+                    secret: object-storage
+                    connection: connection
+            externalDiffs:
+                bucket: gitlab-diff
+                connection:
+                    secret: object-storage
+                    connection: connection
+            pseudonymizer:
+                bucket: gitlab-pseudo
+                connection:
+                    secret: object-storage
+                    connection: connection
+            dependencyProxy:
+                bucket: gitlab-dependency-proxy
+                connection:
+                    secret: object-storage
+                    connection: connection
+            backups:
+                bucket: gitlab-backup
+                tmpBucket: gitlab-backup-tmp
+    #task-runner:
+    #    backups:
+    #        objectStorage:
+    #            config:
+    #                secrets:
+    #                key:
+    registry:
+        storage:
+            # The bucket name in this config must match the global.registry.bucket value
+            secret: registry
+            key: config
+    # Disable sub-charts, these are managed by their own charts
+    nginx-ingress:
+        enabled: false
+    certmanager:
+        install: false
+    prometheus:
+        install: false
+templates:
+    secrets: ""
