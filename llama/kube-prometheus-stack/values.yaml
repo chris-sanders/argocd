@@ -26,6 +26,17 @@ kube-prometheus-stack:
               traefik.ingress.kubernetes.io/router.tls: "true"
               traefik.ingress.kubernetes.io/router.middlewares: "traefik-local-ipwhitelist@kubernetescrd"
           path: /
+        persistence:
+          # type: pvc
+          enabled: true
+          # storageClassName: default
+          accessModes:
+            - ReadWriteOnce
+          size: 10Gi
+          # annotations: {}
+          finalizers: []
+          # subPath: ""
+          # existingClaim:
     
     prometheus-node-exporter:
         fullnameOverride: node-exporter
@@ -43,6 +54,16 @@ kube-prometheus-stack:
             ruleSelectorNilUsesHelmValues: false
             serviceMonitorSelectorNilUsesHelmValues: false
             podMonitorSelectorNilUsesHelmValues: false
+            storageSpec:
+                volumeClaimTemplate:
+                  spec:
+                    #storageClassName: gluster
+                    accessModes: ["ReadWriteOnce"]
+                    resources:
+                      requests:
+                        storage: 50Gi
+                    #selector: {}
+
     kubelet:
       enabled: true
       namespace: llama
