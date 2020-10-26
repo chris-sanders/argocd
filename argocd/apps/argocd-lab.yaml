@@ -10,7 +10,7 @@ spec:
     project: default
     source:
         path: argocd
-        targetRevison: HEAD
+        targetRevision: HEAD
         helm:
             valueFiles:
                 - values.yaml
