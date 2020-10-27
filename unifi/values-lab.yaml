@@ -1,0 +1,10 @@
+unifi:
+    #controllerService:
+    #    ingress:
+    #        enabled: false
+    #        hosts:
+    #          - controller.unifi.in.lab
+    ingress:
+        hosts:
+          - unifi.in.lab
+ 

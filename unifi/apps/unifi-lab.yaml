@@ -1,0 +1,23 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+    name: unifi
+    namespace: argocd
+spec:
+    destination:
+        namespace: unifi
+        server: https://kubernetes.default.svc
+    project: default
+    source:
+        path: unifi
+        targetRevision: HEAD
+        helm:
+            valueFiles:
+                - values.yaml
+                - values-lab.yaml
+        repoURL: https://github.com/chris-sanders/argocd.git
+    syncPolicy:
+        #automated:
+        #    prune: true
+        syncOptions:
+          - CreateNamespace=true

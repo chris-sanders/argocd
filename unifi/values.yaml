@@ -1,0 +1,44 @@
+unifi:
+    image:
+      repository: jacobalberty/unifi
+      tag: 5.12.66
+      pullPolicy: IfNotPresent
+   
+    guiService:
+      type: ClusterIP
+    
+    controllerService:
+      type: LoadBalancer
+      annotations:
+            metallb.universe.tf/allow-shared-ip: unifi-svc
+      loadBalancerIP:
+      externalTrafficPolicy: Local
+    
+    stunService:
+      type: LoadBalancer
+      annotations:
+            metallb.universe.tf/allow-shared-ip: unifi-svc
+      loadBalancerIP:
+      externalTrafficPolicy: Local
+    
+    discoveryService:
+      type: LoadBalancer
+      annotations:
+            metallb.universe.tf/allow-shared-ip: unifi-svc
+      loadBalancerIP:
+      externalTrafficPolicy: Local
+    
+    ingress:
+      enabled: true
+      annotations:
+        traefik.ingress.kubernetes.io/router.entrypoints: websecure
+        traefik.ingress.kubernetes.io/router.tls: "true"
+        traefik.ingress.kubernetes.io/router.middlewares: "traefik-local-ipwhitelist@kubernetescrd"
+      path: /
+      #hosts:
+      #  - unifi.in.lab
+    
+    timezone: America/Chicago
+    
+    UID: 1100
+    GID: 1100
