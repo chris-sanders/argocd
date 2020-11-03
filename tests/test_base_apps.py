@@ -69,3 +69,22 @@ class TestBaseApps:
         self.kubectl.apply("./sealed-secrets/apps/sealed-secrets-lab.yaml")
         self.argo.sync_app("sealed-secrets-controller", "./sealed-secrets/")
         self.kubernetes.wait_containers_ready("sealed-secrets")
+
+    def test_duplicati_install(self):
+        """Test applying the app"""
+        self.kubectl.apply("./services/duplicati/apps/duplicati-lab.yaml")
+        self.argo.sync_app("duplicati", "./services/duplicati/")
+        self.kubernetes.wait_containers_ready("services", timeout=90)
+
+    def test_minio_install(self):
+        """Test applying the app"""
+        self.kubectl.apply("./services/minio/apps/minio-lab.yaml")
+        self.argo.sync_app("minio", "./services/minio/")
+        self.kubernetes.wait_containers_ready("services")
+
+    def test_unifi_install(self):
+        """Test applying the app"""
+        self.kubectl.apply("./unifi/apps/unifi-lab.yaml")
+        self.argo.sync_app("unifi", "./unifi/")
+        self.kubernetes.wait_containers_ready("unifi")
+

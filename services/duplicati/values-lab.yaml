@@ -1,0 +1,4 @@
+duplicati:
+    ingress:
+        hosts:
+            - duplicati.in.lab

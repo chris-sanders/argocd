@@ -1,0 +1,16 @@
+duplicati:
+    fullnameOverride: duplicati
+    TZ: America/Chicago
+    puid: 1100
+    gid: 1100
+    ingress:
+        enabled: true
+        annotations:
+            traefik.ingress.kubernetes.io/router.entrypoints: websecure
+            traefik.ingress.kubernetes.io/router.tls: "true"
+            traefik.ingress.kubernetes.io/router.middlewares: "traefik-local-ipwhitelist@kubernetescrd"
+    persistence:
+        source:
+            enabled: false
+        backups:
+            enabled: false
