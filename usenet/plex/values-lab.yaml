@@ -1,0 +1,4 @@
+plex:
+    ingress:
+      hosts:
+        - plex.in.lab

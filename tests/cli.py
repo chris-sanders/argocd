@@ -61,11 +61,14 @@ class Kubernetes:
 
         return pod_list.items
 
-    def all_containers_ready(self, namespace):
+    def all_containers_ready(self, namespace, label=None):
         """Check if all containers in all pods are ready"""
 
         ready = True
-        pods = self.core_v1_api.list_namespaced_pod(namespace)
+        if label:
+            pods = self.core_v1_api.list_namespaced_pod(namespace, label_selector=label)
+        else:
+            pods = self.core_v1_api.list_namespaced_pod(namespace)
 
         if not len(pods.items):
             return False
@@ -79,13 +82,13 @@ class Kubernetes:
 
         return ready
 
-    def wait_containers_ready(self, namespace, timeout=90):
+    def wait_containers_ready(self, namespace, label=None, timeout=90):
         """Wait up to timeout for all containers to be ready."""
         now = datetime.datetime.now()
         end = now + datetime.timedelta(seconds=timeout)
 
         while True:
-            if self.all_containers_ready(namespace):
+            if self.all_containers_ready(namespace, label):
                 return
             elif datetime.datetime.now() > end:
                 raise TimeoutException(

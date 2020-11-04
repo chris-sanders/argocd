@@ -1,0 +1,60 @@
+plex:
+    # Set the timezone of the plex server
+    timezone: "America/Chicago"
+    
+    # add your pod network subnet to the `List of IP addresses and networks that are allowed without auth`
+    # This will override the manual settings, so only use this if you will not need to change it manually.
+    # This list will be automatically converted to a command seperated string when passed to the container.
+    # You would specify this when using helm CLI with --set allowedNetworks="{127.0.0.1,10.54.2.0/24}"
+    allowedNetworks:
+      -   10.1.0.0/16
+        #-   127.0.0.1
+        #-   10.152.183.0/24
+    
+    plexUid: 1100
+    plexGid: 1100
+    
+    #####   END  --> Official PLEX container environment variables
+   
+    nameOverride: "plex"
+    fullnameOverride: "plex"
+    
+    serviceTCP:
+      type: LoadBalancer
+      port: 32400
+      annotations:
+        metallb.universe.tf/allow-shared-ip: plex-svc
+      externalTrafficPolicy: Local
+    
+    serviceUDP:
+      type: LoadBalancer
+      annotations:
+        metallb.universe.tf/allow-shared-ip: plex-svc
+      externalTrafficPolicy: Local
+    
+    ingress:
+      enabled: true
+      annotations:
+          traefik.ingress.kubernetes.io/router.entrypoints: websecure
+          traefik.ingress.kubernetes.io/router.tls: "true"
+      path: /
+
+    persistence:
+        data:
+          # Don't need a data volume
+          enabled: false
+   
+    resources: {}
+      # We usually recommend not to specify default resources and to leave this as a conscious
+      # choice for the user. This also increases chances charts run on environments with little
+      # resources, such as Minikube. If you do want to specify resources, uncomment the following
+      # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+      # limits:
+      #   cpu: 100m
+      #   memory: 128Mi
+      # requests:
+      #   cpu: 100m
+      #   memory: 128Mi
+    
+    podAnnotations:
+        backup.velero.io/backup-volumes: plex-database
