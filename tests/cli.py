@@ -82,7 +82,7 @@ class Kubernetes:
 
         return ready
 
-    def wait_containers_ready(self, namespace, label=None, timeout=90):
+    def wait_containers_ready(self, namespace, label=None, timeout=120):
         """Wait up to timeout for all containers to be ready."""
         now = datetime.datetime.now()
         end = now + datetime.timedelta(seconds=timeout)
