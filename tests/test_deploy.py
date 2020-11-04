@@ -1,9 +1,11 @@
 #! /bin/env python3
 from pathlib import Path
+
+import pytest
 from cli import Argo, Helm, Kubectl, Kubernetes
 
 
-class TestBaseApps:
+class TestDeploy:
     def setup_class(cls):
         cls.helm = Helm()
         cls.kubernetes = Kubernetes()
@@ -30,15 +32,16 @@ class TestBaseApps:
         self.argo.sync_app("cert-manager", "./cert-manager/")
         self.kubernetes.wait_containers_ready("cert-manager")
 
-    # def test_gitlab_install(self):
-    #     """Test applying the app"""
-    #     self.kubernetes.create_namespace("gitlab")
-    #     self.helm.install(
-    #         Path("./gitlab"), "gitlab", "gitlab", ["values.yaml", "values-lab.yaml"]
-    #     )
-    #     self.kubectl.apply("./gitlab/apps/gitlab-lab.yaml")
-    #     # self.argo.sync_app("gitlab", "./gitlab/")
-    #     self.kubernetes.wait_containers_ready("gitlab", timeout=900)
+    @pytest.mark.slow
+    def test_gitlab_install(self):
+        """Test applying the app"""
+        self.kubernetes.create_namespace("gitlab")
+        self.helm.install(
+            Path("./gitlab"), "gitlab", "gitlab", ["values.yaml", "values-lab.yaml"]
+        )
+        self.kubectl.apply("./gitlab/apps/gitlab-lab.yaml")
+        # self.argo.sync_app("gitlab", "./gitlab/")
+        self.kubernetes.wait_containers_ready("gitlab", timeout=900)
 
     def test_kps_install(self):
         """Test applying the app"""
@@ -62,7 +65,7 @@ class TestBaseApps:
         """Test applying the app"""
         self.kubectl.apply("./pihole/apps/pihole-lab.yaml")
         self.argo.sync_app("pihole", "./pihole/")
-        self.kubernetes.wait_containers_ready("pihole", timeout=100)
+        self.kubernetes.wait_containers_ready("pihole")
 
     def test_sealed_secrets_install(self):
         """Test applying the app"""
@@ -74,12 +77,24 @@ class TestBaseApps:
         """Test applying the app"""
         self.kubectl.apply("./services/duplicati/apps/duplicati-lab.yaml")
         self.argo.sync_app("duplicati", "./services/duplicati/")
-        self.kubernetes.wait_containers_ready("services", timeout=90)
+        self.kubernetes.wait_containers_ready("services")
 
     def test_minio_install(self):
         """Test applying the app"""
         self.kubectl.apply("./services/minio/apps/minio-lab.yaml")
         self.argo.sync_app("minio", "./services/minio/")
+        self.kubernetes.wait_containers_ready("services")
+
+    def test_samba_install(self):
+        """Test applying the app"""
+        self.kubectl.apply("./services/samba/apps/samba-lab.yaml")
+        self.argo.sync_app("samba", "./services/samba/")
+        self.kubernetes.wait_containers_ready("services")
+
+    def test_sftp_install(self):
+        """Test applying the app"""
+        self.kubectl.apply("./services/sftp/apps/sftp-lab.yaml")
+        self.argo.sync_app("sftp", "./services/sftp/")
         self.kubernetes.wait_containers_ready("services")
 
     def test_unifi_install(self):
@@ -88,3 +103,44 @@ class TestBaseApps:
         self.argo.sync_app("unifi", "./unifi/")
         self.kubernetes.wait_containers_ready("unifi")
 
+    def test_nzbget_install(self):
+        """Test applying the app"""
+        self.kubectl.apply("./usenet/nzbget/apps/nzbget-lab.yaml")
+        self.argo.sync_app("nzbget", "./usenet/nzbget/")
+        self.kubernetes.wait_containers_ready("usenet")
+
+    def test_nzbhydra_install(self):
+        """Test applying the app"""
+        self.kubectl.apply("./usenet/nzbhydra/apps/nzbhydra-lab.yaml")
+        self.argo.sync_app("nzbhydra", "./usenet/nzbhydra/")
+        self.kubernetes.wait_containers_ready("usenet")
+
+    def test_organizr_install(self):
+        """Test applying the app"""
+        self.kubectl.apply("./usenet/organizr/apps/organizr-lab.yaml")
+        self.argo.sync_app("organizr", "./usenet/organizr/")
+        self.kubernetes.wait_containers_ready("usenet")
+
+    # def test_plex_install(self):
+    #     """Test applying the app"""
+    #     self.kubectl.apply("./usenet/plex/apps/plex-lab.yaml")
+    #     self.argo.sync_app("plex", "./usenet/plex/")
+    #     self.kubernetes.wait_containers_ready("usenet")
+
+    def test_radarr_install(self):
+        """Test applying the app"""
+        self.kubectl.apply("./usenet/radarr/apps/radarr-lab.yaml")
+        self.argo.sync_app("radarr", "./usenet/radarr/")
+        self.kubernetes.wait_containers_ready("usenet")
+
+    def test_sabnzbd_install(self):
+        """Test applying the app"""
+        self.kubectl.apply("./usenet/sabnzbd/apps/sabnzbd-lab.yaml")
+        self.argo.sync_app("sabnzbd", "./usenet/sabnzbd/")
+        self.kubernetes.wait_containers_ready("usenet")
+
+    def test_sonarr_install(self):
+        """Test applying the app"""
+        self.kubectl.apply("./usenet/sonarr/apps/sonarr-lab.yaml")
+        self.argo.sync_app("sonarr", "./usenet/sonarr/")
+        self.kubernetes.wait_containers_ready("usenet")

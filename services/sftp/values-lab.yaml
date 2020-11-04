@@ -1,0 +1,13 @@
+sftp:
+    # Set to single replica for lab
+    replicaCount: 1
+    users:
+    # Test user/pass is test/changeme
+    # For actual usage encrypt your password. For details see https://github.com/atmoz/sftp
+    # echo -n "your-password" | docker run -i --rm atmoz/makepasswd --crypt-md5 --clearfrom=-
+      - user: test
+        pass: Y2hhbmdlbWUK
+        uid: 1100
+        gid: 1100
+        dirs: tstfolder
+ 

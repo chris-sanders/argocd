@@ -79,7 +79,7 @@ class Kubernetes:
 
         return ready
 
-    def wait_containers_ready(self, namespace, timeout=60):
+    def wait_containers_ready(self, namespace, timeout=90):
         """Wait up to timeout for all containers to be ready."""
         now = datetime.datetime.now()
         end = now + datetime.timedelta(seconds=timeout)
@@ -270,7 +270,7 @@ class Argo:
             text=True,
         )
 
-    def sync_app(self, app, path, timeout=30):
+    def sync_app(self, app, path, timeout=60):
         """Sync an app"""
         cmd = [
             "argocd",

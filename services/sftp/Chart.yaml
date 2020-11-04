@@ -1,0 +1,7 @@
+name: sftp
+apiVersion: v2
+version: 1.0.0
+dependencies:
+    - name: sftp
+      version: '^1.0.0'
+      repository: https://chris-sanders.github.io/helm-charts

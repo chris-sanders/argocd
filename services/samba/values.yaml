@@ -1,0 +1,10 @@
+samba:
+    TZ: America/Chicago
+    UID: 1100
+    GID: 1100
+    serviceTCP:
+        annotations:
+            metallb.universe.tf/allow-shared-ip: samba-svc
+    serviceUDP:
+        annotations:
+            metallb.universe.tf/allow-shared-ip: samba-svc

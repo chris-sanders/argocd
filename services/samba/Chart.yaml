@@ -1,0 +1,7 @@
+name: samba
+apiVersion: v2
+version: 1.0.0
+dependencies:
+    - name: samba
+      version: '~1.0.0'
+      repository: https://chris-sanders.github.io/helm-charts
