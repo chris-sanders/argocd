@@ -1,4 +1,0 @@
-dependencies:
-    - name: metallb
-      version: '*'
-      repository: https://charts.bitnami.com/bitnami
