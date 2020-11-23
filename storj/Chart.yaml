@@ -1,0 +1,7 @@
+name: storj
+apiVersion: v2
+version: 1.0.0
+dependencies:
+  - name: storj-storagenode
+    version: '^0.2.7'
+    repository: https://mqllr.github.io/storj-storagenode-chart

@@ -1,0 +1,19 @@
+storj-storagenode:
+    # Ingress is used to expose the dashboard
+    ingress:
+      hosts:
+        - host: storj.in.lab
+          paths: ["/"]
+    persistence:
+      volumeClaimTemplate:
+        resources:
+          requests:
+            storage: 100M
+    config:
+        wallet: "0xdfca4035b9f16c40b558218d1bedc08590fe28d4"
+        email: "test@in.lab"
+        address: "in.lab:28967"
+        storage: "100M"
+        # storage: "1TB"
+templates:
+    secrets: "lab"

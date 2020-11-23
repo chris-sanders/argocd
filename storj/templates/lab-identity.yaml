@@ -1,0 +1,10 @@
+{{ if eq .Values.templates.secrets "lab" }}
+apiVersion: v1
+kind: Secret
+type: Opaque
+metadata:
+  name: storagenode-identity
+data:
+  identity.cert: Y2hhbmdlbWUK
+  identity.key: Y2hhbmdlbWUK 
+{{- end }}

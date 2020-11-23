@@ -1,0 +1,40 @@
+storj-storagenode:
+    # replicaCount: 1
+    
+    nameOverride: "storj"
+    fullnameOverride: "storj-storagenode"
+    
+    storagenode:
+      image:
+        pullPolicy: IfNotPresent
+    
+      securityContext:
+        capabilities:
+          drop:
+          - ALL
+        readOnlyRootFilesystem: true
+        runAsNonRoot: true
+        runAsUser: 1000
+    
+    service:
+      type: LoadBalancer
+      loadBalancerIP:
+      port: 28967
+    
+    # Ingress is used to expose the dashboard
+    ingress:
+      enabled: true
+      annotations:
+          traefik.ingress.kubernetes.io/router.entrypoints: websecure
+          traefik.ingress.kubernetes.io/router.tls: "true"
+          traefik.ingress.kubernetes.io/router.middlewares: "traefik-local-ipwhitelist@kubernetescrd"
+   
+    #config:
+    #  # wallet: "0xdfca4035b9f16c40b558218d1bedc08590fe28d4"
+    #  # email: "me@storage.net"
+    #  # address: "storagenodeaddress.net:28967"
+    #  storage: "1TB"
+    
+    identity:
+      externalSecret:
+        secretName: "storagenode-identity"
