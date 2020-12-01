@@ -158,8 +158,8 @@ class TestDeploy:
         self.argo.sync_app("sonarr", "./usenet/sonarr/")
         self.kubernetes.wait_containers_ready("usenet", "app.kubernetes.io/name=sonarr")
 
-    def test_velero_install(self):
-        """Test applying the app"""
-        self.kubectl.apply("./velero/apps/velero-lab.yaml")
-        self.argo.sync_app("velero", "./velero/")
-        self.kubernetes.wait_containers_ready("velero")
+    # def test_velero_install(self):
+    #     """Test applying the app"""
+    #     self.kubectl.apply("./velero/apps/velero-lab.yaml")
+    #     self.argo.sync_app("velero", "./velero/")
+    #     self.kubernetes.wait_containers_ready("velero")
