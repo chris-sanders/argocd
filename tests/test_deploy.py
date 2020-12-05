@@ -60,11 +60,11 @@ class TestDeploy:
         # self.argo.sync_app("kube-prometheus-stack", "./llama/kube-prometheus-stack/")
         self.kubernetes.wait_containers_ready("llama", timeout=120)
 
-    # def test_minecraft_install(self):
-    #     """Test applying the app"""
-    #     self.kubectl.apply("./minecraft/apps/minecraft-lab.yaml")
-    #     self.argo.sync_app("minecraft", "./minecraft/")
-    #     self.kubernetes.wait_containers_ready("minecraft")
+    def test_minecraft_install(self):
+        """Test applying the app"""
+        self.kubectl.apply("./minecraft/apps/minecraft-lab.yaml")
+        self.argo.sync_app("minecraft", "./minecraft/")
+        self.kubernetes.wait_containers_ready("minecraft")
 
     def test_pihole_install(self):
         """Test applying the app"""

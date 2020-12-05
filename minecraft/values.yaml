@@ -1,0 +1,62 @@
+minecraft-bedrock:
+    nameOverride: bedrock
+    minecraftServer:
+      # This must be overridden, since we can't accept this for the user.
+      eula: "True"
+      # One of: LATEST, SNAPSHOT, or a specific version (ie: "1.7.9").
+      version: "LATEST"
+      # One of: peaceful, easy, normal, and hard
+      difficulty: peaceful
+      # A comma-separated list of player names to whitelist.
+      whitelist:
+      # Max connected players.
+      maxPlayers: 10
+      # The world is ticked this many chunks away from any player.
+      tickDistance: 4
+      # Max view distance (in chunks).
+      viewDistance: 10
+      # The "level-name" value is used as the world name and its folder name. The player may also copy their saved game folder here, and change the name to the same as that folder's to load it instead.
+      levelName: level
+      # Define this if you want a specific map generation seed.
+      levelSeed:
+      # One of: creative, survival, adventure, spectator
+      gameMode: creative
+      # Permission level for new players joining for the first time (visitor, member, operator)
+      defaultPermission: member
+      # After a player has idled for this many minutes they get kicked.
+      playerIdleTimeout: 30
+      # One of: DEFAULT, FLAT, LEGACY
+      levelType: DEFAULT
+      # Force clients to use texture packs in the current world
+      texturepackRequired: true
+      # This is the server name shown in the in-game server list.
+      serverName: "K8sCraft"
+      # Check accounts against Minecraft account service.
+      onlineMode: true
+      # Maximum number of threads the server tries to use. If set to 0 or removed then it uses as many as possible.
+      maxThreads: 12
+      # Cheat like commands can be used.
+      cheats: true
+      # type of kubernetes service to use
+      serviceType: ClusterIP
+      loadBalancerIP:
+      # loadBalancerSourceRanges: []
+      ## Set the externalTrafficPolicy in the Service to either Cluster or Local
+      # externalTrafficPolicy: Cluster
+    
+    persistence:
+      ## minecraft data Persistent Volume Storage Class
+      ## If defined, storageClassName: <storageClass>
+      ## If set to "-", storageClassName: "", which disables dynamic provisioning
+      ## If undefined (the default) or set to null, no storageClassName spec is
+      ##   set, choosing the default provisioner.  (gp2 on AWS, standard on
+      ##   GKE, AWS & OpenStack)
+      # storageClass: "-"
+      dataDir:
+        # Set this to false if you don't care to persist state between restarts.
+        enabled: true
+        Size: 1Gi
+    
+    # podAnnotations: {}
+
+

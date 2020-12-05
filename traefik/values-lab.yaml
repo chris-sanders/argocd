@@ -7,8 +7,7 @@ traefik:
       # # Additional entries here will be added to the service spec. Cannot contains
       # # type, selector or ports entries.
       spec:
-        #externalTrafficPolicy: Cluster
-        loadBalancerIP: "10.0.9.1"
+        # loadBalancerIP: "10.0.9.1"
         # clusterIP: "2.3.4.5"
       #loadBalancerSourceRanges: []
       #  # - 192.168.0.1/32
@@ -16,6 +15,12 @@ traefik:
       #externalIPs:
       #  - 10.0.9.1
       #  - 10.0.9.2
+    ports:
+        udp19132:
+            exposedPort: 19132
+            port: 19132
+            expose: true
+            protocol: UDP
 
 templates:
     dashboard_hostname: "traefik.in.lab"

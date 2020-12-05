@@ -1,0 +1,14 @@
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRouteUDP
+metadata:
+  name: traefik-udp-minecraft
+  namespace: {{ .Release.Namespace }}
+spec:
+  entryPoints:
+  - udp19132
+  routes:
+  - services:
+    - name: minecraft-bedrock
+      port: 19132
+      namespace: {{ .Release.Namespace }}
