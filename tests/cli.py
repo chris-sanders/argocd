@@ -65,6 +65,7 @@ class Kubernetes:
         """Check if all containers in all pods are ready"""
 
         ready = True
+
         if label:
             pods = self.core_v1_api.list_namespaced_pod(namespace, label_selector=label)
         else:
@@ -112,9 +113,10 @@ class Kubectl:
         with tempfile.NamedTemporaryFile(mode="w") as tmp_app:
             with open(file, "r") as app:
                 contents = yaml.safe_load(app)
+
             if not sync:
                 try:
-                    del contents['spec']['syncPolicy']['automated']
+                    del contents["spec"]["syncPolicy"]["automated"]
                 except KeyError:
                     pass
             yaml.dump(contents, tmp_app)
@@ -176,7 +178,18 @@ class Helm:
             cmd,
             timeout=timeout,
             check=True,
-            # shell=False,
+            text=True,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT,
+        )
+
+    def update(self, path: Path, timeout: int = 30):
+        cmd = ["helm", "dependencies", "update", f"{path}"]
+
+        return subprocess.run(
+            cmd,
+            timeout=timeout,
+            check=True,
             text=True,
             stdout=subprocess.PIPE,
             stderr=subprocess.STDOUT,
@@ -208,6 +221,7 @@ class Argo:
         if existing:
             self.kubernetes.wait_containers_ready("argocd")
         else:
+            self.helm.update(path=self.argo_path)
             self.helm.install(
                 path=self.argo_path,
                 name="argocd",
