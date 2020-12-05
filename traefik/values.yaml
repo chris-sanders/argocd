@@ -1,5 +1,7 @@
 templates:
     install_cert: false
+    http_redirect:
+        enable: true
 
 traefik:
     # Removing to allow IP setting
