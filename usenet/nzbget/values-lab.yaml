@@ -3,6 +3,8 @@ nzbget:
         ingress:
             hosts:
                 - host: in.lab
-                  paths: [/nzbget]
+                  paths: 
+                    - path: "/nzbget"
                 - host: nzbget.in.lab
-                  paths: [/]
+                  paths: 
+                    - path: "/"
