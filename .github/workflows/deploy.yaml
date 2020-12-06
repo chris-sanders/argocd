@@ -31,4 +31,4 @@ jobs:
               uses: actions/checkout@v2
 
             - name: Run pytest
-              run: tox
+              run: tox -e serial -- -n 2
