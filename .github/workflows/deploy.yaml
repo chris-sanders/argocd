@@ -1,0 +1,34 @@
+name: Pytest-deploy
+
+on: push
+
+jobs:
+    deploy:
+        name: Verify a deployment
+        runs-on: ubuntu-20.04
+        steps:
+            - name: Install Microk8s
+              uses: balchua/microk8s-actions@v0.2.1
+              with:
+                  channel: '1.19/stable'
+                  addons: '["storage", "dns", "rbac", "metrics-server"]'
+
+            - name: Install packages
+              run: |
+                  set - eux
+                  sudo snap install helm --classic
+                  sudo apt update
+                  sudo apt install tox -y
+
+            - name: Install Argocd CLI
+              run: |
+                  set -eux
+                  VERSION=$(curl --silent "https://api.github.com/repos/argoproj/argo-cd/releases/latest" | grep '"tag_name"' | sed -E 's/.*"([^"]+)".*/\1/')
+                  sudo curl -sSL -o /usr/local/bin/argocd https://github.com/argoproj/argo-cd/releases/download/$VERSION/argocd-linux-amd64
+                  sudo chmod +x /usr/local/bin/argocd
+
+            - name: Checkout repository
+              uses: actions/checkout@v2
+
+            - name: Run pytest
+              run: tox
