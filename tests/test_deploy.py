@@ -89,7 +89,7 @@ class TestDeploy:
     def test_minio_install(self):
         """Test applying the app"""
         self.kubectl.apply("./services/minio/apps/minio-lab.yaml")
-        self.argo.sync_app("minio", "./services/minio/")
+        self.argo.sync_app("minio", "./services/minio/", timeout=120)
         self.kubernetes.wait_containers_ready("services", "app=minio")
 
     def test_samba_install(self):
@@ -129,7 +129,7 @@ class TestDeploy:
         self.kubectl.apply("./usenet/organizr/apps/organizr-lab.yaml")
         self.argo.sync_app("organizr", "./usenet/organizr/")
         self.kubernetes.wait_containers_ready(
-            "usenet", "app.kubernetes.io/name=organizr"
+            "usenet", "app.kubernetes.io/name=organizr", timeout=180
         )
 
     def test_plex_install(self):
