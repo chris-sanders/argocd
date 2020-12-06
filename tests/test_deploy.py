@@ -89,7 +89,7 @@ class TestDeploy:
     def test_minio_install(self):
         """Test applying the app"""
         self.kubectl.apply("./services/minio/apps/minio-lab.yaml")
-        self.argo.sync_app("minio", "./services/minio/", timeout=120)
+        self.argo.sync_app("minio", "./services/minio/", timeout=600)
         self.kubernetes.wait_containers_ready("services", "app=minio")
 
     def test_samba_install(self):
