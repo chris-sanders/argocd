@@ -3,6 +3,7 @@ from pathlib import Path
 
 import pytest
 from cli import Argo, Helm, Kubectl, Kubernetes
+from test_base import TestBaseApp
 
 
 class TestDeploy:
@@ -13,9 +14,15 @@ class TestDeploy:
         cls.argo = Argo()
         cls.argo.install()
         cls.argo.login()
-        # Wait for base app install before running tests
-        cls.kubernetes.wait_containers_ready("metallb")
-        cls.kubernetes.wait_containers_ready("traefik")
+        try:
+            # Short timeout to see if BaseApp is installed
+            cls.kubernetes.wait_containers_ready("metallb", timeout=5)
+            cls.kubernetes.wait_containers_ready("traefik", timeout=5)
+        except:
+            # Install base app if it's not present
+            app = TestBaseApp()
+            app.setup_class()
+            app.test_base_install()
 
     def test_acme_dns_install(self):
         """Test applying the app"""
