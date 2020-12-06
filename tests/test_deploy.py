@@ -93,10 +93,11 @@ class TestDeploy:
             "services", "app.kubernetes.io/name=duplicati"
         )
 
+    @pytest.mark.gh_skip
     def test_minio_install(self):
         """Test applying the app"""
         self.kubectl.apply("./services/minio/apps/minio-lab.yaml")
-        self.argo.sync_app("minio", "./services/minio/", timeout=600)
+        self.argo.sync_app("minio", "./services/minio/")
         self.kubernetes.wait_containers_ready("services", "app=minio")
 
     def test_samba_install(self):
