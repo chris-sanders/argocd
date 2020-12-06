@@ -309,3 +309,26 @@ class Argo:
             # stderr=subprocess.STDOUT,
             text=True,
         )
+
+    def delete(self, app, cascade=True, timeout=120):
+        """Remove an application"""
+        cmd = [
+            "argocd",
+            "app",
+            "delete",
+            f"{app}",
+            "--cascade",
+            f"{cascade}",
+            "--config",
+            f"{self.cfg_file.name}",
+        ]
+
+        return subprocess.run(
+            cmd,
+            timeout=timeout,
+            check=True,
+            shell=False,
+            # stdout=subprocess.PIPE,
+            # stderr=subprocess.STDOUT,
+            text=True,
+        )

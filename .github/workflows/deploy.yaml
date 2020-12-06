@@ -16,9 +16,14 @@ jobs:
                   channel: '1.19/stable'
                   addons: '["storage", "dns", "rbac", "metrics-server"]'
 
+            - name: Fix kubectl permissions
+              run: | 
+                  set -eux
+                  chmod 600 ~/.kube/config
+
             - name: Install packages
               run: |
-                  set - eux
+                  set -eux
                   sudo snap install helm --classic
                   sudo apt update
                   sudo apt install tox -y
@@ -34,7 +39,7 @@ jobs:
               uses: actions/checkout@v2
 
             - name: Run pytest
-              run: tox -- ./tests/test_deploy.py::TestDeploy::test_minio_install -s
+              run: tox -e serial -- ./tests/test_deploy.py::TestDeploy::test_minio_install -s
               # run: tox -e serial -- -x
               # run: tox -e serial -- -x -m "not gh_skip not slow"
               # run: tox -e serial -- -n 2 -x

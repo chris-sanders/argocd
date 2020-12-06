@@ -1,4 +1,6 @@
 #! /bin/env python3
+import os
+from distutils.util import strtobool
 from pathlib import Path
 
 import pytest
@@ -18,11 +20,17 @@ class TestDeploy:
             # Short timeout to see if BaseApp is installed
             cls.kubernetes.wait_containers_ready("metallb", timeout=5)
             cls.kubernetes.wait_containers_ready("traefik", timeout=5)
-        except:
+        except:  # noqa
             # Install base app if it's not present
             app = TestBaseApp()
             app.setup_class()
             app.test_base_install()
+
+    def _check_clean(self, app):
+        """Clean the application if requested"""
+        clean_apps = bool(strtobool(os.environ.get("PYTEST_CLEAN_APPS", "false")))
+        if clean_apps:
+            self.argo.delete(app)
 
     def test_acme_dns_install(self):
         """Test applying the app"""
