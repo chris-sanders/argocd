@@ -39,7 +39,6 @@ jobs:
               uses: actions/checkout@v2
 
             - name: Run pytest
-              run: tox -e serial -- ./tests/test_deploy.py::TestDeploy::test_minio_install -s
-              # run: tox -e serial -- -x
-              # run: tox -e serial -- -x -m "not gh_skip not slow"
+              run: tox -e serial -- -x
               # run: tox -e serial -- -n 2 -x
+              # run: tox -e serial -- ./tests/test_deploy.py::TestDeploy::test_minio_install -s
