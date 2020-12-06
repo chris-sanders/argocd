@@ -132,8 +132,8 @@ class Kubectl:
                 timeout=timeout,
                 check=True,
                 shell=False,
-                stdout=subprocess.PIPE,
-                stderr=subprocess.STDOUT,
+                # stdout=subprocess.PIPE,
+                # stderr=subprocess.STDOUT,
                 text=True,
             )
 
@@ -146,8 +146,8 @@ class Helm:
         cp = subprocess.run(
             cmd,
             check=True,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.STDOUT,
+            # stdout=subprocess.PIPE,
+            # stderr=subprocess.STDOUT,
             text=True,
         )
         print(cp.stdout)
@@ -179,8 +179,8 @@ class Helm:
             timeout=timeout,
             check=True,
             text=True,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.STDOUT,
+            # stdout=subprocess.PIPE,
+            # stderr=subprocess.STDOUT,
         )
 
     def update(self, path: Path, timeout: int = 30):
@@ -191,8 +191,8 @@ class Helm:
             timeout=timeout,
             check=True,
             text=True,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.STDOUT,
+            # stdout=subprocess.PIPE,
+            # stderr=subprocess.STDOUT,
         )
 
 
@@ -259,8 +259,8 @@ class Argo:
             timeout=timeout,
             check=True,
             shell=False,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.STDOUT,
+            # stdout=subprocess.PIPE,
+            # stderr=subprocess.STDOUT,
             text=True,
         )
 
@@ -282,8 +282,8 @@ class Argo:
             timeout=timeout,
             check=True,
             shell=False,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.STDOUT,
+            # stdout=subprocess.PIPE,
+            # stderr=subprocess.STDOUT,
             text=True,
         )
 
@@ -305,7 +305,7 @@ class Argo:
             timeout=timeout,
             check=True,
             shell=False,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.STDOUT,
+            # stdout=subprocess.PIPE,
+            # stderr=subprocess.STDOUT,
             text=True,
         )
