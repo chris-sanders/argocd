@@ -1,12 +1,20 @@
 name: Pytest-deploy
 
-on: push
+on: 
+    push:
+    # schedule:
+    #     - cron: ''
 
 jobs:
     deploy:
         name: Verify a deployment
         runs-on: ubuntu-20.04
         steps:
+            - name: Disable volume-monitor
+              run: |
+                  set -eux
+                  systemctl stop --user gvfs-udisks2-volume-monitor.service
+
             - name: Install Microk8s
               uses: balchua/microk8s-actions@v0.2.1
               with:
@@ -31,4 +39,4 @@ jobs:
               uses: actions/checkout@v2
 
             - name: Run pytest
-              run: tox -e serial -- -n 2
+              run: tox -e serial -- -n 2 -x
