@@ -1,4 +1,7 @@
 minio:
+    metrics:
+      serviceMonitor:
+        enabled: false
     ingress:
       hosts:
       - s3.in.lab
