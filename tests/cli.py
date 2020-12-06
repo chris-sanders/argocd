@@ -287,7 +287,7 @@ class Argo:
             text=True,
         )
 
-    def sync_app(self, app, path, timeout=60):
+    def sync_app(self, app, path, timeout=120):
         """Sync an app"""
         cmd = [
             "argocd",
