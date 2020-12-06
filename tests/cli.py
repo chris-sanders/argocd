@@ -324,11 +324,27 @@ class Argo:
         ]
 
         return subprocess.run(
-            cmd,
-            timeout=timeout,
-            check=True,
-            shell=False,
-            # stdout=subprocess.PIPE,
-            # stderr=subprocess.STDOUT,
-            text=True,
-        )
+                    cmd,
+                    timeout=timeout,
+                    check=False,
+                    shell=False,
+                    # stdout=subprocess.PIPE,
+                    # stderr=subprocess.STDOUT,
+                    text=True,
+                )
+
+        # deadline = datetime.datetime.now() + datetime.timedelta(seconds=timeout)
+        # while True:
+        #     try:
+        #         return subprocess.run(
+        #             cmd,
+        #             timeout=timeout,
+        #             check=True,
+        #             shell=False,
+        #             # stdout=subprocess.PIPE,
+        #             # stderr=subprocess.STDOUT,
+        #             text=True,
+        #         )
+        #     except subprocess.CalledProcessError as err:
+        #         if datetime.datetime.now() > deadline:
+        #             raise err
