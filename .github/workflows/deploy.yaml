@@ -57,3 +57,17 @@ jobs:
                 name: artifacts
                 path: ./artifacts
               if: failure()
+
+            - name: Generate inspect tarball
+              run: >
+                sudo microk8s inspect |
+                grep -Po "Report tarball is at \K.+" |
+                sudo xargs -I {} mv {} inspection-report.tar.gz
+              if: failure()
+
+            - name: Upload inspect tarball
+              uses: actions/upload-artifact@v2
+              with:
+                name: inspection-report-actions
+                path: ./inspection-report.tar.gz
+              if: failure()
