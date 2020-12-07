@@ -149,6 +149,7 @@ class TestDeploy:
         )
         self._check_clean("nzbhydra")
 
+    @pytest.mark.slow  # Not slow, but fails due to DNS on gh
     def test_organizr_install(self):
         """Test applying the app"""
         self.kubectl.apply("./usenet/organizr/apps/organizr-lab.yaml")
