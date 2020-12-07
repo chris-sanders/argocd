@@ -153,7 +153,7 @@ class TestDeploy:
         self.kubectl.apply("./usenet/organizr/apps/organizr-lab.yaml")
         self.argo.sync_app("organizr", "./usenet/organizr/")
         self.kubernetes.wait_containers_ready(
-            "usenet", "app.kubernetes.io/name=organizr", timeout=180
+            "usenet", "app.kubernetes.io/name=organizr", timeout=600
         )
         self._check_clean("organizr")
 
