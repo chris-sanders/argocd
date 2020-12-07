@@ -98,6 +98,39 @@ class Kubernetes:
             else:
                 time.sleep(0.5)
 
+    def get_pod_logs(self, namespace=None, label=None):
+        if namespace:
+            if label:
+                pods = self.core_v1_api.list_namespaced_pod(
+                    namespace, label_selector=label
+                )
+            else:
+                pods = self.core_v1_api.list_namespaced_pod(namespace)
+        else:
+            if label:
+                pods = self.core_v1_api.list_pod_for_all_namespaces(
+                    label_selector=label
+                )
+            else:
+                pods = self.core_v1_api.list_pod_for_all_namespaces()
+
+        # if not len(pods.items):
+        #     return False
+
+        for pod in pods.items:
+            data = {}
+            namespace = pod.metadata.namespace
+            pod_name = pod.metadata.name
+            data["pod"] = pod_name
+
+            for container in pod.spec.containers:
+                container = container.name
+                data["container"] = container
+            data["log"] = self.core_v1_api.read_namespaced_pod_log(
+                name=pod_name, namespace=namespace, container=data["container"],
+            )
+            yield data
+
 
 class Kubectl:
     """Kubectl cli wrapper"""
@@ -105,6 +138,20 @@ class Kubectl:
     def create_namespace(self, namespace, timeout=30):
         """Create a namespaces"""
         cmd = ["kubectl", "create", "namespace", namespace]
+
+        return subprocess.run(cmd, timeout=timeout, check=True, shell=False, text=True)
+
+    def get_pods(self, namespace=None, timeout=30):
+        cmd = [
+            "kubectl",
+            "get",
+            "po",
+        ]
+
+        if namespace:
+            cmd.append(f"-n {namespace}")
+        else:
+            cmd.append("-A")
 
         return subprocess.run(cmd, timeout=timeout, check=True, shell=False, text=True)
 
@@ -324,14 +371,14 @@ class Argo:
         ]
 
         return subprocess.run(
-                    cmd,
-                    timeout=timeout,
-                    check=False,
-                    shell=False,
-                    # stdout=subprocess.PIPE,
-                    # stderr=subprocess.STDOUT,
-                    text=True,
-                )
+            cmd,
+            timeout=timeout,
+            check=False,
+            shell=False,
+            # stdout=subprocess.PIPE,
+            # stderr=subprocess.STDOUT,
+            text=True,
+        )
 
         # deadline = datetime.datetime.now() + datetime.timedelta(seconds=timeout)
         # while True:

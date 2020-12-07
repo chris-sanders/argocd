@@ -22,6 +22,7 @@ class TestDeploy:
     def _check_clean(self, app):
         """Clean the application if requested"""
         clean_apps = bool(strtobool(os.environ.get("PYTEST_CLEAN_APPS", "false")))
+
         if clean_apps:
             self.argo.delete(app)
 
@@ -153,7 +154,7 @@ class TestDeploy:
         self.kubectl.apply("./usenet/organizr/apps/organizr-lab.yaml")
         self.argo.sync_app("organizr", "./usenet/organizr/")
         self.kubernetes.wait_containers_ready(
-            "usenet", "app.kubernetes.io/name=organizr", timeout=600
+            "usenet", "app.kubernetes.io/name=organizr"
         )
         self._check_clean("organizr")
 

@@ -45,3 +45,15 @@ jobs:
               # run: PYTEST_CLEAN_APPS=true tox -e serial -- -x
               # run: tox -e serial -- -n 2 -x
               # run: tox -e serial -- ./tests/test_deploy.py::TestDeploy::test_minio_install -s
+
+            - name: Generate artifacts
+              run: |
+                  .tox/env/bin/python3 ./tests/collect_artifacts.py 
+              if: failure()
+
+            - name: Upload artifacts
+              uses: actions/upload-artifact@v2
+              with:
+                name: artifacts
+                path: ./artifacts
+              if: failure()
