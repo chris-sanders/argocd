@@ -126,10 +126,13 @@ class Kubernetes:
             for container in pod.spec.containers:
                 container = container.name
                 data["container"] = container
-            data["log"] = self.core_v1_api.read_namespaced_pod_log(
-                name=pod_name, namespace=namespace, container=data["container"],
-            )
-            yield data
+                try:
+                    data["log"] = self.core_v1_api.read_namespaced_pod_log(
+                        name=pod_name, namespace=namespace, container=data["container"],
+                    )
+                except client.exceptions.ApiException as e:
+                    data["log"] = print(e)
+                yield data
 
 
 class Kubectl:
