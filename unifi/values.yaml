@@ -39,7 +39,7 @@ unifi:
       #  - unifi.in.lab
     
     podAnnotations:
-        backup.velero.io/backup-volumes: unifi
+        backup.velero.io/backup-volumes: unifi-data
     timezone: America/Chicago
     
     UID: 1100
