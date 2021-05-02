@@ -1,0 +1,7 @@
+gollum:
+  persistence:
+    wiki:
+      enabled: false
+  gollum: 
+    gitBranch: zettel
+    gitUrl: https://gollum:g2p22-gd47X1bb1WP15i@gitlab.zarek.cc/dnd5e/eberron-rising.wiki.git 

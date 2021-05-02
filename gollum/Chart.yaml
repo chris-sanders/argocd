@@ -1,0 +1,7 @@
+name: gollum
+version: 1.0.0
+apiVersion: v2
+dependencies:
+  - name: gollum
+    version: '^1.0.0'
+    repository: file:///home/chris/src/charts/charts/stable/gollum
