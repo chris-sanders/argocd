@@ -1,0 +1,34 @@
+apiVersion: networking.istio.io/v1beta1
+kind: Gateway
+metadata:
+  name: bitwarden-gateway
+spec:
+  selector:
+    istio: ingressgateway # use Istio default gateway implementation
+  servers:
+  - port:
+      number: 80
+      name: http
+      protocol: HTTP
+  # - port:
+  #     number: 443
+  #     name: https
+  #     protocol: HTTPS
+    hosts:
+    - "bitwarden.in.lab"
+---
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: bitwarden
+spec:
+  hosts:
+  - "bitwarden.in.lab"
+  gateways:
+  - bitwarden-gateway
+  http:
+  - route:
+    - destination:
+        port:
+          number: 80
+        host: bitwarden.bitwarden.svc.cluster.local

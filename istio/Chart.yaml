@@ -1,0 +1,21 @@
+name: istio
+version: 1.0.0
+appVersion: 1.9.5
+apiVersion: v2
+dependencies:
+    # - name: istio-operator
+    #   version: '^1.9.5'
+    #   repository: file://./istio-1.9.5/manifests/charts/istio-operator/
+    - name: base
+      version: '^1.9.5'
+      repository: file://./istio-1.9.5/manifests/charts/base/
+    - name: istio-discovery
+      version: '^1.9.5'
+      repository: file://./istio-1.9.5/manifests/charts/istio-control/istio-discovery/
+    - name: istio-cni
+      version: '^1.9.5'
+      repository: file://./istio-1.9.5/manifests/charts/istio-cni/
+    - name: istio-ingress
+      version: '^1.9.5'
+      repository: file://./istio-1.9.5/manifests/charts/gateways/istio-ingress/
+

@@ -1,0 +1,20 @@
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+ name: allow-nothing
+ namespace: bitwarden
+spec:
+  {}
+---
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: bitwarden-ingress
+  namespace: bitwarden
+spec:
+  action: ALLOW
+  rules:
+  - from:
+    - source:
+        # principals: ["cluster.local/ns/istio-system/svc/istio-ingressgateway"]
+        principals: ["cluster.local/ns/istio-system/sa/istio-ingressgateway-service-account"]

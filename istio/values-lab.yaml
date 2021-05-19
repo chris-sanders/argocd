@@ -1,0 +1,7 @@
+istio-cni:
+  cni:
+    cniBinDir: /var/snap/microk8s/current/opt/cni/bin/
+    cniConfDir: /var/snap/microk8s/current/args/cni-network/
+    excludeNamespaces:
+     - istio-system
+     - kube-system
