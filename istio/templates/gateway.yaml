@@ -10,12 +10,17 @@ spec:
       number: 80
       name: http
       protocol: HTTP
-  # - port:
-  #     number: 443
-  #     name: https
-  #     protocol: HTTPS
     hosts:
     - "bitwarden.in.lab"
+  - port:
+      number: 443
+      name: https
+      protocol: HTTPS
+    hosts:
+    - "bitwarden.in.lab"
+    tls:
+      mode: SIMPLE
+      credentialName: istio-default-cert # must be the same as secret
 ---
 apiVersion: networking.istio.io/v1beta1
 kind: VirtualService

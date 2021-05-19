@@ -1,6 +1,3 @@
 templates:
     letsencrypt:
-        email: admin@traefik
-        acme_host: 'dns.traefik'
-        staging: false
-    # secrets: 'lab'
+        selfSigned: true

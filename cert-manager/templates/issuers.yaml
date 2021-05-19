@@ -40,3 +40,11 @@ spec:
               name: acme-dns
               key: acmedns.json
 {{- end }}
+{{- if .Values.templates.letsencrypt.selfSigned }}
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: selfsigned-cluster-issuer
+spec:
+  selfSigned: {}
+{{- end }}
