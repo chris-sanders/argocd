@@ -5,3 +5,7 @@ istio-cni:
     excludeNamespaces:
      - istio-system
      - kube-system
+istio-discovery:
+  sidecarInjectorWebhook:
+    useLegacySelectors: false
+    enableNamespacesByDefault: true

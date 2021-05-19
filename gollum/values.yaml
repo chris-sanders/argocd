@@ -3,5 +3,5 @@ gollum:
     wiki:
       enabled: false
   gollum: 
-    gitBranch: zettel
-    gitUrl: https://gollum:g2p22-gd47X1bb1WP15i@gitlab.zarek.cc/dnd5e/eberron-rising.wiki.git 
+    gitBranch: master
+    gitUrl: https://github.com/k8s-at-home/charts.git
