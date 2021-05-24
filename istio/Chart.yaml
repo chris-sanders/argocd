@@ -6,16 +6,28 @@ dependencies:
     # - name: istio-operator
     #   version: '^1.9.5'
     #   repository: file://./istio-1.9.5/manifests/charts/istio-operator/
+    # - name: base
+    #   version: '^1.9.5'
+    #   repository: file://./istio-1.9.5/manifests/charts/base/
+    # - name: istio-discovery
+    #   version: '^1.9.5'
+    #   repository: file://./istio-1.9.5/manifests/charts/istio-control/istio-discovery/
+    # - name: istio-cni
+    #   version: '^1.9.5'
+    #   repository: file://./istio-1.9.5/manifests/charts/istio-cni/
+    # - name: istio-ingress
+    #   version: '^1.9.5'
+    #   repository: file://./istio-1.9.5/manifests/charts/gateways/istio-ingress/
     - name: base
-      version: '^1.9.5'
-      repository: file://./istio-1.9.5/manifests/charts/base/
+      version: '^1.10.0'
+      repository: file://./istio-1.10.0/manifests/charts/base/
     - name: istio-discovery
-      version: '^1.9.5'
-      repository: file://./istio-1.9.5/manifests/charts/istio-control/istio-discovery/
+      version: '^1.10.0'
+      repository: file://./istio-1.10.0/manifests/charts/istio-control/istio-discovery/
     - name: istio-cni
-      version: '^1.9.5'
-      repository: file://./istio-1.9.5/manifests/charts/istio-cni/
+      version: '^1.10.0'
+      repository: file://./istio-1.10.0/manifests/charts/istio-cni/
     - name: istio-ingress
-      version: '^1.9.5'
-      repository: file://./istio-1.9.5/manifests/charts/gateways/istio-ingress/
+      version: '^1.10.0'
+      repository: file://./istio-1.10.0/manifests/charts/gateways/istio-ingress/
 
