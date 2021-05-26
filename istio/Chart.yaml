@@ -30,4 +30,3 @@ dependencies:
     - name: istio-ingress
       version: '^1.10.0'
       repository: file://./istio-1.10.0/manifests/charts/gateways/istio-ingress/
-

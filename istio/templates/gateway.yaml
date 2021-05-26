@@ -77,3 +77,89 @@ spec:
         port:
           number: 80
         host: gollum.gollum.svc.cluster.local
+---
+apiVersion: networking.istio.io/v1beta1
+kind: Gateway
+metadata:
+  name: dex-gateway
+spec:
+  selector:
+    istio: ingressgateway # use Istio default gateway implementation
+  servers:
+  - port:
+      number: 5556
+      name: http-5556
+      protocol: HTTP
+    hosts:
+    - "dex.in.lab"
+  # - port:
+  #     number: 80
+  #     name: http-80
+  #     protocol: HTTP
+  #   hosts:
+  #   - "dex.in.lab"
+  # - port:
+  #     number: 443
+  #     name: https
+  #     protocol: HTTPS
+  #   hosts:
+  #   - "gollum.in.lab"
+  #  tls:
+  #    mode: SIMPLE
+  #    credentialName: istio-default-cert # must be the same as secret
+---
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: dex
+spec:
+  hosts:
+  - "dex.in.lab"
+  gateways:
+  - dex-gateway
+  http:
+  - route:
+    - destination:
+        port:
+          number: 5556
+        host: dex.dex.svc.cluster.local
+---
+apiVersion: networking.istio.io/v1beta1
+kind: Gateway
+metadata:
+  name: oauth-gateway
+spec:
+  selector:
+    istio: ingressgateway # use Istio default gateway implementation
+  servers:
+  - port:
+      number: 80
+      name: http
+      protocol: HTTP
+    hosts:
+    - "oauth.in.lab"
+  # - port:
+  #     number: 443
+  #     name: https
+  #     protocol: HTTPS
+  #   hosts:
+  #   - "gollum.in.lab"
+  #  tls:
+  #    mode: SIMPLE
+  #    credentialName: istio-default-cert # must be the same as secret
+---
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: oauth
+spec:
+  hosts:
+  - "oauth.in.lab"
+  gateways:
+  - oauth-gateway
+  http:
+  - route:
+    - destination:
+        port:
+          number: 80
+        host: oauth2-proxy.oauth2-proxy.svc.cluster.local
