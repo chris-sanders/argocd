@@ -41,8 +41,7 @@ dex:
   # -- Application configuration.
   # See the [official documentation](https://dexidp.io/docs/).
   config:
-    issuer: http://dex.in.lab:5556
-    # issuer: http://dex.dex.svc.cluster.local:5556
+    issuer: http://dex.dex.svc.cluster.local:5556
     storage:
       type: memory
       # type: sqlite3
@@ -54,11 +53,11 @@ dex:
   
     # Instead of reading from an external storage, use this list of clients.
     staticClients:
-    - id: oauth_proxy
+    - id: oauth2-proxy
       redirectURIs:
-      - 'http://oauth.in.lab/callback'
-      name: 'Istio'
-      secret: secretvalue
+          - 'http://oauth2-proxy.oauth2-proxy.svc.cluster.local:4180/oauth2/callback'
+      name: 'oauth2-proxy'
+      secret: clientsecret
     
     enablePasswordDB: true
     # A static list of passwords to login the end user. By identifying here, dex

@@ -1,0 +1,38 @@
+oauth2-proxy:
+  # Oauth client configuration specifics
+  config:
+    # -- OAuth client ID
+    clientID: "oauth2-proxy"
+    # -- OAuth client secret
+    clientSecret: "clientsecret"
+    # -- server specific cookie for the secret; create a new one with `openssl rand -base64 32 | head -c 32 | base64`
+    cookieSecret: "1234567890123456"
+  
+    # -- custom [oauth2_proxy.cfg](https://github.com/oauth2-proxy/oauth2-proxy/blob/master/contrib/oauth2-proxy.cfg.example) contents for settings not overridable via environment nor command line
+    configFile: |-
+      email_domains = [ "*" ]
+      upstreams = [ "file:///dev/null" ]
+    # Custom configuration file: oauth2_proxy.cfg
+    # configFile: |-
+    #   pass_basic_auth = false
+    #   pass_access_token = true
+  
+    # -- (string)existing Kubernetes configmap to use for the configuration file. See [config template](https://github.com/helm/charts/blob/master/stable/oauth2-proxy/templates/configmap.yaml) for the required values
+    existingConfig:
+        
+  # -- key:value list of extra arguments to give the binary
+  extraArgs:
+      provider: "oidc"
+      oidc-issuer-url: "http://dex.dex.svc.cluster.local:5556"
+      cookie-secure: "false"
+      redirect-url: "http://oauth2-proxy.oauth2-proxy.svc.cluster.local:4180/oauth2/callback"
+      pass-access-token: {}
+      pass-authorization-header: {}
+  
+  image:
+    # -- Image repository
+    repository: "quay.io/oauth2-proxy/oauth2-proxy"
+    # -- Image tag
+    tag: "v7.0.1"
+    # -- Image pull policy
+    pullPolicy: "IfNotPresent"
