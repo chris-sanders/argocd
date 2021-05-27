@@ -55,7 +55,8 @@ dex:
     staticClients:
     - id: oauth2-proxy
       redirectURIs:
-          - 'http://oauth.in.lab:4180/oauth2/callback'
+          - 'http://oauth.in.lab/oauth2/callback'
+          # - 'http://oauth.in.lab:4180/oauth2/callback'
       name: 'oauth2-proxy'
       secret: clientsecret
     
