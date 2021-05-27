@@ -37,3 +37,21 @@ spec:
   - from:
     - source:
         principals: ["cluster.local/ns/istio-system/sa/istio-ingressgateway-service-account"]
+---
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: gollum-ext-auth
+  namespace: istio-system
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: gollum
+  action: CUSTOM
+  provider:
+    name: "oauth-ext-authz"
+  # rules: []
+  rules:
+  - to:
+    - operation:
+        paths: ["/*"]

@@ -11,7 +11,9 @@ oauth2-proxy:
     # -- custom [oauth2_proxy.cfg](https://github.com/oauth2-proxy/oauth2-proxy/blob/master/contrib/oauth2-proxy.cfg.example) contents for settings not overridable via environment nor command line
     configFile: |-
       email_domains = [ "*" ]
-      upstreams = [ "file:///dev/null" ]
+      upstreams = [ "static://" ]
+      #upstreams = [ "static://200" ]
+      #upstreams = [ "file:///dev/null" ]
     # Custom configuration file: oauth2_proxy.cfg
     # configFile: |-
     #   pass_basic_auth = false
@@ -26,9 +28,16 @@ oauth2-proxy:
       oidc-issuer-url: "http://dex.in.lab:5556"
       cookie-secure: "false"
       redirect-url: "http://oauth.in.lab/oauth2/callback"
-      # redirect-url: "http://oauth2-proxy.oauth2-proxy.svc.cluster.local:4180/oauth2/callback"
-      pass-access-token: {}
-      pass-authorization-header: {}
+      pass-access-token: "true"
+      pass-authorization-header: "true"
+      set-authorization-header: "true"
+      skip-provider-button: "true"
+      cookie-domain: ".in.lab"
+      #reverse-proxy: "true"
+      silence-ping-logging: "true"
+      auth-logging: "true"
+      session-store-type: "cookie"
+      skip-auth-strip-headers: "false"
   
   image:
     # -- Image repository

@@ -9,6 +9,26 @@ istio-discovery:
   sidecarInjectorWebhook:
     useLegacySelectors: false
     enableNamespacesByDefault: true
+  meshConfig:
+    extensionProviders:
+      # the unique name for the authorizer, referred to by AuthorizationPolicy.
+    - name: "oauth-ext-authz"
+      # Specifies the concrete type of the external authorizer as Envoy ext_authz filter using
+      # HTTP API. Note the HTTP API means the protocol used to talk to the external server, not
+      # the user traffic. The other supported API is gRPC.
+      # See Exposed ext_authz API for a detailed list of the ext_authz fields exposed here.
+      envoyExtAuthzHttp:
+        service: "oauth2-proxy.oauth2-proxy.svc.cluster.local"
+        # service: "oauth.in.lab"
+        port: "80"
+        # Send the check request to ext-authz server at the path /check
+        # pathPrefix: "/check"
+        # Includes the header "x-foo" in the check request to the external server.
+        includHeadersInCheck: ["X-Forwarded-For"]
+        # Forwards the Authorization header from the external server to upstream (backend).
+        headersToUpstreamOnAllow: ["Authorization"]
+        # Forwards the Set-cookie header from the external server to downstream (user).
+        headersToDownstreamOnDeny: ["Set-cookie"]
 istio-ingress:
   gateways:
     istio-ingressgateway:
