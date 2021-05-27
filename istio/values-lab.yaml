@@ -21,7 +21,7 @@ istio-discovery:
         service: "oauth2-proxy.oauth2-proxy.svc.cluster.local"
         port: "80"
         # Send the check request to ext-authz server at the path /check
-        # pathPrefix: "/check"
+        #pathPrefix: "/check"
         # Includes the header "x-foo" in the check request to the external server.
         includHeadersInCheck:
         - "cookie"
@@ -35,13 +35,15 @@ istio-discovery:
         - "x-forwarded-host"
         - "from"
         - "x-forwarded-for"
+        - "x-forwarded-uri"
+        - "x-auth-request-redirect"
         - "accept"
         # https://discuss.istio.io/t/ext-auth-with-istio-1-9-1-and-oauth-proxy-redirect-issue-once-authenticated/9906/4
-        includeAdditionalHeadersInCheck:
-          X-Auth-Request-Redirect: 'http://%REQ(Host)%'
+        # includeAdditionalHeadersInCheck:
+        #   X-Auth-Request-Redirect: 'http://%REQ(Host)%'
         # Forwards the Authorization header from the external server to upstream (backend).
-        # headersToUpstreamOnAllow: ["authorization", "cookie", "path"]
-        headersToUpstreamOnAllow: ["authorization", "cookie", "path", "x-auth-request-user", "x-auth-request-email", "x-auth-request-access-token", "x-auth-request-user-groups"]
+        headersToUpstreamOnAllow: ["authorization", "cookie", "path"]
+        # headersToUpstreamOnAllow: ["authorization", "cookie", "path", "x-auth-request-user", "x-auth-request-email", "x-auth-request-access-token", "x-auth-request-user-groups"]
         # Forwards the Set-cookie header from the external server to downstream (user).
         headersToDownstreamOnDeny: ["content-type", "set-cookie"] 
 istio-ingress:

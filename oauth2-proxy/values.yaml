@@ -6,7 +6,7 @@ oauth2-proxy:
     # -- OAuth client secret
     clientSecret: "clientsecret"
     # -- server specific cookie for the secret; create a new one with `openssl rand -base64 32 | head -c 32 | base64`
-    cookieSecret: "1234567890123456"
+    cookieSecret: "bnpaU1NNeW91QVNFRS95ZWVoRXdwL0cvREpsNWlkdkg="
   
     # -- custom [oauth2_proxy.cfg](https://github.com/oauth2-proxy/oauth2-proxy/blob/master/contrib/oauth2-proxy.cfg.example) contents for settings not overridable via environment nor command line
     configFile: |-
@@ -28,22 +28,21 @@ oauth2-proxy:
       provider: "oidc"
       oidc-issuer-url: "http://dex.in.lab:5556"
       redirect-url: "http://oauth.in.lab/oauth2/callback"
-      pass-access-token: "true"
-      pass-authorization-header: "true"
-      pass-host-header: "true"
-      set-authorization-header: "true"
-      set-xauthrequest: "true" 
-      skip-provider-button: "true"
+      email-domain: "*"
       cookie-secure: "false"
-      cookie-samesite: "lax"
-      cookie-name: "_oauth2_proxy"
+      set-xauthrequest: {}
+      pass-access-token: {}
+      set-authorization-header: {}
+      skip-provider-button: "true"
+      reverse-proxy: {}
       cookie-domain: ".in.lab"
       whitelist-domain: ".in.lab"
-      reverse-proxy: "true" 
+      # pass-authorization-header: "true"
+      # pass-host-header: "true"
+      cookie-samesite: "none"
       silence-ping-logging: "true"
       auth-logging: "true"
       show-debug-on-error: "true"
-      email-domain: "*"
   
   image:
     # -- Image repository
