@@ -10,9 +10,10 @@ oauth2-proxy:
   
     # -- custom [oauth2_proxy.cfg](https://github.com/oauth2-proxy/oauth2-proxy/blob/master/contrib/oauth2-proxy.cfg.example) contents for settings not overridable via environment nor command line
     configFile: |-
-      email_domains = [ "*" ]
-      upstreams = [ "static://" ]
-      #upstreams = [ "static://200" ]
+      #email_domains = [ "*" ]
+      #email_domain = [ "*" ]
+      #upstreams = [ "static://" ]
+      upstreams = [ "static://200" ]
       #upstreams = [ "file:///dev/null" ]
     # Custom configuration file: oauth2_proxy.cfg
     # configFile: |-
@@ -26,23 +27,28 @@ oauth2-proxy:
   extraArgs:
       provider: "oidc"
       oidc-issuer-url: "http://dex.in.lab:5556"
-      cookie-secure: "false"
       redirect-url: "http://oauth.in.lab/oauth2/callback"
       pass-access-token: "true"
       pass-authorization-header: "true"
+      pass-host-header: "true"
       set-authorization-header: "true"
+      set-xauthrequest: "true" 
       skip-provider-button: "true"
+      cookie-secure: "false"
+      cookie-samesite: "lax"
+      cookie-name: "_oauth2_proxy"
       cookie-domain: ".in.lab"
-      #reverse-proxy: "true"
+      whitelist-domain: ".in.lab"
+      reverse-proxy: "true" 
       silence-ping-logging: "true"
       auth-logging: "true"
-      session-store-type: "cookie"
-      skip-auth-strip-headers: "false"
+      show-debug-on-error: "true"
+      email-domain: "*"
   
   image:
     # -- Image repository
     repository: "quay.io/oauth2-proxy/oauth2-proxy"
     # -- Image tag
-    tag: "v7.0.1"
+    tag: "v7.1.3"
     # -- Image pull policy
     pullPolicy: "IfNotPresent"
