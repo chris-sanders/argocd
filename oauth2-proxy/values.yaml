@@ -30,16 +30,16 @@ oauth2-proxy:
       redirect-url: "http://oauth.in.lab/oauth2/callback"
       email-domain: "*"
       cookie-secure: "false"
-      set-xauthrequest: {}
-      pass-access-token: {}
-      set-authorization-header: {}
+      set-xauthrequest: "true"
+      pass-access-token: "true"
+      set-authorization-header: "true"
       skip-provider-button: "true"
-      reverse-proxy: {}
+      reverse-proxy: "true"
       cookie-domain: ".in.lab"
       whitelist-domain: ".in.lab"
       # pass-authorization-header: "true"
       # pass-host-header: "true"
-      cookie-samesite: "none"
+      cookie-samesite: "lax"
       silence-ping-logging: "true"
       auth-logging: "true"
       show-debug-on-error: "true"
