@@ -23,7 +23,7 @@ istio-discovery:
         # Send the check request to ext-authz server at the path /check
         #pathPrefix: "/check"
         # Includes the header "x-foo" in the check request to the external server.
-        includHeadersInCheck:
+        includeHeadersInCheck:
         - "cookie"
         - "x-forwarded-access-token"
         - "x-forwarded-user"
