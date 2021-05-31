@@ -96,6 +96,7 @@ spec:
       protocol: HTTP
     hosts:
      - "dex.in.lab"
+    # Allowed b/c the jwtUri from RequestAuthentication fails on self-signed
     #tls:
     #  httpsRedirect: true
   - port:

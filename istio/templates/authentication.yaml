@@ -11,5 +11,6 @@ spec:
       app.kubernetes.io/name: gollum
   jwtRules:
   - issuer: "https://dex.in.lab"
-    jwksUri: "http://dex.in.lab/keys"
+    #jwksUri: "https://dex.in.lab/keys"
+    jwksUri: "http://dex.in.lab/keys"  # Istio fails with self-signed endpoint
     forwardOriginalToken: true
