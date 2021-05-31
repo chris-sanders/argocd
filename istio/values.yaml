@@ -25,25 +25,10 @@ istio-discovery:
         # Includes the header "x-foo" in the check request to the external server.
         includeHeadersInCheck:
         - "cookie"
-        - "x-forwarded-access-token"
-        - "x-forwarded-user"
-        - "x-forwarded-email"
-        - "authorization"
-        - "x-forwarded-proto"
-        - "proxy-authorization"
-        - "user-agent"
-        - "x-forwarded-host"
-        - "from"
-        - "x-forwarded-for"
-        - "x-forwarded-uri"
-        - "x-auth-request-redirect"
-        - "accept"
         # https://discuss.istio.io/t/ext-auth-with-istio-1-9-1-and-oauth-proxy-redirect-issue-once-authenticated/9906/4
         includeAdditionalHeadersInCheck:
           X-Auth-Request-Redirect: 'http://%REQ(Host)%'
         # Forwards the Authorization header from the external server to upstream (backend).
-        # headersToUpstreamOnAllow: ["authorization", "cookie", "path"]
-        # headersToUpstreamOnAllow: ["authorization", "cookie", "path", "x-auth-request-user", "x-auth-request-email", "x-auth-request-access-token", "x-auth-request-user-groups"]
         headersToUpstreamOnAllow: ["authorization"]
         # Forwards the Set-cookie header from the external server to downstream (user).
         headersToDownstreamOnDeny: ["content-type", "set-cookie"] 
