@@ -1,0 +1,14 @@
+oauth2-proxy:
+  # Oauth client configuration specifics
+  config:
+    # -- OAuth client secret
+    clientSecret: "clientsecret"
+    # -- server specific cookie for the secret; create a new one with `openssl rand -base64 32 | head -c 32 | base64`
+    cookieSecret: "bnpaU1NNeW91QVNFRS95ZWVoRXdwL0cvREpsNWlkdkg="
+
+  extraArgs:
+    oidc-issuer-url: "https://dex.in.lab"
+    redirect-url: "https://oauth.in.lab/oauth2/callback"
+    cookie-domain: ".in.lab"
+    whitelist-domain: ".in.lab"
+    ssl-insecure-skip-verify: true  # For testing self signed, don't use in production
