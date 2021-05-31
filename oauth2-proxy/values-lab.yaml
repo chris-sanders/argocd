@@ -7,6 +7,17 @@ oauth2-proxy:
     cookieSecret: "bnpaU1NNeW91QVNFRS95ZWVoRXdwL0cvREpsNWlkdkg="
 
   extraArgs:
+    provider: "oidc"
+    set-xauthrequest: "true"
+    pass-access-token: "true"
+    set-authorization-header: "true"
+    pass-authorization-header: "true"
+    skip-provider-button: "true"
+    reverse-proxy: "true"
+    cookie-samesite: "lax"
+    silence-ping-logging: "true"
+    auth-logging: "true"
+    #skip-auth-strip-headers: "false"
     oidc-issuer-url: "https://dex.in.lab"
     redirect-url: "https://oauth.in.lab/oauth2/callback"
     cookie-domain: ".in.lab"

@@ -96,8 +96,8 @@ spec:
       protocol: HTTP
     hosts:
      - "dex.in.lab"
-    tls:
-      httpsRedirect: true
+    #tls:
+    #  httpsRedirect: true
   - port:
       number: 443
       name: https

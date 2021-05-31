@@ -42,35 +42,8 @@ istio-discovery:
         includeAdditionalHeadersInCheck:
           X-Auth-Request-Redirect: 'http://%REQ(Host)%'
         # Forwards the Authorization header from the external server to upstream (backend).
-        headersToUpstreamOnAllow: ["authorization", "cookie", "path"]
+        # headersToUpstreamOnAllow: ["authorization", "cookie", "path"]
         # headersToUpstreamOnAllow: ["authorization", "cookie", "path", "x-auth-request-user", "x-auth-request-email", "x-auth-request-access-token", "x-auth-request-user-groups"]
+        headersToUpstreamOnAllow: ["authorization"]
         # Forwards the Set-cookie header from the external server to downstream (user).
         headersToDownstreamOnDeny: ["content-type", "set-cookie"] 
-#istio-ingress:
-#  gateways:
-#    istio-ingressgateway:
-#      name: istio-ingressgateway
-#      labels:
-#        app: istio-ingressgateway
-#        istio: ingressgateway
-#      ports:
-#      ## You can add custom gateway ports in user values overrides, but it must include those ports since helm replaces.
-#      # Note that AWS ELB will by default perform health checks on the first port
-#      # on this list. Setting this to the health check port will ensure that health
-#      # checks always work. https://github.com/istio/istio/issues/12503
-#      - port: 15021
-#        targetPort: 15021
-#        name: status-port
-#        protocol: TCP
-#      - port: 80
-#        targetPort: 8080
-#        name: http2
-#        protocol: TCP
-#      - port: 443
-#        targetPort: 8443
-#        name: https
-#        protocol: TCP
-#      # - port: 5556
-#      #   targetPort: 5556
-#      #   name: http-5556
-#      #   protocol: TCP
