@@ -19,21 +19,20 @@ oauth2-proxy:
   # -- key:value list of extra arguments to give the binary
   extraArgs:
       provider: "oidc"
-      oidc-issuer-url: "http://dex.example.com:5556"
-      redirect-url: "http://oauth.example.com/oauth2/callback"
+      oidc-issuer-url: "https://dex.in.lab"
+      redirect-url: "https://oauth.in.lab/oauth2/callback"
       cookie-secure: "false"
       set-xauthrequest: "true"
       pass-access-token: "true"
       set-authorization-header: "true"
       skip-provider-button: "true"
       reverse-proxy: "true"
-      cookie-domain: ".example.com"
-      whitelist-domain: ".example.com"
-      # pass-authorization-header: "true"
-      # pass-host-header: "true"
+      cookie-domain: ".in.lab"
+      whitelist-domain: ".in.lab"
       cookie-samesite: "lax"
       silence-ping-logging: "true"
       auth-logging: "true"
+      ssl-insecure-skip-verify: true
   
   image:
     # -- Image repository

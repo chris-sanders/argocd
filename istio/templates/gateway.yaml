@@ -11,13 +11,15 @@ spec:
       name: http
       protocol: HTTP
     hosts:
-    - "bitwarden.in.lab"
+      - "bitwarden.in.lab"
+    tls:
+        httpsRedirect: true
   - port:
       number: 443
       name: https
       protocol: HTTPS
     hosts:
-    - "bitwarden.in.lab"
+      - "bitwarden.in.lab"
     tls:
       mode: SIMPLE
       credentialName: istio-default-cert # must be the same as secret
@@ -51,13 +53,15 @@ spec:
       name: http
       protocol: HTTP
     hosts:
-    - "gollum.example.com"
+     - "gollum.in.lab"
+    tls:
+      httpsRedirect: true
   - port:
       number: 443
       name: https
       protocol: HTTPS
     hosts:
-    - "gollum.example.com"
+     - "gollum.in.lab"
     tls:
       mode: SIMPLE
       credentialName: istio-default-cert # must be the same as secret
@@ -68,7 +72,7 @@ metadata:
   name: gollum
 spec:
   hosts:
-  - "gollum.example.com"
+  - "gollum.in.lab"
   gateways:
   - gollum-gateway
   http:
@@ -87,26 +91,22 @@ spec:
     istio: ingressgateway # use Istio default gateway implementation
   servers:
   - port:
-      number: 5556
-      name: http-5556
+      number: 80
+      name: http-80
       protocol: HTTP
     hosts:
-    - "dex.example.com"
-  # - port:
-  #     number: 80
-  #     name: http-80
-  #     protocol: HTTP
-  #   hosts:
-  #   - "dex.in.lab"
-  # - port:
-  #     number: 443
-  #     name: https
-  #     protocol: HTTPS
-  #   hosts:
-  #   - "gollum.in.lab"
-  #  tls:
-  #    mode: SIMPLE
-  #    credentialName: istio-default-cert # must be the same as secret
+     - "dex.in.lab"
+    tls:
+      httpsRedirect: true
+  - port:
+      number: 443
+      name: https
+      protocol: HTTPS
+    hosts:
+     - "dex.in.lab"
+    tls:
+      mode: SIMPLE
+      credentialName: istio-default-cert # must be the same as secret
 ---
 apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
@@ -114,7 +114,7 @@ metadata:
   name: dex
 spec:
   hosts:
-  - "dex.example.com"
+  - "dex.in.lab"
   gateways:
   - dex-gateway
   http:
@@ -137,16 +137,18 @@ spec:
       name: http
       protocol: HTTP
     hosts:
-    - "oauth.example.com"
-  # - port:
-  #     number: 443
-  #     name: https
-  #     protocol: HTTPS
-  #   hosts:
-  #   - "gollum.in.lab"
-  #  tls:
-  #    mode: SIMPLE
-  #    credentialName: istio-default-cert # must be the same as secret
+     - "oauth.in.lab"
+    tls:
+        httpsRedirect: true
+  - port:
+      number: 443
+      name: https
+      protocol: HTTPS
+    hosts:
+      - "oauth.in.lab"
+    tls:
+      mode: SIMPLE
+      credentialName: istio-default-cert # must be the same as secret
 ---
 apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
@@ -154,7 +156,7 @@ metadata:
   name: oauth
 spec:
   hosts:
-  - "oauth.example.com"
+  - "oauth.in.lab"
   gateways:
   - oauth-gateway
   http:

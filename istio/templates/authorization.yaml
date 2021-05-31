@@ -50,7 +50,6 @@ spec:
   action: CUSTOM
   provider:
     name: "oauth-ext-authz"
-  # rules: []
   rules:
   - to:
     - operation:

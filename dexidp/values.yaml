@@ -41,7 +41,7 @@ dex:
   # -- Application configuration.
   # See the [official documentation](https://dexidp.io/docs/).
   config:
-    issuer: http://dex.example.com:5556
+    issuer: https://dex.in.lab
     storage:
       type: memory
       # type: sqlite3
@@ -56,7 +56,7 @@ dex:
     - id: oauth2-proxy
       redirectURIs:
           #- 'http://oauth.in.lab/callback'
-          - 'http://oauth.example.com/oauth2/callback'
+          - 'https://oauth.in.lab/oauth2/callback'
       name: 'oauth2-proxy'
       secret: clientsecret
     
