@@ -5,10 +5,10 @@ metadata:
   name: jwt-dex
   namespace: istio-system
 spec:
-  #selector:
-  #  matchLabels:
-  #    #istio: ingressgateway
-  #    app.kubernetes.io/name: gollum
+  selector:
+    matchLabels:
+      #istio: ingressgateway
+      app.kubernetes.io/name: gollum
   jwtRules:
   - issuer: "https://dex.in.lab"
     #jwksUri: "https://dex.in.lab/keys"
