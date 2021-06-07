@@ -36,3 +36,10 @@ kiali-operator:
   cr:
     create: true
     namespace: "istio-system"
+    spec:
+      istio_component_namespaces:
+        prometheus: kps
+      prometheus:
+        url: http://kps-prometheus.kps.svc.cluster.local:9090
+        #component_status:
+        #  namespace: kps
