@@ -44,3 +44,4 @@ kiali-operator:
           url: http://kps-prometheus.kps.svc.cluster.local:9090
         grafana:
           in_cluster_url: http://grafana.kps.svc.cluster.local:80
+          url: http://grafana.in.lab
