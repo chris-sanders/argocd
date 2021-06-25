@@ -2,6 +2,11 @@ gollum:
   persistence:
     wiki:
       enabled: false
-  gollum: 
+  gollum:
     gitBranch: master
     gitUrl: https://github.com/k8s-at-home/charts.git
+  common:
+    labels:
+      selectorLabels:
+        app: gollum
+        version: "1.0"
