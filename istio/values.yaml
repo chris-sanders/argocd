@@ -37,8 +37,6 @@ kiali-operator:
     create: true
     namespace: "istio-system"
     spec:
-      #istio_component_namespaces:
-      #  grafana: kps
       external_services:
         prometheus:
           url: http://kps-prometheus.kps.svc.cluster.local:9090

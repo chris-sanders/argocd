@@ -7,7 +7,6 @@ metadata:
 spec:
   selector:
     matchLabels:
-      #istio: ingressgateway
       app.kubernetes.io/name: gollum
   jwtRules:
   - issuer: "https://dex.in.lab"
