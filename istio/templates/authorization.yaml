@@ -1,3 +1,4 @@
+{{ if false }}
 apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
 metadata:
@@ -81,3 +82,38 @@ spec:
 #         - key: request.auth.claims[email]
 #           values:
 #             - admin@example.com
+{{ end }}
+
+{{ if false }}
+{{ range .Values.istioTemplates.applications }}
+{{ if not (eq ( .authorization ) false) }}
+---
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+ name: allow-nothing
+ namespace: gollum
+spec:
+  {}
+---
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: gollum-ingress
+  namespace: gollum
+spec:
+  action: ALLOW
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: gollum
+  rules:
+  - from:
+    - source:
+        principals: ["cluster.local/ns/istio-system/sa/istio-ingressgateway-service-account"]
+  - when:
+      - key: request.auth.claims[email]
+        values:
+          - admin@example.com
+{{ end }}
+{{ end }}
+{{ end }}

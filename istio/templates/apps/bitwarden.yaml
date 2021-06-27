@@ -1,0 +1,72 @@
+{{ $appName := "bitwarden" }}
+{{ $appDomain := "bitwarden.in.lab" }}
+{{ $appNamespace := "bitwarden" }}
+---
+# Require explict authorization
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+ name: allow-nothing
+ namespace: {{ $appNamespace }}
+spec:
+  {}
+---
+# Allow from IngressGateway
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: {{ $appName }}-ingress
+  namespace: {{ $appNamespace }}
+spec:
+  action: ALLOW
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ $appName }}
+  rules:
+  - from:
+    - source:
+        principals: ["cluster.local/ns/istio-system/sa/istio-ingressgateway-service-account"]
+---
+# Create application gateway
+apiVersion: networking.istio.io/v1beta1
+kind: Gateway
+metadata:
+  name: {{ $appName }}-gateway
+spec:
+  selector:
+    istio: ingressgateway # use Istio default gateway implementation
+  servers:
+  - port:
+      number: 80
+      name: http
+      protocol: HTTP
+    hosts:
+    - {{ $appDomain }}
+    tls:
+      httpsRedirect: true
+  - port:
+      number: 443
+      name: https
+      protocol: HTTPS
+    hosts:
+    - {{ $appDomain }}
+    tls:
+      mode: SIMPLE
+      credentialName: {{ .Values.istioTemplates.credentialName }}
+---
+# Create app Virtual Service
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: {{ $appName }}
+spec:
+  hosts:
+  - {{ $appDomain }}
+  gateways:
+  - {{ $appName }}-gateway
+  http:
+  - route:
+    - destination:
+        port:
+          number: 80
+        host: {{ $appName }}.{{ $appNamespace }}.svc.cluster.local

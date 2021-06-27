@@ -43,3 +43,8 @@ kiali-operator:
         grafana:
           in_cluster_url: http://grafana.kps.svc.cluster.local:80
           url: http://grafana.in.lab
+istioTemplates:
+  jwtIssuer: ""
+  jwtUri: ""
+  credentialName: ""
+  apps: []
