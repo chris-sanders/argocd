@@ -82,7 +82,6 @@ spec:
         port:
           number: 80
         host: gollum.gollum.svc.cluster.local
-{{ end }}
 ---
 apiVersion: networking.istio.io/v1beta1
 kind: Gateway
@@ -168,3 +167,4 @@ spec:
         port:
           number: 80
         host: oauth2-proxy.oauth2-proxy.svc.cluster.local
+{{ end }}

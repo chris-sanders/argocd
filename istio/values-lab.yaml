@@ -5,3 +5,5 @@ istioTemplates:
   apps:
   - bitwarden-lab
   - gollum-lab
+  - dex-lab
+  - oauth-lab
