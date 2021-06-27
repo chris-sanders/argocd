@@ -15,6 +15,6 @@ dependencies:
     - name: istio-ingress
       version: '^1.10.0'
       repository: file://./istio-1.10.0/manifests/charts/gateways/istio-ingress/
-    - name: kiali-operator
-      version: '^1.35.0'
-      repository: https://kiali.org/helm-charts
+    #- name: kiali-operator
+    #  version: '^1.35.0'
+    #  repository: https://kiali.org/helm-charts

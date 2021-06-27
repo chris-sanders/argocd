@@ -3,5 +3,5 @@ istioTemplates:
   jwtUri: "http://dex.in.lab/keys"
   credentialName: istio-default-cert # must be the same as secret
   apps:
-    - bitwarden-lab
-    - gollum-lab
+  - bitwarden-lab
+  #- gollum-lab

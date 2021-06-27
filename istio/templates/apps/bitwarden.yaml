@@ -1,4 +1,5 @@
-{{ $appName := "bitwarden" }}
+{{ if has "bitwarden-lab" .Values.istioTemplates.apps }}
+{{ $appName := "bitwardenrs" }}
 {{ $appDomain := "bitwarden.in.lab" }}
 {{ $appNamespace := "bitwarden" }}
 ---
@@ -69,4 +70,6 @@ spec:
     - destination:
         port:
           number: 80
-        host: {{ $appName }}.{{ $appNamespace }}.svc.cluster.local
+        #host: {{ $appName }}.{{ $appNamespace }}.svc.cluster.local
+        host: bitwarden.{{ $appNamespace }}.svc.cluster.local
+{{ end }}

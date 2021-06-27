@@ -32,17 +32,17 @@ istio-discovery:
         headersToUpstreamOnAllow: ["authorization"]
         # Forwards the Set-cookie header from the external server to downstream (user).
         headersToDownstreamOnDeny: ["content-type", "set-cookie"] 
-kiali-operator:
-  cr:
-    create: true
-    namespace: "istio-system"
-    spec:
-      external_services:
-        prometheus:
-          url: http://kps-prometheus.kps.svc.cluster.local:9090
-        grafana:
-          in_cluster_url: http://grafana.kps.svc.cluster.local:80
-          url: http://grafana.in.lab
+#kiali-operator:
+#  cr:
+#    create: true
+#    namespace: "istio-system"
+#    spec:
+#      external_services:
+#        prometheus:
+#          url: http://kps-prometheus.kps.svc.cluster.local:9090
+#        grafana:
+#          in_cluster_url: http://grafana.kps.svc.cluster.local:80
+#          url: http://grafana.in.lab
 istioTemplates:
   jwtIssuer: ""
   jwtUri: ""

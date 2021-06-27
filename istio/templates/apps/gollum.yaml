@@ -1,3 +1,4 @@
+{{ if has "gollum-lab" .Values.istioTemplates.apps }}
 {{ $appName := "gollum" }}
 {{ $appDomain := "gollum.in.lab" }}
 {{ $appNamespace := "gollum" }}
@@ -108,3 +109,4 @@ spec:
         port:
           number: 80
         host: {{ $appName }}.{{ $appNamespace }}.svc.cluster.local
+{{ end }}
