@@ -1,4 +1,5 @@
 {{- if .Values.bitwardenrs.bitwardenrs.domain }}
+{{- if .Values.templates.installIngress }}
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
@@ -17,4 +18,5 @@ spec:
     tls:
       store:
         name: default
+{{- end }}
 {{- end }}

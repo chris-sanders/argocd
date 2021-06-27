@@ -10,3 +10,4 @@ bitwardenrs:
         backup.velero.io/backup-volumes: bitwarden
 templates:
     backup_schedule: ""
+    installIngress: false
