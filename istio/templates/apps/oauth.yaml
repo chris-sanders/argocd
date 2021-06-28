@@ -1,32 +1,42 @@
 {{ if has "oauth-lab" .Values.istioTemplates.apps }}
 {{ $appName := "oauth2-proxy" }}
-{{ $appDomain := "oauth2-proxy.in.lab" }}
+{{ $appDomain := "oauth.in.lab" }}
 {{ $appNamespace := "oauth2-proxy" }}
-#---
-## Require explict authorization
-#apiVersion: security.istio.io/v1beta1
-#kind: AuthorizationPolicy
-#metadata:
-# name: allow-nothing
-# namespace: {{ $appNamespace }}
-#spec:
-#  {}
-#---
-## Allow from IngressGateway
-#apiVersion: security.istio.io/v1beta1
-#kind: AuthorizationPolicy
-#metadata:
-#  name: {{ $appName }}-ingress
-#  namespace: {{ $appNamespace }}
-#spec:
-#  action: ALLOW
-#  selector:
-#    matchLabels:
-#      app.kubernetes.io/name: {{ $appName }}
-#  rules:
-#  - from:
-#    - source:
-#        principals: ["cluster.local/ns/istio-system/sa/istio-ingressgateway-service-account"]
+---
+# Require explict authorization
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+ name: allow-nothing
+ namespace: {{ $appNamespace }}
+spec:
+  {}
+---
+# Allow from IngressGateway
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: {{ $appName }}-ingress
+  namespace: {{ $appNamespace }}
+spec:
+  action: ALLOW
+  selector:
+    matchLabels:
+      #app.kubernetes.io/name: {{ $appName }}
+      app: {{ $appName }}
+  rules:
+  - from:
+    - source:
+        principals: ["cluster.local/ns/istio-system/sa/istio-ingressgateway-service-account"]
+  #- from:
+  #  - source:
+  #      principals: ["cluster.local/ns/istio-system/sa/istiod-service-account"]
+  #- from:
+  #  - source:
+  #      principals: ["cluster.local/ns/istio-system/sa/istio-cni"]
+  #- from:
+  #  - source:
+  #      principals: ["cluster.local/ns/istio-system/sa/istio-reader-service-account"]
 ---
 # Create application gateway
 apiVersion: networking.istio.io/v1beta1
