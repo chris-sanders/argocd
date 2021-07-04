@@ -26,3 +26,10 @@ templates:
     dashboard_hostname: "traefik.in.lab"
     #dashboard_auth: "lab"
     #default_cert: "traefik-cert"
+    app_passthrough:
+      - name: bitwarden
+        domain: bitwarden.in.lab
+      - name: gollum
+        domain: gollum.in.lab
+      - name: dex
+        domain: dex.in.lab
