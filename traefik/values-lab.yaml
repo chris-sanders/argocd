@@ -33,3 +33,5 @@ templates:
         domain: gollum.in.lab
       - name: dex
         domain: dex.in.lab
+      - name: oauth
+        domain: oauth.in.lab
