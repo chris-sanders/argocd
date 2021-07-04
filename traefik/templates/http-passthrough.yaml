@@ -1,0 +1,146 @@
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: http-passthrough
+spec:
+  entryPoints:
+    - web
+  routes:
+    - match: HostRegexp(`{catchall:.*}`)
+      kind: Rule
+      priority: 5
+      services:
+        - name: istio-passthrough-http
+          externalName: istio-ingressgateway.istio-system.svc.cluster.local
+          port: 80
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: https-passthrough
+spec:
+  entryPoints:
+    - websecure
+  routes:
+  - match: HostRegexp(`{catchall:.*}`)
+    kind: Rule
+    priority: 5 
+    services:
+    - kind: Service
+      name: istio-ingressgateway
+      namespace: istio-system
+      port: 443
+  tls:
+      store:
+          name: default
+
+#---
+#apiVersion: traefik.containo.us/v1alpha1
+#kind: IngressRoute
+#metadata:
+#  name: http-passthrough
+#spec:
+#  entryPoints:
+#    - web
+#  routes:
+#    - match: HostRegexp(`{catchall:.*}`)
+#      kind: Rule
+#      priority: 5
+#      services:
+#      - kind: Service
+#        name: istio-ingressgateway
+#        namespace: istio-system
+#        port: 80
+#---
+#apiVersion: traefik.containo.us/v1alpha1
+#kind: IngressRoute
+#metadata:
+#  name: https-passthrough
+#spec:
+#  entryPoints:
+#    - websecure
+#  routes:
+#  - match: HostRegexp(`{catchall:.*}`)
+#    kind: Rule
+#    priority: 5 
+#    services:
+#    - kind: Service
+#      name: istio-ingressgateway
+#      namespace: istio-system
+#      port: 443
+#  tls:
+#      store:
+#          name: default
+#{{ if true }}
+#---
+#apiVersion: traefik.containo.us/v1alpha1
+#kind: IngressRoute
+#metadata:
+#  name: istio-http
+#spec:
+#  entryPoints:
+#    - web
+#  routes:
+#  - match: HostRegexp(`{catchall:.*}`)
+#    kind: Rule
+#    priority: 2
+#    services:
+#    - name: istio-ingress
+#      port: 80
+#      passHostHeader: true
+#---
+#apiVersion: traefik.containo.us/v1alpha1
+#kind: IngressRoute
+#metadata:
+#  name: istio-https
+#spec:
+#  entryPoints:
+#    - websecure
+#  routes:
+#  - match: HostRegexp(`{catchall:.*}`)
+#    kind: Rule
+#    priority: 2
+#    services:
+#    - name: istio-ingress
+#      port: 443
+#      passHostHeader: true
+#  tls:
+#      store:
+#          name: default
+#---
+#apiVersion: v1
+#kind: Service
+#metadata:
+#  name: istio-ingress
+#  labels:
+#    name: istio-ingress
+#spec:
+#  clusterIP: None
+#  ipFamilyPolicy: SingleStack
+#  selector: {}
+#    #app: istio-ingressgateway
+#    #istio: ingressgateway
+#  ports:
+#    - name: http2
+#      protocol: TCP
+#      port: 80
+#      targetPort: 8080
+#    - name: https
+#      protocol: TCP
+#      port: 443
+#      targetPort: 8443
+#---
+#kind: Endpoints
+#apiVersion: v1
+#metadata:
+#  name: istio-ingress
+#subsets: 
+#  - addresses:
+#      - ip: "10.0.9.3" 
+#    ports:
+#      - port: 80 
+#        name: http
+#      - port: 443
+#        name: https
+#{{ end }}
