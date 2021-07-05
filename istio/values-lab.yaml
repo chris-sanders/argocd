@@ -7,3 +7,7 @@ istioTemplates:
   - gollum-lab
   - dex-lab
   - oauth-lab
+  strictNamespaces:
+  - oauth2-proxy
+  - dex
+  - gollum

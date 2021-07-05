@@ -8,7 +8,7 @@ istio-cni:
 istio-discovery:
   sidecarInjectorWebhook:
     useLegacySelectors: false
-    enableNamespacesByDefault: true
+    enableNamespacesByDefault: false
   meshConfig:
     extensionProviders:
       # the unique name for the authorizer, referred to by AuthorizationPolicy.
@@ -48,3 +48,4 @@ istioTemplates:
   jwtUri: ""
   credentialName: ""
   apps: []
+  strictNamespaces: []
