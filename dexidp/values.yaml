@@ -43,7 +43,11 @@ dex:
   config:
     issuer: https://dex.in.lab
     storage:
-      type: memory
+      type: kubernetes
+      config:
+        inCluster: true
+    #storage:
+    #  type: memory
       # type: sqlite3
       # config:
       #   file: ":memory:"
@@ -88,7 +92,14 @@ dex:
   
   # -- Additional environment variables passed directly to containers.
   # See the [API reference](https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#environment-variables) for details.
-  env: {}
+  #env: {}
+  # Work around https://github.com/dexidp/dex/issues/2082
+  env:
+    KUBERNETES_POD_NAMESPACE: dex
+  #- name: KUBERNETES_POD_NAMESPACE
+  #    valueFrom:
+  #     fieldRef:
+  #       fieldPath: metadata.namespace
   
   podDisruptionBudget:
     # -- Enable a [pod distruption budget](https://kubernetes.io/docs/tasks/run-application/configure-pdb/) to help dealing with [disruptions](https://kubernetes.io/docs/concepts/workloads/pods/disruptions/).
