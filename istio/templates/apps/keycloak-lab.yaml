@@ -1,41 +1,7 @@
-{{ if has "gollum-lab" .Values.istioTemplates.apps }}
-{{ $appName := "gollum" }}
-{{ $appDomain := "gollum.in.lab" }}
-{{ $appNamespace := "gollum" }}
----
-# Enable external auth
-apiVersion: security.istio.io/v1beta1
-kind: AuthorizationPolicy
-metadata:
-  name: {{ $appName }}-ext-auth
-  namespace: istio-system
-spec:
-  selector:
-    matchLabels:
-      istio: ingressgateway
-  action: CUSTOM
-  provider:
-    name: "oauth-ext-authz"
-  rules:
-  - to:
-    - operation:
-        hosts: 
-        - {{ $appDomain }}
----
-# Require JWT
-apiVersion: security.istio.io/v1beta1
-kind: RequestAuthentication
-metadata:
-  name: {{ $appName }}-jwt
-  namespace: istio-system
-spec:
-  selector:
-    matchLabels:
-      app.kubernetes.io/name: {{ $appName }}
-  jwtRules:
-  - issuer: {{ .Values.istioTemplates.jwtIssuer }}
-    jwksUri: {{ .Values.istioTemplates.jwksUri }}
-    forwardOriginalToken: true
+{{ if has "keycloak-lab" .Values.istioTemplates.apps }}
+{{ $appName := "keycloak" }}
+{{ $appDomain := "keycloak.in.lab" }}
+{{ $appNamespace := "keycloak" }}
 ---
 # Require explict authorization
 apiVersion: security.istio.io/v1beta1
@@ -60,11 +26,12 @@ spec:
   rules:
   - from:
     - source:
-        principals: ["cluster.local/ns/istio-system/sa/istio-ingressgateway-service-account"]
-    when:
-    - key: request.auth.claims[email]
-      values:
-        - "user@example.com"
+        #principals: ["cluster.local/ns/istio-system/sa/istio-ingressgateway-service-account"]
+        principals: 
+          - "cluster.local/ns/istio-system/sa/istio-ingressgateway-service-account"
+          - "cluster.local/ns/{{ $appNamespace }}/sa/keycloak"
+    #- source:
+    #    namespaces: [{{ $appNamespace }}]
 ---
 # Create application gateway
 apiVersion: networking.istio.io/v1beta1
@@ -106,7 +73,18 @@ spec:
   http:
   - route:
     - destination:
+        host: {{ $appName }}.{{ $appNamespace }}.svc.cluster.local
+        #host: keycloak.{{ $appNamespace }}.svc.cluster.local
         port:
           number: 80
-        host: {{ $appName }}.{{ $appNamespace }}.svc.cluster.local
-{{ end }}
+# ---
+# apiVersion: networking.istio.io/v1alpha3
+# kind: DestinationRule
+# metadata:
+#   name: tls-{{ $appName }}
+# spec:
+#   host: keycloak.{{ $appNamespace }}.svc.cluster.local
+#   trafficPolicy:
+#     tls:
+#       mode: SIMPLE
+# {{ end }}

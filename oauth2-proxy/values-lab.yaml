@@ -2,12 +2,12 @@ oauth2-proxy:
   # Oauth client configuration specifics
   config:
     # -- OAuth client secret
-    clientSecret: "clientsecret"
+    clientSecret: "7b1e35d7-961e-4948-ba62-b931eb81a3b6"  # From keycloak
     # -- server specific cookie for the secret; create a new one with `openssl rand -base64 32 | head -c 32 | base64`
-    cookieSecret: "bnpaU1NNeW91QVNFRS95ZWVoRXdwL0cvREpsNWlkdkg="
+    cookieSecret: "bnpaU1NNeW91QVNFRS95ZWVoRXdwL0cvREpsNWlkdkg=" # Change for each deploy
 
   extraArgs:
-    oidc-issuer-url: "https://dex.in.lab"
+    oidc-issuer-url: "https://keycloak.in.lab/auth/realms/home"
     redirect-url: "https://oauth.in.lab/oauth2/callback"
     cookie-domain: ".in.lab"
     whitelist-domain: ".in.lab"

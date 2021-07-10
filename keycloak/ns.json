@@ -1,0 +1,60 @@
+{
+    "apiVersion": "v1",
+    "kind": "Namespace",
+    "metadata": {
+        "creationTimestamp": "2021-07-10T20:10:16Z",
+        "deletionTimestamp": "2021-07-18T23:42:13Z",
+        "labels": {
+            "kubernetes.io/metadata.name": "keycloak"
+        },
+        "name": "keycloak",
+        "resourceVersion": "953474",
+        "selfLink": "/api/v1/namespaces/keycloak",
+        "uid": "2aab7173-163f-4c09-b2d0-0ba60d754beb"
+    },
+    "spec": {
+        "finalizers": [
+            "kubernetes"
+        ]
+    },
+    "status": {
+        "conditions": [
+            {
+                "lastTransitionTime": "2021-07-18T23:42:20Z",
+                "message": "All resources successfully discovered",
+                "reason": "ResourcesDiscovered",
+                "status": "False",
+                "type": "NamespaceDeletionDiscoveryFailure"
+            },
+            {
+                "lastTransitionTime": "2021-07-18T23:42:20Z",
+                "message": "All legacy kube types successfully parsed",
+                "reason": "ParsedGroupVersions",
+                "status": "False",
+                "type": "NamespaceDeletionGroupVersionParsingFailure"
+            },
+            {
+                "lastTransitionTime": "2021-07-18T23:42:20Z",
+                "message": "All content successfully deleted, may be waiting on finalization",
+                "reason": "ContentDeleted",
+                "status": "False",
+                "type": "NamespaceDeletionContentFailure"
+            },
+            {
+                "lastTransitionTime": "2021-07-18T23:42:20Z",
+                "message": "Some resources are remaining: keycloakclients.keycloak.org has 1 resource instances, keycloakrealms.keycloak.org has 1 resource instances, keycloakusers.keycloak.org has 1 resource instances",
+                "reason": "SomeResourcesRemain",
+                "status": "True",
+                "type": "NamespaceContentRemaining"
+            },
+            {
+                "lastTransitionTime": "2021-07-18T23:42:20Z",
+                "message": "Some content in the namespace has finalizers remaining: client.cleanup in 1 resource instances, realm.cleanup in 1 resource instances, user.cleanup in 1 resource instances",
+                "reason": "SomeFinalizersRemain",
+                "status": "True",
+                "type": "NamespaceFinalizersRemaining"
+            }
+        ],
+        "phase": "Terminating"
+    }
+}
