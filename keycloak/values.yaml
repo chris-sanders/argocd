@@ -2,4 +2,13 @@ operator:
   image:
     repository: quay.io/keycloak/keycloak-operator 
     pullPolicy: IfNotPresent
-    tag: "12.0.1"
+    tag: "14.0.0"
+keycloak:
+  ingress:
+    enabled: False
+    host: keycloak.in.lab
+ingress:
+  enabled: True
+  hosts: 
+    - keycloak.in.lab
+  path: /
