@@ -14,7 +14,12 @@ oauth2-proxy:
         
   # -- key:value list of extra arguments to give the binary
   extraArgs:
-      provider: "oidc"
+      # provider: "oidc"
+      provider: "keycloak"
+      login-url: "https://keycloak.in.lab/auth/realms/basic/protocol/openid-connect/auth"
+      redeem-url: "https://keycloak.in.lab/auth/realms/basic/protocol/openid-connect/token"
+      profile-url: "https://keycloak.in.lab/auth/realms/basic/protocol/openid-connect/userinfo"
+      validate-url: "https://keycloak.in.lab/auth/realms/basic/protocol/openid-connect/userinfo"
       set-authorization-header: "true"
       skip-provider-button: "true"
       cookie-samesite: "lax"
