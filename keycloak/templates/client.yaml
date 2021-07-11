@@ -1,0 +1,17 @@
+apiVersion: keycloak.org/v1alpha1
+kind: KeycloakClient
+metadata:
+  name: example-client
+  labels:
+    app: keycloak
+spec:
+  realmSelector:
+     matchLabels:
+      app: keycloak-basic
+  client:
+    # auto-generated if not supplied
+    #id: 123
+    clientId: example-client
+    secret: example-client
+    # ...
+    # other properties of Keycloak Client

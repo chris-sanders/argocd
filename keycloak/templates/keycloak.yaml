@@ -9,3 +9,5 @@ spec:
   externalAccess:
     enabled: {{ .Values.keycloak.ingress.enabled }}
     host: {{ .Values.keycloak.ingress.host }}
+  extensions:
+  - https://github.com/wadahiro/keycloak-discord/releases/download/v0.3.1/keycloak-discord-ear-0.3.1.ear
