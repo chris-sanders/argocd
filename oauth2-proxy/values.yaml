@@ -7,8 +7,8 @@ oauth2-proxy:
     # -- custom [oauth2_proxy.cfg](https://github.com/oauth2-proxy/oauth2-proxy/blob/master/contrib/oauth2-proxy.cfg.example) contents for settings not overridable via environment nor command line
     configFile: |-
       email_domains = [ "*" ]
-      # upstreams = [ "static://200" ]
-      upstreams = [ "http://echo.in.lab" ]
+      upstreams = [ "static://200" ]
+      # upstreams = [ "http://echo.in.lab" ]
   
     # -- (string)existing Kubernetes configmap to use for the configuration file. See [config template](https://github.com/helm/charts/blob/master/stable/oauth2-proxy/templates/configmap.yaml) for the required values
     existingConfig:
@@ -33,8 +33,6 @@ oauth2-proxy:
       # pass-basic-auth: "false"
       # skip-jwt-bearer-tokens: "true"
       # set-xauthrequest: "true"
-      # skip-jwt-bearer-tokens: "true"
-
   
   image:
     # -- Image repository
