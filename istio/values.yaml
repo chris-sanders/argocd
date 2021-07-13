@@ -30,7 +30,7 @@ istio-discovery:
           X-Auth-Request-Redirect: 'http://%REQ(Host)%'
         # Forwards the Authorization header from the external server to upstream (backend).
         #headersToUpstreamOnAllow: ["authorization", "x-forwarded-access-token"]
-        headersToUpstreamOnAllow: ["Authorization"]
+        headersToUpstreamOnAllow: ["authorization", "x-forwarded-access-token"]
         # Forwards the Set-cookie header from the external server to downstream (user).
         headersToDownstreamOnDeny: ["content-type", "set-cookie"] 
 #kiali-operator:
