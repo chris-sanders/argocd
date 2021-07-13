@@ -33,8 +33,17 @@ spec:
     matchLabels:
       app.kubernetes.io/name: {{ $appName }}
   jwtRules:
-  - issuer: {{ $.Values.istioTemplates.jwtIssuer }}
-    jwksUri: {{ $.Values.istioTemplates.jwtUri }}
+  #- issuer: {{ $.Values.istioTemplates.jwtIssuer }}
+    # jwksUri: {{ $.Values.istioTemplates.jwtUri }}
+  - issuer: "https://keycloak.in.lab/auth/realms/basic"
+    jwksUri: "http://keycloak.in.lab/auth/realms/basic/protocol/openid-connect/certs" 
+    fromHeaders:
+    - name: authorization
+      prefix: "Bearer "
+    - name: x-forwarded-access-token
+    #jwksUri: "https://keycloak.keycloak.svc.cluster.local:8443/auth/realms/basic/protocol/openid-connect/certs"
+    #jwks: '{"keys":[{"kid":"6jKjEvevgqNqj4mgRJDm02f2gXZBqLofFUTW3E9FJxM","kty":"RSA","alg":"RS256","use":"sig","n":"j6wj2xhjwpITkKrBSRQvL4TAONHlJKgCdkiHwJgFPoufR9ydqWOTkFpZ7zYKnW_Inx3zRm7xMkuKoIDpCC1Dbsi72VDVnqMD_MFhIbqEiIrvzMceyGqS5A2dRQ6rlP9p15fm5ZBpZiFoe78iMH1xCTR1AsvTotSUaVZu6lN_bNZpKnWdujQvTV0kG0yq9pp5lwEKCyB5TMXKvKhF4RX7Ag12fRcvP-uAUc6LNd6EfbCaYsGrfgjLtBOoc7N33FTZ226w-V1OL7aofaRp3TohtP45d2dhOueZtFaFBjQTzmVh2woqbu3oDL5rGymcs1aBoeLQZ_ieuq7z8CEmuYiYzQ","e":"AQAB","x5c":["MIICmTCCAYECBgF6lfs8fDANBgkqhkiG9w0BAQsFADAQMQ4wDAYDVQQDDAViYXNpYzAeFw0yMTA3MTExNDMwMDhaFw0zMTA3MTExNDMxNDhaMBAxDjAMBgNVBAMMBWJhc2ljMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAj6wj2xhjwpITkKrBSRQvL4TAONHlJKgCdkiHwJgFPoufR9ydqWOTkFpZ7zYKnW/Inx3zRm7xMkuKoIDpCC1Dbsi72VDVnqMD/MFhIbqEiIrvzMceyGqS5A2dRQ6rlP9p15fm5ZBpZiFoe78iMH1xCTR1AsvTotSUaVZu6lN/bNZpKnWdujQvTV0kG0yq9pp5lwEKCyB5TMXKvKhF4RX7Ag12fRcvP+uAUc6LNd6EfbCaYsGrfgjLtBOoc7N33FTZ226w+V1OL7aofaRp3TohtP45d2dhOueZtFaFBjQTzmVh2woqbu3oDL5rGymcs1aBoeLQZ/ieuq7z8CEmuYiYzQIDAQABMA0GCSqGSIb3DQEBCwUAA4IBAQATDQXOhstamonBzlQIDYBnjSOmSLnDFBHCqexJ7EmADdeVyXK/61kM1sNiHPg7w25s0UXgmiY/Zrt1azXCoiHgZ3/AHEOWcJ1F05PjV0JpS1PvIRYGnR3QAFO/mlK8z/KGsNcP8dEwiG87niwcrLFYfhv1mHWqg6WAk96ZgG+d8ZyuJAgnZZ7NzwHQwum74suEGPak2IDFAIG3/CFwShLpUEKRrlTFHWBLqIspH92cx6fZ/VSDZqzXdQPyRDrWx37hBSn/LPPeM2m9I2TEXeSrITwCItxLsVC6wGR0UhhKxKuDXBc1qhYHe4J/su44b7Qs3FMXWfDPYYotzjB+U/cW"],"x5t":"ZCkCAsJF-uiLUUXfSog33ZEcFbg","x5t#S256":"rgDIImRcC0CrfhZFqpHL2_iZtb6TuQExtCpTJ4EPs38"}]}'
+    #jwks: '{"realm":"basic","public_key":"MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAj6wj2xhjwpITkKrBSRQvL4TAONHlJKgCdkiHwJgFPoufR9ydqWOTkFpZ7zYKnW/Inx3zRm7xMkuKoIDpCC1Dbsi72VDVnqMD/MFhIbqEiIrvzMceyGqS5A2dRQ6rlP9p15fm5ZBpZiFoe78iMH1xCTR1AsvTotSUaVZu6lN/bNZpKnWdujQvTV0kG0yq9pp5lwEKCyB5TMXKvKhF4RX7Ag12fRcvP+uAUc6LNd6EfbCaYsGrfgjLtBOoc7N33FTZ226w+V1OL7aofaRp3TohtP45d2dhOueZtFaFBjQTzmVh2woqbu3oDL5rGymcs1aBoeLQZ/ieuq7z8CEmuYiYzQIDAQAB","token-service":"https://keycloak.in.lab/auth/realms/basic/protocol/openid-connect","account-service":"https://keycloak.in.lab/auth/realms/basic/account","tokens-not-before":0}'
     forwardOriginalToken: true
 ---
 # Require explict authorization

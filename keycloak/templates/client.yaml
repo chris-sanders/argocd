@@ -13,5 +13,9 @@ spec:
     #id: 123
     clientId: oauth2-proxy
     secret: clientsecret
-    # ...
-    # other properties of Keycloak Client
+    standardFlowEnabled: True
+    redirectUris:
+      - "https://oauth.in.lab/oauth2/callback"
+    optionalClientScopes:
+      - email
+      - roles

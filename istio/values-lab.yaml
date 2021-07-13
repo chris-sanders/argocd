@@ -1,13 +1,15 @@
 istioTemplates:
-  jwtIssuer: "https://dex.in.lab" 
-  jwtUri: "http://dex.in.lab/keys"
+  # jwtIssuer: "https://dex.in.lab" 
+  jwtIssuer: "https://keycloak.in.lab/auth/realms/basic" 
+  # jwtUri: "http://dex.in.lab/keys"
+  jwtUri: "http://keycloak.in.lab/auth/realms/basic/protocol/openid-connect/certs"
   credentialName: istio-default-cert # must be the same as secret
   apps:
   - bitwarden-lab
   - gollum-lab
-  - dex-lab
+  #- dex-lab
   - oauth-lab
   strictNamespaces:
   - oauth2-proxy
-  - dex
+  #- dex
   - gollum

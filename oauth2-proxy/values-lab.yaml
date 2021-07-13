@@ -7,7 +7,7 @@ oauth2-proxy:
     cookieSecret: "bnpaU1NNeW91QVNFRS95ZWVoRXdwL0cvREpsNWlkdkg="
 
   extraArgs:
-    # oidc-issuer-url: "https://dex.in.lab"
+    oidc-issuer-url: "https://keycloak.in.lab/auth/realms/basic"
     redirect-url: "https://oauth.in.lab/oauth2/callback"
     cookie-domain: ".in.lab"
     whitelist-domain: ".in.lab"

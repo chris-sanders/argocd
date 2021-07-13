@@ -1,6 +1,6 @@
 name: istio
 version: 1.0.0
-appVersion: 1.9.5
+appVersion: 1.10.0
 apiVersion: v2
 dependencies:
     - name: base
