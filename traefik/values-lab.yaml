@@ -35,3 +35,5 @@ templates:
         domain: dex.in.lab
       - name: oauth
         domain: oauth.in.lab
+      - name: keycloak
+        domain: keycloak.in.lab

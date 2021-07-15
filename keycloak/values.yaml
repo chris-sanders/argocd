@@ -8,7 +8,7 @@ keycloak:
     enabled: False
     host: keycloak.in.lab
 ingress:
-  enabled: True
+  enabled: False
   hosts: 
     - keycloak.in.lab
   path: /
