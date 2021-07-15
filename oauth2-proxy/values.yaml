@@ -28,9 +28,8 @@ oauth2-proxy:
       skip-provider-button: "true"
       cookie-samesite: "lax"
       silence-ping-logging: "true"
-      cookie-expire: 5m
-      cookie-refresh: 5m
-      # pass-basic-auth: "false"
+      #cookie-expire: 5m  # Token expires in 5 min, expire the cookie at the same time
+      cookie-refresh: 5m # Tokens expire in 5m
       # skip-jwt-bearer-tokens: "true"
       # set-xauthrequest: "true"
   
