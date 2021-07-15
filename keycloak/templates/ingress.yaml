@@ -69,7 +69,7 @@ metadata:
 spec:
   ipFamilyPolicy: SingleStack
   ports:
-  - name: keycloak
+  - name: https
     port: 443
     protocol: TCP
     targetPort: 8443
