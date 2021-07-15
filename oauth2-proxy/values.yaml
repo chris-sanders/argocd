@@ -16,11 +16,6 @@ oauth2-proxy:
   # -- key:value list of extra arguments to give the binary
   extraArgs:
       provider: "oidc"
-      # provider: "keycloak"
-      # login-url: "https://keycloak.in.lab/auth/realms/basic/protocol/openid-connect/auth"
-      # redeem-url: "https://keycloak.in.lab/auth/realms/basic/protocol/openid-connect/token"
-      # profile-url: "https://keycloak.in.lab/auth/realms/basic/protocol/openid-connect/userinfo"
-      # validate-url: "https://keycloak.in.lab/auth/realms/basic/protocol/openid-connect/userinfo"
       scope: "openid email"
       set-authorization-header: "true"
       pass-authorization-header: "true"
@@ -28,10 +23,8 @@ oauth2-proxy:
       skip-provider-button: "true"
       cookie-samesite: "lax"
       silence-ping-logging: "true"
-      #cookie-expire: 5m  # Token expires in 5 min, expire the cookie at the same time
+      #cookie-expire: 5m  # This doesn't seem to matter, could set it to idle timeout?
       cookie-refresh: 5m # Tokens expire in 5m
-      # skip-jwt-bearer-tokens: "true"
-      # set-xauthrequest: "true"
   
   image:
     # -- Image repository
