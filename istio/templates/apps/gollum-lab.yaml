@@ -33,14 +33,11 @@ spec:
     matchLabels:
       app.kubernetes.io/name: {{ $appName }}
   jwtRules:
-  - issuer: "https://keycloak.in.lab/auth/realms/basic"
-    jwksUri: "http://keycloak.in.lab/auth/realms/basic/protocol/openid-connect/certs" 
+  - issuer: {{ .Values.istioTemplates.jwtIssuer }}
+    jwksUri: {{ .Values.istioTemplates.jwksUri }}
+  #- issuer: "https://keycloak.in.lab/auth/realms/basic"
+  #  jwksUri: "http://keycloak.in.lab/auth/realms/basic/protocol/openid-connect/certs" 
     forwardOriginalToken: true
-    #fromHeaders:
-    #- name: authorization 
-    #  prefix: "Bearer "
-    #- name: x-forwarded-access-token
-    #  prefix: ""
 ---
 # Require explict authorization
 apiVersion: security.istio.io/v1beta1
