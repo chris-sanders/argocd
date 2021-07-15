@@ -15,7 +15,8 @@ spec:
     secret: clientsecret
     standardFlowEnabled: True
     redirectUris:
-      - "https://oauth.in.lab/oauth2/callback"
+      - "https://oauth.in.lab/oauth2/*"
+      - "https://gollum.in.lab/*"
     optionalClientScopes:
       - email
       - roles
