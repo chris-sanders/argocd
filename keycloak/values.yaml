@@ -1,6 +1,10 @@
 keycloak:
   service:
     type: ClusterIP
+  proxyAddressForwarding: True
+  auth:
+    adminUser: admin
+    adminPassword: yjRkZHRTyf
 #operator:
 #  image:
 #    repository: quay.io/keycloak/keycloak-operator 

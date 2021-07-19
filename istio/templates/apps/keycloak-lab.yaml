@@ -2,31 +2,36 @@
 {{ $appName := "keycloak" }}
 {{ $appDomain := "keycloak.in.lab" }}
 {{ $appNamespace := "keycloak" }}
-#---
-## Require explict authorization
-#apiVersion: security.istio.io/v1beta1
-#kind: AuthorizationPolicy
-#metadata:
-# name: allow-nothing
-# namespace: {{ $appNamespace }}
-#spec:
-#  {}
-#---
-## Allow from IngressGateway
-#apiVersion: security.istio.io/v1beta1
-#kind: AuthorizationPolicy
-#metadata:
-#  name: {{ $appName }}-ingress
-#  namespace: {{ $appNamespace }}
-#spec:
-#  action: ALLOW
-#  selector:
-#    matchLabels:
-#      app.kubernetes.io/name: {{ $appName }}
-#  rules:
-#  - from:
-#    - source:
-#        principals: ["cluster.local/ns/istio-system/sa/istio-ingressgateway-service-account"]
+---
+# Require explict authorization
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+ name: allow-nothing
+ namespace: {{ $appNamespace }}
+spec:
+  {}
+---
+# Allow from IngressGateway
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: {{ $appName }}-ingress
+  namespace: {{ $appNamespace }}
+spec:
+  action: ALLOW
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ $appName }}
+  rules:
+  - from:
+    - source:
+        #principals: ["cluster.local/ns/istio-system/sa/istio-ingressgateway-service-account"]
+        principals: 
+          - "cluster.local/ns/istio-system/sa/istio-ingressgateway-service-account"
+          - "cluster.local/ns/{{ $appNamespace }}/sa/keycloak"
+    #- source:
+    #    namespaces: [{{ $appNamespace }}]
 ---
 # Create application gateway
 apiVersion: networking.istio.io/v1beta1
@@ -71,15 +76,15 @@ spec:
         host: {{ $appName }}.{{ $appNamespace }}.svc.cluster.local
         #host: keycloak.{{ $appNamespace }}.svc.cluster.local
         port:
-          number: 443
----
-apiVersion: networking.istio.io/v1alpha3
-kind: DestinationRule
-metadata:
-  name: tls-{{ $appName }}
-spec:
-  host: keycloak.{{ $appNamespace }}.svc.cluster.local
-  trafficPolicy:
-    tls:
-      mode: SIMPLE
-{{ end }}
+          number: 80
+# ---
+# apiVersion: networking.istio.io/v1alpha3
+# kind: DestinationRule
+# metadata:
+#   name: tls-{{ $appName }}
+# spec:
+#   host: keycloak.{{ $appNamespace }}.svc.cluster.local
+#   trafficPolicy:
+#     tls:
+#       mode: SIMPLE
+# {{ end }}

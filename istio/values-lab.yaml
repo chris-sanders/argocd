@@ -13,3 +13,4 @@ istioTemplates:
   - oauth2-proxy
   #- dex
   - gollum
+  - keycloak
