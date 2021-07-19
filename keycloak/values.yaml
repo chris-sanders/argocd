@@ -1,14 +1,17 @@
-operator:
-  image:
-    repository: quay.io/keycloak/keycloak-operator 
-    pullPolicy: IfNotPresent
-    tag: "14.0.0"
 keycloak:
-  ingress:
-    enabled: False
-    host: keycloak.in.lab
-ingress:
-  enabled: False
-  hosts: 
-    - keycloak.in.lab
-  path: /
+  service:
+    type: ClusterIP
+#operator:
+#  image:
+#    repository: quay.io/keycloak/keycloak-operator 
+#    pullPolicy: IfNotPresent
+#    tag: "14.0.0"
+#keycloak:
+#  ingress:
+#    enabled: False
+#    host: keycloak.in.lab
+#ingress:
+#  enabled: False
+#  hosts: 
+#    - keycloak.in.lab
+#  path: /

@@ -5,7 +5,7 @@ istioTemplates:
   credentialName: istio-default-cert # must be the same as secret
   apps:
   - bitwarden-lab
-  - gollum-lab
+  #- gollum-lab
   #- dex-lab
   - oauth-lab
   - keycloak-lab
