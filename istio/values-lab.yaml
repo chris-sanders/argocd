@@ -6,11 +6,9 @@ istioTemplates:
   apps:
   - bitwarden-lab
   - gollum-lab
-  #- dex-lab
   - oauth-lab
   - keycloak-lab
   strictNamespaces:
   - oauth2-proxy
-  #- dex
   - gollum
   - keycloak
