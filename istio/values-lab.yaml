@@ -1,6 +1,6 @@
 istioTemplates:
   jwtIssuer: "https://keycloak.in.lab/auth/realms/home"
-  # http service uses 443 so traefik uses TLS on the backend
+  # http for lab, use https when a proper TLS is available
   jwksUri: "http://keycloak.in.lab/auth/realms/home/protocol/openid-connect/certs"
   credentialName: istio-default-cert # must be the same as secret
   apps:

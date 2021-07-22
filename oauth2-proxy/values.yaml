@@ -8,11 +8,7 @@ oauth2-proxy:
     configFile: |-
       email_domains = [ "*" ]
       upstreams = [ "static://200" ]
-      # upstreams = [ "http://echo.in.lab" ]
-  
-    # -- (string)existing Kubernetes configmap to use for the configuration file. See [config template](https://github.com/helm/charts/blob/master/stable/oauth2-proxy/templates/configmap.yaml) for the required values
-    existingConfig:
-        
+       
   # -- key:value list of extra arguments to give the binary
   extraArgs:
       provider: "oidc"
@@ -24,7 +20,7 @@ oauth2-proxy:
       cookie-samesite: "lax"
       silence-ping-logging: "true"
       #cookie-expire: 5m  # This doesn't seem to matter, could set it to idle timeout?
-      cookie-refresh: 5m # Tokens expire in 5m
+      cookie-refresh: 5m # Tokens expire in 5m from keycloak by default
   
   image:
     # -- Image repository
