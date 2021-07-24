@@ -3,6 +3,10 @@ radarr:
         ingress:
             hosts:
                 - host: in.lab
-                  paths: [/radarr]
+                  paths:
+                  - path: /radarr
+                    pathType: ImplementationSpecific
                 - host: radarr.in.lab
-                  paths: [/]
+                  paths:
+                  - path: /
+                    pathType: ImplementationSpecific
