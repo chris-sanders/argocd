@@ -37,6 +37,9 @@ unifi:
       path: /
       #hosts:
       #  - unifi.in.lab
+
+    persistence:
+      enabled: true
     
     podAnnotations:
         backup.velero.io/backup-volumes: unifi-data
