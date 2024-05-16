@@ -1,3 +1,0 @@
-samba:
-    # Support single node for testing in lab
-    replicaCount: 1

@@ -1,7 +1,0 @@
-name: metallb
-version: 1.0.0
-apiVersion: v2
-dependencies:
-    - name: metallb
-      version: '^1.0.0'
-      repository: https://charts.bitnami.com/bitnami

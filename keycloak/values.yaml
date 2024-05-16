@@ -1,8 +1,0 @@
-keycloak:
-  service:
-    type: ClusterIP
-  proxyAddressForwarding: True
-  auth:
-    # Must be set for upgrades
-    adminUser: admin
-    adminPassword: yjRkZHRTyf

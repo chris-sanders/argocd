@@ -1,6 +1,0 @@
-acme_dns:
-    name: acme-dns
-    domain: dns.in.lab
-    email: admin@dns.traefik
-    public_ip: 127.0.0.1
-    port: 80

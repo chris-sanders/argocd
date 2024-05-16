@@ -1,8 +1,0 @@
-name: keycloak
-version: 1.0.0
-# appVersion: 1.9.5
-apiVersion: v2
-dependencies:
-    - name: keycloak
-      version: '*'
-      repository: https://charts.bitnami.com/bitnami
