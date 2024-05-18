@@ -25,7 +25,8 @@ traefik:
     #    port: websecure
     websecure:
       port: 8443
-      expose: true
+      expose:
+        default: true
       exposedPort: 443
       protocol: TCP
   tlsStore:
