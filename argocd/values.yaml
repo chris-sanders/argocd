@@ -43,3 +43,5 @@ argo-cd:
       requests:
         cpu: 167m
         memory: 1269Mi
+templates:
+  argo_uri:
