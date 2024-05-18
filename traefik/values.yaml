@@ -10,13 +10,9 @@ traefik:
   #  # -- defaults to appVersion
   #  tag: "v3.0.0"
   service:
-    # -- Additional annotations applied to both TCP and UDP services (e.g. for cloud provider specific config)
+    type: NodePort
     #annotations:
     #  metallb.universe.tf/loadBalancerIPs:
-    # -- Additional annotations for TCP service only
-    annotationsTCP: {}
-    # -- Additional annotations for UDP service only
-    annotationsUDP: {}
     spec:
       externalTrafficPolicy: Local
   ports:
