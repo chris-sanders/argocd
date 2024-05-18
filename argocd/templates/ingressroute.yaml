@@ -1,0 +1,27 @@
+{{- if .Values.templates.argo_uri }}
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: argocd-server
+  namespace: argocd
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - kind: Rule
+      match: Host(`{{- .Values.templates.argo_uri }}`)
+      priority: 10
+      services:
+        - name: argocd-server
+          port: 443
+    - kind: Rule
+      match: Host(`{{- .Values.templates.argo_uri }}`) && Headers(`Content-Type`, `application/grpc`)
+      priority: 11
+      services:
+        - name: argocd-server
+          port: 443
+          scheme: h2c
+  tls:
+      store:
+          name: default
+{{- end }}

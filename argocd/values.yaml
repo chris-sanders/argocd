@@ -1,0 +1,45 @@
+argo-cd:
+  #global:
+  #  image:
+  #    repository: quay.io/argoproj/argocd
+  #    tag: v2.10.9
+  #    imagePullPolicy: IfNotPresent
+  notificationsController:
+    enabled: false
+  dex:
+    enabled: false
+  server:
+    extraArgs:
+    - --insecure
+    ## reference https://github.com/argoproj/argo-cd/blob/master/docs/operator-manual/argocd-cm.yaml
+    config:
+      repositories:
+        test-repo:
+          url: https://github.com/chris-sanders/argocd
+          type: git
+      resource.exclusions: |
+        - apiGroups:
+          - "velero.io"
+          kinds:
+          - Backup
+          clusters:
+          - "*"
+    resources:
+      requests:
+        cpu: 8m
+        memory: 86Mi
+  controller:
+    resources:
+      requests:
+        cpu: 337m
+        memory: 565Mi
+  redis:
+    resources:
+      requests:
+        cpu: 8m
+        memory: 134Mi
+  repoServer:
+    resources:
+      requests:
+        cpu: 167m
+        memory: 1269Mi
