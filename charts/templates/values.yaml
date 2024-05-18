@@ -1,0 +1,26 @@
+# iscsiVolumes: []
+# smbVolumes:
+#  - name: my-volume
+#    path: MiscFiles/some/path
+# backupSchedules:
+#   - name: my-backup
+#     schedule: 0 2 * * 0
+#     ttl: 336h0m0s
+# traefikRoute:
+#   - serviceName: 
+#     servicePort: 
+#     host: 
+#     path: (optional)
+#     routeName: (optional)
+#     https: false (optional)
+#     #entryPoints: (optional)
+#     #  - websecure
+#     #whiteList: (optional, off)
+#     #- 192.168.0.0/23
+#     #- 10.244.0.0/16
+#     #whiteListInternal: false (optoinal)
+# traefikRouteTCP:
+#   - serviceName: 
+#     servicePort: 
+#     entryPoints:
+#       - <from traefik config> 

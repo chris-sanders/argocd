@@ -1,0 +1,21 @@
+{{ range .Values.backupSchedules }}
+apiVersion: velero.io/v1
+kind: Schedule
+metadata:
+  name: {{ $.Release.Namespace }}-{{ .name }}
+  namespace: velero
+spec:
+  useOwnerReferencesInBackup: false
+  schedule: {{ .schedule }}
+  template:
+    includedNamespaces:
+    - {{ $.Release.Namespace }}
+    includedResources:
+    - '*'
+    excludedResources:
+    - storageclasses.storage.k8s.io
+    includeClusterResources: null
+    snapshotVolumes: null
+    storageLocation: default
+    ttl: {{ .ttl }}
+{{- end }}

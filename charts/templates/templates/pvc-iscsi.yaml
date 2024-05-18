@@ -1,0 +1,33 @@
+{{ range .Values.iscsiVolumes }}
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: {{ $.Release.Namespace }}-{{ .name }}
+spec:
+  capacity:
+    storage: {{ .size | default "1Gi" }}
+  accessModes:
+    - ReadWriteOnce
+  iscsi:
+     targetPortal: 192.168.0.10
+     iqn: {{ .iqn }}
+     lun: 1
+     fsType: 'ext4'
+     readOnly: false
+{{ if not .suppressClaim }}
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: pvc-{{ $.Release.Namespace }}-{{ .name }}
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+  volumeName: {{ $.Release.Namespace }}-{{ .name }}
+  storageClassName: ""
+{{- end }}
+{{ end }}

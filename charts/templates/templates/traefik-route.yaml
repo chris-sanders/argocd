@@ -1,0 +1,91 @@
+{{- range .Values.traefikRoute }}
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  {{- if .routeName }}
+  name: {{ .routeName }}
+  {{- else }}
+  name: {{ .serviceName }}
+  {{- end }}
+spec:
+  entryPoints:
+    {{- if .entryPoints }}
+    {{- range .entryPoints }}
+    - "{{ . }}"
+    {{- end }}
+    {{- else }}
+    - websecure
+    {{- end }}
+  routes:
+    - kind: Rule
+      {{- if .path }}
+      match: Host(`{{ .host }}`) && PathPrefix(`{{ .path }}`)
+      {{- else }}
+      match: Host(`{{ .host }}`)
+      {{- end }}
+      {{- if or .whiteList .whiteListInternal }}
+      middlewares:
+        {{- if .routeName }}
+        - name: {{ .routeName }}-whitelist
+        {{- else }}
+        - name: {{ .serviceName }}-whitelist
+        {{- end }}
+      {{- end }}
+      services:
+      - kind: Service
+        name: {{ .serviceName }}
+        port: {{ .servicePort }}
+        {{- if .https }}
+        scheme: https
+        {{- if .routeName }}
+        serversTransport: {{ .routeName }}-transport
+        {{- else }}
+        serversTransport: {{ .serviceName }}-transport
+        {{- end }}
+        {{- end }}
+{{- if .https }}
+---
+apiVersion: traefik.io/v1alpha1
+kind: ServersTransport
+metadata:
+  {{- if .routeName }}
+  name: {{ .routeName }}-transport
+  {{- else }}
+  name: {{ .serviceName }}-transport
+  {{- end }}
+spec:
+  insecureSkipVerify: true
+{{- end }}
+{{- if or .whiteList .whiteListInternal }}
+---
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  {{- if .routeName }}
+  name: {{ .routeName }}-whitelist
+  {{- else }}
+  name: {{ .serviceName }}-whitelist
+  {{- end }}
+spec:
+  ipAllowList:
+    sourceRange:
+      {{- if .whiteListInternal }}
+      - 192.168.1.2/31
+      - 192.168.1.4/30
+      - 192.168.1.8/29
+      - 192.168.1.16/28
+      - 192.168.1.32/27
+      - 192.168.1.64/26
+      - 192.168.1.128/25
+      - 10.244.0.0/16
+      - 192.168.0.2
+      - 192.168.0.3
+      - 192.168.0.4
+      {{- end }}
+      {{- range .whiteList }}
+      - {{ . }}
+      {{- end }}
+{{- end }}
+{{- end }}
+

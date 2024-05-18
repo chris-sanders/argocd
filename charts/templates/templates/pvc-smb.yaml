@@ -1,0 +1,43 @@
+{{ range .Values.smbVolumes }}
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: {{ $.Release.Namespace }}-{{ .name }}
+spec:
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Delete
+  mountOptions:
+    - dir_mode=0776
+    - file_mode=0776
+    - vers=3.0
+    - uid=1100
+    - gid=1100
+    - noperm
+    - noserverino
+  csi:
+    driver: smb.csi.k8s.io
+    readOnly: false
+    volumeHandle: {{ $.Release.Namespace }}-{{ .name }}  # make sure it's a unique id in the cluster
+    volumeAttributes:
+      source: "//192.168.0.10/{{ .path }}"
+    nodeStageSecretRef:
+      name: smbcreds
+      namespace: smb-csi
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: pvc-{{ $.Release.Namespace }}-{{ .name }}
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 1Gi
+  volumeName: {{ $.Release.Namespace }}-{{ .name }}
+  storageClassName: ""
+{{ end }}

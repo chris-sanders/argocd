@@ -44,4 +44,7 @@ argo-cd:
         cpu: 167m
         memory: 1269Mi
 templates:
-  argo_uri:
+  traefikRoute:
+    - serviceName: argocd-server
+      servicePort: 80
+      host: 
