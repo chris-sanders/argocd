@@ -1,0 +1,36 @@
+certs:
+  selfSigned: true
+  installProduction: false
+  installStaging: false
+  dnsNames: []
+traefik:
+  #image:
+  #  registry: docker.io
+  #  repository: traefik
+  #  # -- defaults to appVersion
+  #  tag: "v3.0.0"
+  service:
+    # -- Additional annotations applied to both TCP and UDP services (e.g. for cloud provider specific config)
+    #annotations:
+    #  metallb.universe.tf/loadBalancerIPs:
+    # -- Additional annotations for TCP service only
+    annotationsTCP: {}
+    # -- Additional annotations for UDP service only
+    annotationsUDP: {}
+    spec:
+      externalTrafficPolicy: Local
+  ports:
+    #web:
+    #  redirectTo:
+    #    port: websecure
+    websecure:
+      port: 8443
+      expose: true
+      exposedPort: 443
+      protocol: TCP
+  tlsStore:
+    default:
+      certificates:
+        - secretName: traefik-cert
+      defaultCertificate:
+        secretName: traefik-cert
