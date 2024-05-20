@@ -42,7 +42,7 @@ argocd:
     resources:
       requests:
         cpu: 167m
-        memory: 1269Mi
+        memory: 500Mi
 templates:
   traefikRoute:
     - serviceName: argocd-server
