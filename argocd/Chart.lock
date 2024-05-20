@@ -1,9 +1,0 @@
-dependencies:
-- name: argo-cd
-  repository: https://argoproj.github.io/argo-helm
-  version: 6.9.3
-- name: templates
-  repository: file://../charts/templates
-  version: 1.0.0
-digest: sha256:6690858ae407a40007f0b3b9359db299d7a46380d7ef813a250efb9dfdd39c48
-generated: "2024-05-18T11:25:29.836227183-05:00"
