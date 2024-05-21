@@ -1,5 +1,4 @@
 cilium:
-  values:
   operator:
     replicas: 1
   ipam:
