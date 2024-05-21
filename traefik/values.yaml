@@ -16,11 +16,13 @@ traefik:
     spec:
       externalTrafficPolicy: Local
   ports:
-    #web:
-    #  redirectTo:
-    #    port: websecure
+    web:
+      nodePort: 80
+      redirectTo:
+        port: websecure
     websecure:
       port: 8443
+      nodePort: 443
       expose:
         default: true
       exposedPort: 443
