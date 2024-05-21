@@ -14,3 +14,8 @@ cilium:
     hostRoot: /sys/fs/cgroup
   k8sServiceHost: localhost
   k8sServicePort: 7445
+  hubble:
+    relay:
+      enabled: true
+    ui:
+      enabled: true
