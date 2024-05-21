@@ -19,3 +19,7 @@ cilium:
       enabled: true
     ui:
       enabled: true
+local:
+  pools:
+    serviceIps:
+      cidr: "192.168.121.192/26"

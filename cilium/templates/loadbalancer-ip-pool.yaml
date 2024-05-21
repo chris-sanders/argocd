@@ -1,0 +1,17 @@
+{{- range $name, $pool := .Values.local.pools }}
+---
+apiVersion: "cilium.io/v2alpha1"
+kind: CiliumLoadBalancerIPPool
+metadata:
+  name: "{{ $name }}"
+spec:
+  blocks:
+  {{- if $pool.cidr }}
+  - cidr: "{{ $pool.cidr }}"
+  {{- else if and $pool.start $pool.stop }}
+  - start: "{{ $pool.start }}"
+    stop: "{{ $pool.stop }}"
+  {{- else if $pool.start }}
+  - start: "{{ $pool.start }}"
+  {{- end }}
+{{- end }}
