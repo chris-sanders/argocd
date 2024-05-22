@@ -21,6 +21,9 @@ cilium:
       enabled: true
   l2announcements:
     enabled: true
+  k8sClientRateLimit:
+    qps: 10
+    burst: 20
 local:
   pools:
     service-ips:
