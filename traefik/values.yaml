@@ -11,8 +11,6 @@ traefik:
   #  tag: "v3.0.0"
   service:
     type: NodePort
-    #annotations:
-    #  metallb.universe.tf/loadBalancerIPs:
     spec:
       externalTrafficPolicy: Local
   ports:
