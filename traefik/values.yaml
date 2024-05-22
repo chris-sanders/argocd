@@ -4,27 +4,14 @@ certs:
   installStaging: false
   dnsNames: []
 traefik:
-  #image:
-  #  registry: docker.io
-  #  repository: traefik
-  #  # -- defaults to appVersion
-  #  tag: "v3.0.0"
   service:
-    type: NodePort
+    type: LoadBalancer
     spec:
       externalTrafficPolicy: Local
   ports:
     web:
-      #nodePort: 80
       redirectTo:
         port: websecure
-    websecure:
-      port: 8443
-      #nodePort: 443
-      expose:
-        default: true
-      exposedPort: 443
-      protocol: TCP
   tlsStore:
     default:
       certificates:
