@@ -20,14 +20,14 @@ cilium:
       insecureClient: true
     ui:
       enabled: true
-    tls:
-      auto:
-        enabled: true
-        method: certmanager
-        certManagerIssuerRef:
-          group: "cert-manager.io"
-          kind: "ClusterIssuer"
-          name: "selfsigned-cluster-issuer"
+    #tls:
+    #  auto:
+    #    enabled: true
+    #    method: certmanager
+    #    certManagerIssuerRef:
+    #      group: "cert-manager.io"
+    #      kind: "ClusterIssuer"
+    #      name: "selfsigned-cluster-issuer"
   l2announcements:
     enabled: true
   k8sClientRateLimit:
