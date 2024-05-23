@@ -17,6 +17,7 @@ cilium:
   hubble:
     relay:
       enabled: true
+      insecureClient: true
     ui:
       enabled: true
     tls:
