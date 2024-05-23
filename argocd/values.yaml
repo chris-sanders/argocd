@@ -4,9 +4,11 @@ argocd:
   #    repository: quay.io/argoproj/argocd
   #    tag: v2.10.9
   #    imagePullPolicy: IfNotPresent
-  notificationsController:
+  notifications:
     enabled: false
   dex:
+    enabled: false
+  applicationSet:
     enabled: false
   server:
     extraArgs:
