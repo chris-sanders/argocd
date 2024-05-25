@@ -33,7 +33,5 @@ cilium:
   k8sClientRateLimit:
     qps: 10
     burst: 20
-local:
-  pools:
-    service-ips:
-      cidr: "192.168.121.192/26"
+#local:
+#  pools:
