@@ -6,8 +6,9 @@ certs:
 traefik:
   service:
     type: LoadBalancer
-    spec:
-      externalTrafficPolicy: Local
+    # Disable until cilium supports advertising from local
+    #spec:
+    #  externalTrafficPolicy: Local
   ports:
     web:
       redirectTo:
