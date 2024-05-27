@@ -35,13 +35,13 @@ cilium:
     burst: 20
   # https://github.com/cilium/cilium/issues/27800 
   # Local isn't supported on native routing yet, use geneve until then
-  routingMode: tunnel
-  tunnelProtocol: geneve
+  routingMode: native
+  #tunnelProtocol: geneve
   loadBalancer:
     mode: dsr
-    dsrDispatch: geneve
+    dsrDispatch: opt
   # https://github.com/cilium/cilium/issues/32189
-  bpf:
-    masquerade: true
+  #bpf:
+  #  masquerade: true
 #local:
 #  pools:
