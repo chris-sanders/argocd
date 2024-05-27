@@ -40,5 +40,8 @@ cilium:
   loadBalancer:
     mode: dsr
     dsrDispatch: geneve
+  # https://github.com/cilium/cilium/issues/32189
+  bpf:
+    masquerade: true
 #local:
 #  pools:
