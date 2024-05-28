@@ -33,15 +33,15 @@ cilium:
   k8sClientRateLimit:
     qps: 10
     burst: 20
-  # https://github.com/cilium/cilium/issues/27800 
-  # Local isn't supported on native routing yet, use geneve until then
   routingMode: native
-  #tunnelProtocol: geneve
+  autoDirectNodeRoutes: true
   loadBalancer:
     mode: dsr
     dsrDispatch: opt
   # https://github.com/cilium/cilium/issues/32189
+  # Required if using DSR w/ geneve
   #bpf:
   #  masquerade: true
+  #tunnelProtocol: geneve
 #local:
 #  pools:
