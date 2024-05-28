@@ -4,8 +4,6 @@ apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
   name: traefik-self-signed
-  annotations:
-    argocd.argoproj.io/sync-wave: "-1"
 spec:
   commonName: traefik
   secretName: traefik-self-signed
@@ -20,8 +18,6 @@ apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
   name: traefik-cert
-  annotations:
-    argocd.argoproj.io/sync-wave: "-1"
 spec:
   secretName: traefik-cert
   duration: 2160h0m0s
@@ -47,8 +43,6 @@ apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
   name: traefik-cert-staging
-  annotations:
-    argocd.argoproj.io/sync-wave: "-1"
 spec:
   secretName: traefik-cert-staging
   duration: 2160h0m0s
