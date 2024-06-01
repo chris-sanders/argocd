@@ -1,0 +1,7 @@
+name: multus
+apiVersion: v2
+version: 1.0.0
+dependencies:
+  - name: multus
+    version: '*'
+    repository: https://angelnu.github.io/helm-charts
