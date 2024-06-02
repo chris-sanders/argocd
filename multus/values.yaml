@@ -1,4 +1,4 @@
-mutltus:
+multus:
   #image:
   #   repository: ghcr.io/k8snetworkplumbingwg/multus-cni
   #   tag: v4.0.1-thick
