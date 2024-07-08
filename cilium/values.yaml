@@ -1,6 +1,7 @@
 cilium:
   operator:
     replicas: 1
+  rollOutCiliumPods: true
   ipam:
     mode: kubernetes
   kubeProxyReplacement: true
