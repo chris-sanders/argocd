@@ -1,0 +1,8 @@
+name: synology-csi
+version: 1.0.0
+appVersion: latest
+apiVersion: v2
+dependencies:
+- name: synology-csi
+  version: '0.9.10'
+  repository: https://christian-schlichtherle.github.io/synology-csi-chart 

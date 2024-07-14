@@ -1,0 +1,19 @@
+synology-csi:
+  fullnameOverride: synology-csi
+  clientInfoSecret:
+    create: true
+  #node:
+  #  kubeletPath: /var/lib/k0s/kubelet
+  storageClasses:
+    iscsi:
+      isDefault: true
+      reclaimPolicy: Delete
+      parameters:
+        fsType: 'ext4'
+        formatOptions: "-E nodiscard"
+        protocol: 'iscsi'
+    delete:
+      disabled: true
+    retain:
+      disabled: true
+   #installCSIDriver: true
