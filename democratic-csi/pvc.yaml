@@ -13,7 +13,7 @@ spec:
   storageClassName: freenas-iscsi-csi
   resources:
     requests:
-      storage: 1Gi
+      storage: 100Gi
 ---
 apiVersion: v1
 kind: Pod
