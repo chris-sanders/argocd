@@ -1,0 +1,49 @@
+{{- if and (hasKey .Values "local") (hasKey .Values.local "ciliumPolicy") (eq (default false .Values.local.ciliumPolicy.enabled) true) }}
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: argocd-policy
+  namespace: argocd
+spec:
+  endpointSelector: {}
+  ingress:
+    - fromEndpoints:
+        - matchLabels:
+            k8s:io.kubernetes.pod.namespace: argocd
+    - fromEndpoints:
+        - matchLabels:
+            k8s:app.kubernetes.io/name: traefik
+            k8s:io.kubernetes.pod.namespace: traefik
+      toPorts:
+        - ports:
+            - port: "8080"
+  egress:
+    - toEndpoints:
+        - matchLabels:
+            k8s:io.kubernetes.pod.namespace: argocd
+    - toEndpoints:
+        - matchLabels:
+            k8s:k8s-app: kube-dns
+            k8s:io.kubernetes.pod.namespace: kube-system
+      toPorts:
+        - ports:
+            - port: "53"
+              protocol: ANY
+          rules:
+            dns:
+              - matchPattern: "*"
+    - toEntities:
+        - kube-apiserver
+      toPorts:
+        - ports:
+            - port: "6443"
+    - toFQDNs:
+        - matchName: "github.com"
+        - matchName: "objects.githubusercontent.com"
+        - matchName: "helm.cilium.io"
+        - matchName: "charts.jetstack.io"
+        - matchPattern: "*.github.io"
+      toPorts:
+        - ports:
+            - port: "443"
+{{- end }}

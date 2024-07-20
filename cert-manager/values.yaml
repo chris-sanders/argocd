@@ -21,6 +21,9 @@ cert-manager:
       requests:
         cpu: 5m
         memory: 101Mi
+local:
+  ciliumPolicy:
+    enabled: true
 templates:
     letsencrypt:
         production: false

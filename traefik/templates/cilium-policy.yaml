@@ -1,0 +1,31 @@
+{{- if and (hasKey .Values "local") (hasKey .Values.local "ciliumPolicy") (eq (default false .Values.local.ciliumPolicy.enabled) true) }}
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: traefik-policy
+  namespace: traefik
+spec:
+  endpointSelector: {}
+  ingress:
+    - fromEntities:
+        - kube-apiserver
+        - host
+      toPorts:
+        - ports:
+            - port: "9000"
+            - port: "8443"
+    - fromEntities:
+        - world
+      toPorts:
+        - ports:
+            - port: "8443"
+            - port: "8000"
+  egress:
+    - toEntities:
+        - kube-apiserver
+      toPorts:
+        - ports:
+            - port: "6443"
+    - toEntities:
+        - cluster
+{{- end }}

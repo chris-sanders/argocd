@@ -19,3 +19,6 @@ traefik:
         - secretName: traefik-self-signed
       defaultCertificate:
         secretName: traefik-self-signed
+local:
+  ciliumPolicy:
+    enable: true
