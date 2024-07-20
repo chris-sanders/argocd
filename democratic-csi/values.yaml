@@ -87,7 +87,7 @@ democratic-csi:
         # 512, 1K, 2K, 4K, 8K, 16K, 64K, 128K default is 16K
         zvolBlocksize:
       iscsi:
-        targetPortal: "192.168.0.206:3260"
+        #targetPortal: "192.168.0.206:3260"
         targetPortals: []
         # leave empty to omit usage of -I with iscsiadm
         interface:
