@@ -1,0 +1,46 @@
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  annotations:
+    helm.sh/hook: test
+    helm.sh/hook-delete-policy: hook-succeeded
+  name: pvc-test
+  namespace: democratic-csi
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: freenas-iscsi-csi
+  resources:
+    requests:
+      storage: 100Gi
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: my-shell-pod
+  namespace: democratic-csi
+spec:
+  securityContext:
+    fsGroup: 107
+  containers:
+  - name: shell
+    image: busybox
+    command: [ "/bin/sh", "-c", "--" ]
+    args: [ "while true; do sleep 30; done;" ]
+    securityContext:
+      allowPrivilegeEscalation: false
+      capabilities:
+        drop:
+        - ALL
+      runAsNonRoot: true
+      runAsUser: 107
+      seccompProfile:
+        type: RuntimeDefault
+    volumeMounts:
+    - name: my-volume
+      mountPath: /mnt/pvc
+  volumes:
+  - name: my-volume
+    persistentVolumeClaim:
+      claimName: pvc-test
