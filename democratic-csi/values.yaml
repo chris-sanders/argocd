@@ -77,8 +77,6 @@ democratic-csi:
         # https://www.ixsystems.com/documentation/freenas/11.2-U5/storage.html#zfs-zvol-config-opts-tab
         # standard volume naming overhead is 46 chars
         # datasetParentName should therefore be 17 chars or less
-        datasetParentName: Tank/k8s/iscsi/v
-        detachedSnapshotsDatasetParentName: Tank/k8s/iscsi/s
         # "" (inherit), lz4, gzip-9, etc
         zvolCompression:
         # "" (inherit), on, off, verify
