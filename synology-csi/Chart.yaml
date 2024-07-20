@@ -4,5 +4,5 @@ appVersion: latest
 apiVersion: v2
 dependencies:
 - name: synology-csi
-  version: '0.9.10'
-  repository: https://christian-schlichtherle.github.io/synology-csi-chart 
+  version: '0.9.4'
+  repository: https://zebernst.github.io/synology-csi-talos/

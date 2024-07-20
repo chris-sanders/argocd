@@ -2,10 +2,8 @@ synology-csi:
   fullnameOverride: synology-csi
   clientInfoSecret:
     create: true
-  #node:
-  #  kubeletPath: /var/lib/k0s/kubelet
   storageClasses:
-    iscsi:
+    synology-csi-iscsi:
       isDefault: true
       reclaimPolicy: Delete
       parameters:
