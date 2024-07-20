@@ -1,9 +1,6 @@
 democratic-csi:
   csiDriver:
-    # should be globally unique for a given cluster
     name: "org.democratic-csi.iscsi"
-  
-  # add note here about volume expansion requirements
   storageClasses:
     - name: freenas-iscsi-csi
       defaultClass: false
@@ -11,57 +8,15 @@ democratic-csi:
       volumeBindingMode: Immediate
       allowVolumeExpansion: true
       parameters:
-        # for block-based storage can be ext3, ext4, xfs
-        # for nfs should be nfs
         fsType: ext4
-  
-        # if true, volumes created from other snapshots will be
-        # zfs send/received instead of zfs cloned
-        # detachedVolumesFromSnapshots: "false"
-  
-        # if true, volumes created from other volumes will be
-        # zfs send/received instead of zfs cloned
-        # detachedVolumesFromVolumes: "false"
-  
-      mountOptions: []
-      secrets:
-        provisioner-secret:
-        controller-publish-secret:
-        node-stage-secret:
-        #      # any arbitrary iscsiadm entries can be add by creating keys starting with node-db.<entry.name>
-        #      # if doing CHAP
-        #      node-db.node.session.auth.authmethod: CHAP
-        #      node-db.node.session.auth.username: foo
-        #      node-db.node.session.auth.password: bar
-        #
-        #      # if doing mutual CHAP
-        #      node-db.node.session.auth.username_in: baz
-        #      node-db.node.session.auth.password_in: bar
-        node-publish-secret:
-        controller-expand-secret:
-  
-  # if your cluster supports snapshots you may enable below
-  volumeSnapshotClasses: []
-  #- name: freenas-iscsi-csi
-  #  parameters:
-  #  # if true, snapshots will be created with zfs send/receive
-  #  # detachedSnapshots: "false"
-  #  secrets:
-  #    snapshotter-secret:
-  
   driver:
     config:
-      # please see the most up-to-date example of the corresponding config here:
-      # https://github.com/democratic-csi/democratic-csi/tree/master/examples
-      # YOU MUST COPY THE DATA HERE INLINE!
       driver: freenas-iscsi
-      instance_id:
       httpConnection:
         protocol: https
         port: 443
         username: root
         allowInsecure: true
-        #apiVersion: 2
       sshConnection:
         port: 22
       zfs:
@@ -73,28 +28,15 @@ democratic-csi:
             zpool: /usr/local/sbin/zpool
             sudo: /usr/local/bin/sudo
             chroot: /usr/sbin/chroot
-        # total volume name (zvol/<datasetParentName>/<pvc name>) length cannot exceed 63 chars
-        # https://www.ixsystems.com/documentation/freenas/11.2-U5/storage.html#zfs-zvol-config-opts-tab
-        # standard volume naming overhead is 46 chars
-        # datasetParentName should therefore be 17 chars or less
-        # "" (inherit), lz4, gzip-9, etc
-        zvolCompression:
-        # "" (inherit), on, off, verify
-        zvolDedup:
         zvolEnableReservation: false
-        # 512, 1K, 2K, 4K, 8K, 16K, 64K, 128K default is 16K
-        zvolBlocksize:
       iscsi:
-        targetPortals: []
         # leave empty to omit usage of -I with iscsiadm
         interface:
         namePrefix: csi-
         nameSuffix: "-cluster"
-        # add as many as needed
         extentInsecureTpc: true
         extentXenCompat: false
         extentDisablePhysicalBlocksize: true
-        # 0-100 (0 == ignore)
         extentAvailThreshold: 0
   node:
     hostPID: true
