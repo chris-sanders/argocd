@@ -45,11 +45,11 @@ argocd:
       requests:
         cpu: 167m
         memory: 500Mi
-local:
-  ciliumPolicy:
-    enabled: true
-templates:
-  traefikRoute:
-    - serviceName: argocd-server
-      servicePort: 80
-      host: 
+#local:
+#  ciliumPolicy:
+#    enabled: true
+#templates:
+#  traefikRoute:
+#    - serviceName: argocd-server
+#      servicePort: 80
+#      host: 
