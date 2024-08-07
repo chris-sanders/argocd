@@ -10,9 +10,17 @@ spec:
     - fromEndpoints:
         - matchLabels:
             k8s:io.kubernetes.pod.namespace: {{ .Release.Namespace }}
-  ingress:
     - fromEntities:
         - kube-apiserver
+    - fromEntities:
+        - world
+      endpointSelector:
+        matchLabels:
+          app: webhook
+      toPorts:
+        - ports:
+            - port: "10250"
+              protocol: TCP
   egress:
     - toEndpoints:
         - matchLabels:
