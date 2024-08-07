@@ -14,9 +14,6 @@ spec:
         - kube-apiserver
     - fromEntities:
         - world
-      endpointSelector:
-        matchLabels:
-          app: webhook
       toPorts:
         - ports:
             - port: "10250"
