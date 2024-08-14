@@ -10,13 +10,14 @@ argocd:
     enabled: false
   applicationSet:
     enabled: false
+  configs:
+    params:
+      controller.diff.server.side: "true"
   server:
     extraArgs:
     - --insecure
     ## reference https://github.com/argoproj/argo-cd/blob/master/docs/operator-manual/argocd-cm.yaml
-    configs:
-      params:
-        controller.diff.server.side: "true"
+    config:
       repositories:
         test-repo:
           url: https://github.com/chris-sanders/argocd
