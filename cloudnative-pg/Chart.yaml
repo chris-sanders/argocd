@@ -1,0 +1,10 @@
+name: cloudnative-pg
+apiVersion: v2
+version: 1.0.0
+dependencies:
+  - name: cloudnative-pg
+    version: '0.22.0'
+    repository: https://cloudnative-pg.github.io/charts 
+  - name: templates
+    version: '*'
+    repository: file://../charts/templates
