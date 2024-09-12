@@ -1,0 +1,4 @@
+localpv-provisioner:
+  hostpathClass:
+    isDefaultClass: true
+
