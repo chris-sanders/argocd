@@ -1,4 +1,7 @@
 localpv-provisioner:
+  analytics:
+    enabled: false
   hostpathClass:
     isDefaultClass: true
+    basePath: /var/openebs
 
