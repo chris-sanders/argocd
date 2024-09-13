@@ -1,0 +1,10 @@
+name: cloudnative-pg
+apiVersion: v2
+version: 1.0.0
+dependencies:
+  - name: templates
+    version: '*'
+    repository: file://../charts/templates
+  - name: keycloak-controller
+    version: '2.4.0'
+    repository: oci://ghcr.io/doodlescheduling/charts
