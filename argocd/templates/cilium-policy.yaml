@@ -39,6 +39,7 @@ spec:
             - port: "6443"
     - toFQDNs:
         - matchName: "github.com"
+        - matchName: "ghcr.io"
         - matchName: "objects.githubusercontent.com"
         - matchName: "helm.cilium.io"
         - matchName: "charts.jetstack.io"
