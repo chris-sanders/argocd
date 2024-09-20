@@ -1,0 +1,15 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: postgresql
+spec:
+  instances: 1
+  imageName: ghcr.io/cloudnative-pg/postgresql:16
+  storage:
+    size: {{ .Values.postgresql.storageSize }}
+  bootstrap:
+    initdb:
+      database: keycloak
+      owner: keycloak
+      #secret:
+      #  name: postgresql

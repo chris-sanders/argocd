@@ -1,0 +1,25 @@
+apiVersion: k8s.keycloak.org/v2alpha1
+kind: Keycloak
+metadata:
+  name: keycloak
+spec:
+  instances: 1
+  db:
+    vendor: postgres
+    host: postgresql-rw.{{ .Release.Namespace }}.svc
+    usernameSecret:
+      name: postgresql-app
+      key: username
+    passwordSecret:
+      name: postgresql-app
+      key: password
+  http:
+    httpEnabled: true
+  hostname:
+    hostname: https://{{ .Values.keycloak.host }}.{{ .Values.keycloak.domain }}
+    #admin: https://{{ .Values.keycloak.host }}.{{ .Values.keycloak.domain }}/admin
+    strict: false
+  proxy:
+    headers: xforwarded
+  ingress:
+    enabled: false

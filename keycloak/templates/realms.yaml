@@ -1,0 +1,21 @@
+{{- $keycloakVersion := regexFind "^[0-9]+" .Values.keycloak.image.tag }}
+{{- range $realmName, $realmConfig := .Values.keycloak.realms }}
+---
+apiVersion: keycloak.infra.doodle.com/v1beta1
+kind: KeycloakRealm
+metadata:
+  name: {{ $realmName | lower }}
+  namespace: {{ $.Release.Namespace }}
+spec:
+  version: {{ $keycloakVersion | quote }}
+  address: http://keycloak-service.{{ $.Release.Namespace }}.svc:8080/
+  authSecret:
+    name: keycloak-initial-admin
+  interval: 1h
+  timeout: 5m0s
+  realm:
+    enabled: true
+    displayName: {{ $realmName | title }}
+    duplicateEmailsAllowed: false
+    editUsernameAllowed: false
+{{- end }}
