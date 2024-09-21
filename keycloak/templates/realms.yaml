@@ -13,6 +13,8 @@ spec:
     name: keycloak-initial-admin
   interval: 1h
   timeout: 5m0s
+  resourceSelector:
+    matchLabels: {}
   realm:
     enabled: true
     displayName: {{ $realmName | title }}
