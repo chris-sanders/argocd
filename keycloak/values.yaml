@@ -11,6 +11,9 @@ keycloak:
   # required
   host:
   domain:
+  # Enable to test realm template
+  #realms:
+  #  test.realm: {}
 
 keycloak-controller:
   fullnameOverride: "keycloak-controller"

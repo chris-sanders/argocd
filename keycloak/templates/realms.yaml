@@ -20,4 +20,28 @@ spec:
     displayName: {{ $realmName | title }}
     duplicateEmailsAllowed: false
     editUsernameAllowed: false
+    clientScopes:
+      - name: groups
+        description: "Users keycloak groups"
+        protocol: openid-connect
+        attributes:
+          include.in.token.scope: "true"
+          display.on.consent.screen: "false"
+        protocolMappers:
+          - name: groups
+            protocol: openid-connect
+            protocolMapper: oidc-group-membership-mapper
+            config:
+              full.path: "false"
+              introspection.token.claim: "true"
+              userinfo.token.claim: "true"
+              multivalued: "true"
+              id.token.claim: "true"
+              lightweight.claim: "false"
+              access.token.claim: "true"
+              claim.name: "groups"
+    defaultDefaultClientScopes:
+      - profile
+      - email
+      - groups
 {{- end }}
