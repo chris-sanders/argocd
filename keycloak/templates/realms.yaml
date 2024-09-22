@@ -41,7 +41,19 @@ spec:
               access.token.claim: "true"
               claim.name: "groups"
     defaultDefaultClientScopes:
-      - profile
+      - acr
+      - basic
       - email
       - groups
+      - profile
+      - roles
+      - role_list
+      - saml_organization
+      - web-origins
+    defaultOptionalClientScopes:
+      - offline_access
+      - address
+      - phone
+      - microprofile-jwt
+      - organization
 {{- end }}
