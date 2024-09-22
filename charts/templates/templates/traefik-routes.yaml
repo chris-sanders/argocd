@@ -1,0 +1,121 @@
+{{- define "authUrl" -}}
+  {{- $host := default "auth" .auth.host -}}
+  {{- $domain := default (index (splitList "." .traefikHost) 1) .auth.domain -}}
+  {{- $realm := default $domain .auth.realm -}}
+  {{- printf "https://%s.%s/realms/%s/protocol/openid-connect/certs" $host $domain $realm -}}
+{{- end -}}
+
+{{- define "getMiddlewareName" -}}
+  {{- $host := .host | splitList "." -}}
+  {{- $firstPart := index $host 0 -}}
+  {{- $path := .path | trimPrefix "/" | replace "/" "-" -}}
+  {{- if $path -}}
+    {{- printf "%s-%s" $firstPart $path -}}
+  {{- else -}}
+    {{- $firstPart -}}
+  {{- end -}}
+{{- end -}}
+
+{{- range $host, $routeConfig := .Values.traefikRoutes }}
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: {{ $host | splitList "." | first }}
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    {{- range $route := $routeConfig.routes | default (list (dict "path" "")) }}
+    - kind: Rule
+      match: Host(`{{ $host }}`){{ if .path }} && Path(`{{ .path }}`){{ end }}{{ if .pathPrefix }} && PathPrefix(`{{ .pathPrefix }}`){{ end }}
+      {{- if or .redirectPath .authGroups .whitelist }}
+      middlewares:
+        {{- if .redirectPath }}
+        - name: {{ include "getMiddlewareName" (dict "host" $host "path" (or .path .pathPrefix)) }}-redirect
+        {{- end }}
+        {{- if .authGroups }}
+        - name: {{ include "getMiddlewareName" (dict "host" $host "path" (or .path .pathPrefix)) }}-auth
+        - name: {{ include "getMiddlewareName" (dict "host" $host "path" (or .path .pathPrefix)) }}-inject-groups
+        - name: {{ include "getMiddlewareName" (dict "host" $host "path" (or .path .pathPrefix)) }}-authz
+        {{- end }}
+        {{- if .whitelist }}
+        - name: {{ include "getMiddlewareName" (dict "host" $host "path" (or .path .pathPrefix)) }}-whitelist
+        {{- end }}
+      {{- end }}
+      services:
+        {{- if .redirectPath }}
+        - kind: TraefikService
+          name: noop@internal
+        {{- else }}
+        - kind: Service
+          name: {{ $routeConfig.serviceName }}
+          port: {{ $routeConfig.servicePort }}
+        {{- end }}
+    {{- end }}
+{{- end }}
+
+{{- range $host, $routeConfig := .Values.traefikRoutes }}
+  {{- range $route := $routeConfig.routes }}
+    {{- if .redirectPath }}
+---
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: {{ include "getMiddlewareName" (dict "host" $host "path" (or .path .pathPrefix)) }}-redirect
+spec:
+  redirectRegex:
+    regex: ^https?://{{ $host | replace "." "\\." }}{{ or .path .pathPrefix | default "/" | replace "/" "\\/" }}/?$
+    replacement: https://{{ $host }}{{ .redirectPath }}
+    permanent: true
+    {{- end }}
+
+    {{- if .authGroups }}
+---
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: {{ include "getMiddlewareName" (dict "host" $host "path" (or .path .pathPrefix)) }}-auth
+spec:
+  forwardAuth:
+    address: http://oauth2-proxy.oauth2-proxy.svc.cluster.local:80
+    trustForwardHeader: true
+    authResponseHeaders:
+      - Authorization
+---
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: {{ include "getMiddlewareName" (dict "host" $host "path" (or .path .pathPrefix)) }}-inject-groups
+spec:
+  headers:
+    customRequestHeaders:
+      X-Required-Groups: {{ join "," .authGroups | quote }}
+---
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: {{ include "getMiddlewareName" (dict "host" $host "path" (or .path .pathPrefix)) }}-authz
+spec:
+  plugin:
+    jwt:
+      OpaUrl: http://opa.opa.svc:8181/v1/data/keycloak/authz
+      Required: true
+      Keys:
+      - {{ include "authUrl" (dict "traefikHost" $host "auth" $routeConfig.auth) }}
+    {{- end }}
+
+    {{- if .whitelist }}
+---
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: {{ include "getMiddlewareName" (dict "host" $host "path" (or .path .pathPrefix)) }}-whitelist
+spec:
+  ipAllowList:
+    sourceRange:
+      - 192.168.0.0/23
+      - 10.244.0.0/16
+    {{- end }}
+  {{- end }}
+{{- end }}
