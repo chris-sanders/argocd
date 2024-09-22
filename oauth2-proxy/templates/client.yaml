@@ -1,0 +1,44 @@
+{{- range $clientName, $clientConfig := .Values.client }}
+---
+apiVersion: keycloak.infra.doodle.com/v1beta1
+kind: KeycloakClient
+metadata:
+  name: {{ $clientName }}
+  namespace: keycloak
+spec:
+  client:
+    clientId: {{ $clientName }}
+    enabled: true
+    clientAuthenticatorType: client-secret
+    secret: ${secret:{{ $clientConfig.clientSecret.secretName }}:{{ $clientConfig.clientSecret.secretKey }}}
+    redirectUris:
+      - "https://{{ $clientConfig.redirectHost }}.{{ $clientConfig.redirectDomain }}/*"
+    webOrigins:
+      - "+"
+    protocol: openid-connect
+    attributes:
+      backchannel.logout.session.required: "true"
+      exclude.session.state.from.auth.response: "true"
+      post.logout.redirect.uris: "https://{{ $clientConfig.redirectHost }}.{{ $clientConfig.redirectDomain }}/*"
+    bearerOnly: false
+    consentRequired: false
+    standardFlowEnabled: true
+    implicitFlowEnabled: false
+    directAccessGrantsEnabled: false
+    serviceAccountsEnabled: false
+    publicClient: false
+    frontchannelLogout: true
+    fullScopeAllowed: true
+    nodeReRegistrationTimeout: -1
+    defaultClientScopes:
+      - "groups"
+      - "profile"
+      - "email"
+    optionalClientScopes:
+      - "address"
+      - "phone"
+    access:
+      view: true
+      configure: true
+      manage: true
+{{- end }}
