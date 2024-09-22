@@ -2,11 +2,8 @@ keycloak:
   operator:
     image:
       repository: quay.io/keycloak/keycloak-operator
-      tag: "25.0.5"  # Operator version
+      tag: "25.0.6"  # Operator version
       pullPolicy: IfNotPresent
-  image:
-    repository: quay.io/keycloak/keycloak
-    tag: "25.0.5"  # Keycloak version
   replicaCount: 1
   # required
   host:

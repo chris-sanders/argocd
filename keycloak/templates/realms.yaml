@@ -1,4 +1,4 @@
-{{- $keycloakVersion := regexFind "^[0-9]+" .Values.keycloak.image.tag }}
+{{- $keycloakVersion := regexFind "^[0-9]+" .Values.keycloak.operator.image.tag }}
 {{- range $realmName, $realmConfig := .Values.keycloak.realms }}
 ---
 apiVersion: keycloak.infra.doodle.com/v1beta1
@@ -48,12 +48,12 @@ spec:
       - profile
       - roles
       - role_list
-      - saml_organization
+      #- saml_organization
       - web-origins
     defaultOptionalClientScopes:
       - offline_access
       - address
       - phone
       - microprofile-jwt
-      - organization
+      #- organization
 {{- end }}

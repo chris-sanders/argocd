@@ -23,3 +23,6 @@ spec:
     headers: xforwarded
   ingress:
     enabled: false
+  features:
+    enabled:
+      - passkeys
