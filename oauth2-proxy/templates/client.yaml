@@ -17,9 +17,10 @@ spec:
       - "+"
     protocol: openid-connect
     attributes:
-      backchannel.logout.session.required: "true"
+      backchannel.logout.session.required: "false"
       exclude.session.state.from.auth.response: "true"
       post.logout.redirect.uris: "https://{{ $clientConfig.redirectHost }}.{{ $clientConfig.redirectDomain }}/*"
+      frontchannel.logout.url: "https://{{ $clientConfig.redirectHost }}.{{ $clientConfig.redirectDomain }}/oauth2/sign_out?rd=https%3A%2F%2F{{ $clientConfig.authHost}}.{{ $clientConfig.authDomain }}%2Frealms%2F{{ $clientConfig.authHost }}%2Faccount"
     bearerOnly: false
     consentRequired: false
     standardFlowEnabled: true

@@ -13,6 +13,11 @@ traefik:
     web:
       redirectTo:
         port: websecure
+  experimental:
+    plugins:
+      jwt:
+        moduleName: github.com/traefik-plugins/traefik-jwt-plugin
+        version: v0.9.0
   tlsStore:
     default:
       certificates:

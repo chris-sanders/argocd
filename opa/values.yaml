@@ -1,0 +1,68 @@
+opa:
+  image: 
+    repository: openpolicyagent/opa
+    tag: 0.68.0
+
+  mgmt:
+    enabled: false
+
+  authz:
+    enabled: false
+
+  useHttps: false
+
+  opa:
+    decision_logs:
+      console: false
+      #console: true
+    request_context:
+      http:
+        headers:
+        - Authorization 
+
+  bootstrapPolicies:
+    keycloak: |
+      package keycloak.authz
+      
+      import future.keywords
+      
+      default log_decision = true
+      default allow = false
+      
+      parse_required_groups(groups_str) = groups {
+          groups := split(groups_str, ",")
+      }
+      
+      matching_groups := [g |
+          some required_group in parse_required_groups(input.headers["X-Required-Groups"][0])
+          some user_group in input.tokenPayload.groups
+          required_group == user_group
+          g := required_group
+      ]
+      
+      allow {
+          count(matching_groups) > 0
+      }
+
+      deny_log {
+          not allow
+          print({
+              "msg": "Access denied",
+              "user": input.tokenPayload.preferred_username,
+              "tokenPayload": input.tokenPayload,
+              "required_groups": parse_required_groups(input.headers["X-Required-Groups"][0])
+          })
+      }
+
+      # Log all decisions with user information
+      log_decision {
+          result := {
+              "decision": allow,
+              "user": input.tokenPayload.preferred_username,
+              "email": input.tokenPayload.email,
+              "required_groups": parse_required_groups(input.headers["X-Required-Groups"][0]),
+              "user_groups": input.tokenPayload.groups,
+              "matching_groups": matching_groups
+          }
+          print({"msg": "Authorization decision", "details": result})
+      }

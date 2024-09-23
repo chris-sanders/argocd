@@ -29,4 +29,20 @@ spec:
             - port: "6443"
     - toEntities:
         - cluster
+    - toEndpoints:
+        - matchLabels:
+            k8s:k8s-app: kube-dns
+            k8s:io.kubernetes.pod.namespace: kube-system
+      toPorts:
+        - ports:
+            - port: "53"
+              protocol: ANY
+          rules:
+            dns:
+              - matchPattern: "*"
+    - toFQDNs:
+        - matchPattern: "plugins.traefik.io"
+      toPorts:
+        - ports:
+            - port: "443"
 {{- end }}

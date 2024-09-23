@@ -1,14 +1,13 @@
 {{- define "authUrl" -}}
-  {{- $host := default "auth" .auth.host -}}
-  {{- $domain := default (index (splitList "." .traefikHost) 1) .auth.domain -}}
-  {{- $realm := default $domain .auth.realm -}}
-  {{- printf "https://%s.%s/realms/%s/protocol/openid-connect/certs" $host $domain $realm -}}
+  {{- $auth := .auth | default dict -}}
+  {{- $host := default "auth" $auth.host -}}
+  {{- printf "http://keycloak-service.keycloak.svc:8080/realms/%s/protocol/openid-connect/certs" $host -}}
 {{- end -}}
 
 {{- define "getMiddlewareName" -}}
   {{- $host := .host | splitList "." -}}
   {{- $firstPart := index $host 0 -}}
-  {{- $path := .path | trimPrefix "/" | replace "/" "-" -}}
+  {{- $path := .path | default "" | trimPrefix "/" | replace "/" "-" -}}
   {{- if $path -}}
     {{- printf "%s-%s" $firstPart $path -}}
   {{- else -}}
@@ -48,9 +47,11 @@ spec:
         - kind: TraefikService
           name: noop@internal
         {{- else }}
-        - kind: Service
+        - kind: {{ $routeConfig.serviceType | default "Service" }}
           name: {{ $routeConfig.serviceName }}
+          {{- if not $routeConfig.serviceType }}
           port: {{ $routeConfig.servicePort }}
+          {{- end }}
         {{- end }}
     {{- end }}
 {{- end }}

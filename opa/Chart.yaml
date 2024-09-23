@@ -1,0 +1,13 @@
+apiVersion: v2
+name: opa
+version: 1.0.0
+description: OPA deployment for authorization
+type: application
+dependencies:
+  - name: opa-kube-mgmt
+    alias: opa
+    version: '8.5.8'
+    repository: https://open-policy-agent.github.io/kube-mgmt/charts
+  - name: templates
+    version: '*'
+    repository: file://../charts/templates
