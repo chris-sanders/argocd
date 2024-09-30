@@ -1,0 +1,13 @@
+apiVersion: v2
+name: home-assistant
+version: 1.0.0
+description: Home Assistant
+type: application
+dependencies:
+  - name: common
+    #alias: home-assistant
+    repository: https://bjw-s.github.io/helm-charts/
+    version: '*'
+  - name: templates
+    version: '*'
+    repository: file://../charts/templates

@@ -1,0 +1,59 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/common-3.2.0/charts/library/common/values.schema.json
+defaultPodOptions:
+  hostNetwork: true
+controllers:
+  ha:
+    enabled: true
+    type: deployment
+    containers:
+      ha:
+        image:
+          repository: ghcr.io/home-assistant/home-assistant
+          tag: stable
+        probes:
+          liveness:
+            enabled: true
+          readiness:
+            enabled: true
+          startup:
+            enabled: true
+service:
+  ha:
+    controller: ha
+    ports:
+      http:
+        primary: true
+        port: 8123
+        protocol: HTTP
+persistence:
+ config:
+   type: persistentVolumeClaim
+   accessMode: ReadWriteOnce
+   size: 5Gi
+configMaps:
+  configfiles:
+    data: 
+      configuration.yaml: |
+        # Loads default set of integrations. Do not remove.
+        default_config:
+        
+        # Load frontend themes from the themes folder
+        frontend:
+          themes: !include_dir_merge_named themes
+        
+        automation: !include automations.yaml
+        script: !include scripts.yaml
+        scene: !include scenes.yaml
+        
+        # Reverse Proxy
+        http:
+          use_x_forwarded_for: true
+          trusted_proxies:
+            - 10.244.0.0/16 # TODO make this talos_pod_subnet variable
+
+        {{ .Values.config.additionalConfig }}
+
+config:
+  timezone: "America/Chicago"
+  useConfigMaps: true
+  additionalConfig: "# Usee config.additionalConfig to append configuration"
