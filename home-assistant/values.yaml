@@ -49,11 +49,12 @@ configMaps:
         http:
           use_x_forwarded_for: true
           trusted_proxies:
-            - 10.244.0.0/16 # TODO make this talos_pod_subnet variable
+            - {{ .Values.config.trustedProxies }}
 
         {{ .Values.config.additionalConfig }}
 
 config:
   timezone: "America/Chicago"
   useConfigMaps: true
+  trustedProxies: "10.244.0.0/16"
   additionalConfig: "# Usee config.additionalConfig to append configuration"
