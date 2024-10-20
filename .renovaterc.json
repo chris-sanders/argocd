@@ -1,18 +1,31 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": ["config:base"],
+  "extends": [
+    "config:recommended"
+  ],
   "separateMajorMinor": true,
   "separateMultipleMajor": true,
   "separateMinorPatch": true,
   "packageRules": [
     {
-      "managers": ["helm-requirements", "helm-values"],
-      "datasources": ["helm", "docker"],
+      "matchManagers": [
+        "helm-requirements",
+        "helm-values"
+      ],
+      "matchDatasources": [
+        "helm",
+        "docker"
+      ],
       "automerge": false
     },
     {
-      "matchDatasources": ["docker"],
-      "matchUpdateTypes": ["digest", "pinDigest"],
+      "matchDatasources": [
+        "docker"
+      ],
+      "matchUpdateTypes": [
+        "digest",
+        "pinDigest"
+      ],
       "automerge": true
     }
   ]
