@@ -9,6 +9,11 @@
       "managers": ["helm-requirements", "helm-values"],
       "datasources": ["helm", "docker"],
       "automerge": false
+    },
+    {
+      "matchDatasources": ["docker"],
+      "matchUpdateTypes": ["digest", "pinDigest"],
+      "automerge": true
     }
   ]
 }
