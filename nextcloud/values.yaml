@@ -3,3 +3,24 @@ nextcloud:
     host: nextcloud.192.168.121.193.nip.io
     username: admin
     password: password
+  livenessProbe:
+    enabled: true
+    initialDelaySeconds: 100
+    periodSeconds: 100
+    timeoutSeconds: 50
+    failureThreshold: 30
+    successThreshold: 1
+  readinessProbe:
+    enabled: true
+    initialDelaySeconds: 100
+    periodSeconds: 100
+    timeoutSeconds: 50
+    failureThreshold: 30
+    successThreshold: 1
+  startupProbe:
+    enabled: false
+    initialDelaySeconds: 300
+    periodSeconds: 100
+    timeoutSeconds: 50
+    failureThreshold: 30
+    successThreshold: 1
