@@ -18,22 +18,18 @@ woodpecker:
 
     # Don't create the default empty secret
     secrets: []
-  
+
     podSecurityContext:
+      runAsUser: 1000
+      fsGroup: 1000
+      runAsNonRoot: true
+ 
+    # -- Add security context
+    securityContext:
       capabilities:
         drop:
         - ALL
       readOnlyRootFilesystem: true
-      runAsNonRoot: true
-      runAsUser: 1000
-      fsGroup: 1000
-    #securityContext:
-    #  capabilities:
-    #    drop:
-    #    - ALL
-    #  readOnlyRootFilesystem: true
-    #  runAsNonRoot: true
-    #  runAsUser: 1000
   
   server:
     enabled: true
