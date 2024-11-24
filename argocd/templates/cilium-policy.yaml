@@ -43,6 +43,7 @@ spec:
         - matchName: "objects.githubusercontent.com"
         - matchName: "helm.cilium.io"
         - matchName: "charts.jetstack.io"
+        - matchName: "dl.gitea.io"
         - matchPattern: "*.github.io"
         - matchPattern: "*.githubusercontent.com"
       toPorts:

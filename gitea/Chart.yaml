@@ -1,0 +1,11 @@
+name: gitea
+version: 1.0.0
+appVersion: latest
+apiVersion: v2
+dependencies:
+  - name: gitea
+    version: '10.6.0'
+    repository: https://dl.gitea.io/charts/
+  - name: templates
+    version: '*'
+    repository: file://../charts/templates
