@@ -19,13 +19,21 @@ woodpecker:
     # Don't create the default empty secret
     secrets: []
   
-    securityContext:
+    podSecurityContext:
       capabilities:
         drop:
         - ALL
       readOnlyRootFilesystem: true
       runAsNonRoot: true
       runAsUser: 1000
+      fsGroup: 1000
+    #securityContext:
+    #  capabilities:
+    #    drop:
+    #    - ALL
+    #  readOnlyRootFilesystem: true
+    #  runAsNonRoot: true
+    #  runAsUser: 1000
   
   server:
     enabled: true
@@ -50,12 +58,21 @@ woodpecker:
     # -- Add extra environment variables from the secrets list
     extraSecretNamesForEnvFrom:
       - woodpecker-config
- 
-    # -- Add security context
-    securityContext:
+
+    podSecurityContext:
       capabilities:
         drop:
         - ALL
       readOnlyRootFilesystem: true
       runAsNonRoot: true
       runAsUser: 1000
+      fsGroup: 1000
+ 
+    # -- Add security context
+    #securityContext:
+    #  capabilities:
+    #    drop:
+    #    - ALL
+    #  readOnlyRootFilesystem: true
+    #  runAsNonRoot: true
+    #  runAsUser: 1000
