@@ -60,19 +60,13 @@ woodpecker:
       - woodpecker-config
 
     podSecurityContext:
+      runAsUser: 1000
+      fsGroup: 1000
+      runAsNonRoot: true
+ 
+    # -- Add security context
+    securityContext:
       capabilities:
         drop:
         - ALL
       readOnlyRootFilesystem: true
-      runAsNonRoot: true
-      runAsUser: 1000
-      fsGroup: 1000
- 
-    # -- Add security context
-    #securityContext:
-    #  capabilities:
-    #    drop:
-    #    - ALL
-    #  readOnlyRootFilesystem: true
-    #  runAsNonRoot: true
-    #  runAsUser: 1000
