@@ -34,3 +34,9 @@ gitea:
             key: password
     admin:
       existingSecret: gitea-admin # This must be pre-created
+templates:
+  traefikRouteTCP:
+    - serviceName: gitea-ssh
+      servicePort: 22
+      entryPoints:
+        - gitea-ssh
