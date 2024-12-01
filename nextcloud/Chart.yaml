@@ -6,7 +6,7 @@ type: application
 dependencies:
   - name: nextcloud
     repository: https://nextcloud.github.io/helm/
-    version: '6.2.1'
+    version: '6.2.4'
   - name: templates
     version: '*'
     repository: file://../charts/templates
