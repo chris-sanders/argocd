@@ -5,8 +5,10 @@ nextcloud:
     host: nextcloud.192.168.121.193.nip.io
     username: admin
     password: password
-  livenessProbe:
-    enabled: true
+  extraConfig:
+  # Inject additional PHP configuration into config.php
+    trusted_proxies: |
+      $CONFIG['trusted_proxies'] = "127.0.0.1,192.168.121.0/24";
     initialDelaySeconds: 100
     periodSeconds: 100
     timeoutSeconds: 50
