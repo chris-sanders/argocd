@@ -1,9 +1,9 @@
 nextcloud:
-  appVersion: 30.0.2
   nextcloud:
     host: nextcloud.192.168.121.193.nip.io
     username: admin
     password: password
+    update: 1
   livenessProbe:
     enabled: true
     initialDelaySeconds: 100
