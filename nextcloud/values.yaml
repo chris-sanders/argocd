@@ -1,4 +1,3 @@
-appVersion: 30.0.2
 nextcloud:
   image:
     tag: 30.0.2
