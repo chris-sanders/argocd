@@ -1,6 +1,6 @@
 nextcloud:
   image:
-    tag: 30.0.2
+    tag: 30.0.2-apache
   nextcloud:
     host: nextcloud.192.168.121.193.nip.io
     username: admin
