@@ -7,7 +7,7 @@ nextcloud:
     password: password
     extraEnv:
       - name: TRUSTED_PROXIES
-        value: traefik.traefik
+        value: "10.244.0.0/16"
   livenessProbe:
     initialDelaySeconds: 100
     periodSeconds: 100
