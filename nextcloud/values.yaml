@@ -8,6 +8,8 @@ nextcloud:
     extraEnv:
       - name: TRUSTED_PROXIES
         value: "10.244.0.0/16"
+      - name: OVERWRITEPROTOCOL
+        value: "https"
   livenessProbe:
     initialDelaySeconds: 100
     periodSeconds: 100
