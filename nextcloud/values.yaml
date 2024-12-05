@@ -10,7 +10,7 @@ nextcloud:
         value: "10.244.0.0/16"
       - name: OVERWRITEPROTOCOL
         value: "https"
-    phpConfig:
+    phpConfigs:
       maintenance_window_start : 1
   livenessProbe:
     initialDelaySeconds: 100
