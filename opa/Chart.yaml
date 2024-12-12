@@ -6,7 +6,7 @@ type: application
 dependencies:
   - name: opa-kube-mgmt
     alias: opa
-    version: '8.5.8'
+    version: '8.5.12'
     repository: https://open-policy-agent.github.io/kube-mgmt/charts
   - name: templates
     version: '*'
