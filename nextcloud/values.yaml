@@ -40,7 +40,7 @@ nextcloud:
   externalDatabase:
     enabled: true
     type: postgresql
-    host: "postgres-service:5432"
+    #host: "postgres-service:5432"
     database: nextcloud
     username: nextcloud
     password: password
