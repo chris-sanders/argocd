@@ -36,11 +36,12 @@ nextcloud:
     timeoutSeconds: 50
     failureThreshold: 30
     successThreshold: 1
-  internalDatabase.enabled: false
+  internalDatabase:
+    enabled: false
+    name: nextcloud
   externalDatabase:
     enabled: true
     type: postgresql
-    #host: "postgres-service:5432"
     database: nextcloud
     username: nextcloud
     password: password
