@@ -23,7 +23,7 @@ nextcloud:
         args:
           - >
             php /var/www/html/occ maintenance:repair --include-expensive &&
-            php /var/www/html/occ db:add-missing-indices;
+            php /var/www/html/occ db:add-missing-indices
       volumeMounts:
         - name: nextcloud-data
           mountPath: /var/www/html
