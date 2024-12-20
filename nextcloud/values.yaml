@@ -16,6 +16,19 @@ nextcloud:
         $CONFIG = array (
           'maintenance_window_start' => 1
         );
+    initContainers:
+      - name: occ-commands
+        image: <nextcloud-image>
+        command: ["sh", "-c"]
+        args:
+          - >
+            php /var/www/html/occ maintenance:repair --include-expensive &&
+            php /var/www/html/occ db:add-missing-indices;
+      volumeMounts:
+        - name: nextcloud-data
+          mountPath: /var/www/html
+  cronjob:
+    enabled: true
   livenessProbe:
     initialDelaySeconds: 100
     periodSeconds: 100
