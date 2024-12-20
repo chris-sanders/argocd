@@ -18,15 +18,15 @@ nextcloud:
         );
     initContainers:
       - name: occ-commands
-        image: <nextcloud-image>
+        image: "{{ .Values.nextcloud.image.repository }}:{{ .Values.nextcloud.image.tag }}"
         command: ["sh", "-c"]
         args:
           - >
             php /var/www/html/occ maintenance:repair --include-expensive &&
-            php /var/www/html/occ db:add-missing-indices
-      volumeMounts:
-        - name: nextcloud-data
-          mountPath: /var/www/html
+            php /var/www/html/occ db:add-missing-indices;
+        volumeMounts:
+          - name: nextcloud-data
+            mountPath: /var/www/html
   cronjob:
     enabled: true
   livenessProbe:
