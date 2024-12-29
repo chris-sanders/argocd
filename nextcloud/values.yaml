@@ -7,6 +7,9 @@ nextcloud:
     password: password
     persistence:
       enabled: true
+      accessMode: ReadWriteOnce
+      size: 8Gi
+      storageClass: "openbs-localpv"
     extraEnv:
       - name: TRUSTED_PROXIES
         value: "10.244.0.0/16"
