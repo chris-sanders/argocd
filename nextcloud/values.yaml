@@ -70,4 +70,4 @@ nextcloud:
     enabled: true
     accessMode: ReadWriteOnce
     size: 500Mi
-    storageClass: "openbs-localpv"
+    storageClass: "openbs-hostpath"
