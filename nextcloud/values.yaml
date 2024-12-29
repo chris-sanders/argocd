@@ -5,11 +5,6 @@ nextcloud:
     host: nextcloud.192.168.121.193.nip.io
     username: admin
     password: password
-    persistence:
-      enabled: true
-      accessMode: ReadWriteOnce
-      size: 500Mi
-      storageClass: "openbs-localpv"
     extraEnv:
       - name: TRUSTED_PROXIES
         value: "10.244.0.0/16"
@@ -71,3 +66,8 @@ nextcloud:
           username: nextcloud
           password: password
           database: nextcloud
+  persistence:
+    enabled: true
+    accessMode: ReadWriteOnce
+    size: 500Mi
+    storageClass: "openbs-localpv"
