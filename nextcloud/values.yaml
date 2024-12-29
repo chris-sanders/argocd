@@ -5,6 +5,8 @@ nextcloud:
     host: nextcloud.192.168.121.193.nip.io
     username: admin
     password: password
+    persistence:
+      enabled: true
     extraEnv:
       - name: TRUSTED_PROXIES
         value: "10.244.0.0/16"
@@ -16,17 +18,17 @@ nextcloud:
         $CONFIG = array (
           'maintenance_window_start' => 1
         );
-  initContainers:
-    - name: occ-commands
-      image: "{{ .Values.nextcloud.image.repository }}:{{ .Values.nextcloud.image.tag }}"
-      command: ["sh", "-c"]
-      args:
-        - >
-          php /var/www/html/occ maintenance:repair --include-expensive &&
-          php /var/www/html/occ db:add-missing-indices;
-      volumeMounts:
-        - name: nextcloud-data
-          mountPath: /var/www/html
+#  initContainers:
+#    - name: occ-commands
+#      image: "{{ .Values.nextcloud.image.repository }}:{{ .Values.nextcloud.image.tag }}"
+#      command: ["sh", "-c"]
+#      args:
+#        - >
+#          php /var/www/html/occ maintenance:repair --include-expensive &&
+#          php /var/www/html/occ db:add-missing-indices;
+#      volumeMounts:
+#        - name: nextcloud-data
+#          mountPath: /var/www/html
   cronjob:
     enabled: true
   livenessProbe:
