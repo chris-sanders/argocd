@@ -1,0 +1,11 @@
+name: woodpecker
+version: 1.0.0
+appVersion: latest
+apiVersion: v2
+dependencies:
+  - name: woodpecker
+    version: '1.6.2'
+    repository: oci://ghcr.io/woodpecker-ci/helm
+  - name: templates
+    version: '*'
+    repository: file://../charts/templates

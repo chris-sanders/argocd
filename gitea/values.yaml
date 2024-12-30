@@ -1,0 +1,42 @@
+gitea:
+  image:
+    repository: gitea/gitea
+    tag: 1.22.3
+    #rootless: false
+  persistence:
+    annotations:
+      helm.sh/resource-policy: delete
+  postgresql-ha:
+    enabled: false
+  postgresql:
+    enabled: false
+  gitea:
+    config:
+      server:
+        #DOMAIN: 
+        #ROOT_URL: 
+        #SSH_DOMAIN: 
+        SSH_PORT: 2222
+      webhook:
+        ALLOWED_HOST_LIST:
+          "*.cluster.local"
+      database:
+        DB_TYPE: postgres
+        HOST: postgresql-rw.gitea.svc:5432
+        NAME: gitea
+        USER: root
+        #PASSWD: # Set in additionalConfigFromEnvs
+    additionalConfigFromEnvs:
+      - name: GITEA__DATABASE__PASSWD
+        valueFrom:
+          secretKeyRef:
+            name: postgresql-app
+            key: password
+    admin:
+      existingSecret: gitea-admin # This must be pre-created
+templates:
+  traefikRouteTCP:
+    - serviceName: gitea-ssh
+      servicePort: 22
+      entryPoints:
+        - gitea-ssh

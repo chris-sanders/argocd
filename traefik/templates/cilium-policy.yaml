@@ -21,6 +21,9 @@ spec:
         - ports:
             - port: "8443"
             - port: "8000"
+            {{- if and (hasKey .Values.local.ciliumPolicy "giteaEnabled") (eq .Values.local.ciliumPolicy.giteaEnabled true) }}
+            - port: "2222"
+            {{- end }}
   egress:
     - toEntities:
         - kube-apiserver

@@ -17,6 +17,8 @@ controllers:
             enabled: true
           startup:
             enabled: true
+        env:
+          PYTHONPATH: "/config/deps"
 service:
   ha:
     controller: ha
