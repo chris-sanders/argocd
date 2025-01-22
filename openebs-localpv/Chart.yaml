@@ -3,7 +3,7 @@ apiVersion: v2
 version: 1.0.0
 dependencies:
   - name: localpv-provisioner
-    version: '4.1.0'
+    version: '4.1.4'
     repository: https://openebs.github.io/dynamic-localpv-provisioner 
   - name: templates
     version: '*'
