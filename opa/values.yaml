@@ -1,7 +1,7 @@
 opa:
   image: 
     repository: openpolicyagent/opa
-    tag: 0.68.0
+    tag: 0.70.0
 
   mgmt:
     enabled: false
