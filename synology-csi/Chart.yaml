@@ -4,5 +4,5 @@ appVersion: latest
 apiVersion: v2
 dependencies:
 - name: synology-csi
-  version: '0.9.4'
+  version: '0.9.5-pre.1'
   repository: https://zebernst.github.io/synology-csi-talos/
