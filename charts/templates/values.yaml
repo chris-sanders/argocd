@@ -46,3 +46,18 @@
 #     servicePort: 
 #     entryPoints:
 #       - <from traefik config> 
+# keycloakClients:
+#   myClient:
+#     clientSecret:
+#       # Name of the Kubernetes secret that holds the client secret (in keycloak namespace)
+#       secretName: my-client-secret
+#       # Key within the secret where the secret value is stored.
+#       secretKey: clientSecretKey
+#     # App host and domain to redirect after login (application using keycloak for users)
+#     clientHost: app
+#     clientDomain: example.com
+#     # Auth host and domain for logout (keycloak itself)
+#     keycloakHost: auth
+#     keycloakDomain: example.com
+#   anotherClient:
+#     ...

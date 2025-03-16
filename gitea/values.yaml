@@ -40,3 +40,11 @@ templates:
       servicePort: 22
       entryPoints:
         - gitea-ssh
+  #keycloakClients:
+  #  clientSecret:
+  #    secretName: gitea-client-secret
+  #    secretKey: client-secret
+  #  clientHost: gitea
+  #  clientDomain: example.com
+  #  keycloakHost: auth
+  #  keycloakDomain: example.com
