@@ -6,5 +6,5 @@ dependencies:
     version: '*'
     repository: file://../charts/templates
   - name: keycloak-controller
-    version: '2.4.0'
+    version: '2.5.1'
     repository: oci://ghcr.io/doodlescheduling/charts
