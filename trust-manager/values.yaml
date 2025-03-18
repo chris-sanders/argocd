@@ -4,6 +4,6 @@ trust-manager:
   app:
     trust:
       namespace: traefik
-templates:
-  trustManager:
-    useDefaultCAs: false
+#templates:
+#  trustManager:
+#    useDefaultCAs: false
