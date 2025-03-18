@@ -4,3 +4,5 @@ trust-manager:
   app:
     trust:
       namespace: traefik
+templates:
+  trustManager:
