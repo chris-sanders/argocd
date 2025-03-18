@@ -1,11 +1,11 @@
-{{- if .Values.trustManager }}
+{{- with .Values.trustManager }}
 apiVersion: trust.cert-manager.io/v1alpha1
 kind: Bundle
 metadata:
   name: traefik-ca-{{ $.Release.Namespace }}
 spec:
   sources:
-    {{- if .Values.trustManager.useDefaultCAs }}
+    {{- if (default false .useDefaultCAs) }}
     - useDefaultCAs: true
     {{- end }}
     - secret:

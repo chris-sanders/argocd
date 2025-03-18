@@ -6,3 +6,4 @@ trust-manager:
       namespace: traefik
 templates:
   trustManager:
+    useDefaultCAs: false
