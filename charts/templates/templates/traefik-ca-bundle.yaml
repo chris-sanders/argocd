@@ -1,0 +1,20 @@
+{{- with .Values.trustManager }}
+apiVersion: trust.cert-manager.io/v1alpha1
+kind: Bundle
+metadata:
+  name: traefik-ca-{{ $.Release.Namespace }}
+spec:
+  sources:
+    {{- if (default false .useDefaultCAs) }}
+    - useDefaultCAs: true
+    {{- end }}
+    - secret:
+        name: traefik-self-signed
+        key: ca.crt
+  target:
+    configMap:
+      key: ca.crt
+    namespaceSelector:
+      matchLabels:
+        kubernetes.io/metadata.name: {{ $.Release.Namespace }}
+{{- end }}

@@ -1,0 +1,10 @@
+name: trust-manager
+apiVersion: v2
+version: 1.0.0
+dependencies:
+  - name: trust-manager
+    version: '0.16.0'
+    repository: https://charts.jetstack.io
+  - name: templates
+    version: '*'
+    repository: file://../charts/templates
