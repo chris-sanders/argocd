@@ -1,0 +1,6 @@
+trust-manager:
+  crds:
+    keep: false
+  app:
+    trust:
+      namespace: traefik
