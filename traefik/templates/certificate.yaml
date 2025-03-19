@@ -7,6 +7,10 @@ metadata:
 spec:
   commonName: traefik
   secretName: traefik-self-signed
+  dnsNames:
+  {{- range .Values.certs.dnsNames }}
+  - {{ . | quote }}
+  {{- end }}
   issuerRef:
     name: selfsigned-cluster-issuer
     kind: ClusterIssuer

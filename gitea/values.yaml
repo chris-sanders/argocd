@@ -2,7 +2,6 @@ gitea:
   image:
     repository: gitea/gitea
     tag: 1.22.3
-    #rootless: false
   persistence:
     annotations:
       helm.sh/resource-policy: delete

@@ -2,7 +2,8 @@ certs:
   selfSigned: true
   installProduction: false
   installStaging: false
-  dnsNames: []
+  dnsNames: 
+  - "*.example.com"
 traefik:
   service:
     type: LoadBalancer
