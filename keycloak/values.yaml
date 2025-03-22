@@ -8,10 +8,28 @@ keycloak:
   # required
   host:
   domain:
-  # Enable to test realm template
+  # Enable either test realm template
   #realms:
   #  test.realm: {}
-
+  #realms:
+  #  testRealm:
+  #    clientRoles:
+  #      testClient:
+  #        - name: test
+  #          description: description
+  #    # Groups just accepts the upstream 'groups' format from the CRD directly
+  #    groups:
+  #      - name: testgroup
+  #        clientRoles:
+  #          testclient:
+  #            - users
+  #    users:
+  #      - emailVerified: true
+  #        enabled: true
+  #        groups:
+  #          - TestGroup
+  #          - TestGroup/subGroup
+  #        username: testUser
 keycloak-controller:
   fullnameOverride: "keycloak-controller"
   # These look like they can just be updated with the chart version they are released together I think

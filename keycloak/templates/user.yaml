@@ -1,0 +1,13 @@
+{{- range $realmName, $realmConfig := .Values.keycloak.realms }}
+  {{- range $user := $realmConfig.users }}
+    {{- if $user.username }}
+---
+apiVersion: keycloak.infra.doodle.com/v1beta1
+kind: KeycloakUser
+metadata:
+  name: {{ printf "%s-%s" $realmName $user.username | lower | trunc 63 | replace "." "-" }}
+spec:
+  user: {{- toYaml $user | nindent 4 }}
+    {{- end }}
+  {{- end }}
+{{- end }}

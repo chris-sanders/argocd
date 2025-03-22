@@ -20,6 +20,22 @@ spec:
     displayName: {{ $realmName | title }}
     duplicateEmailsAllowed: false
     editUsernameAllowed: false
+    {{- if $realmConfig.groups }}
+    groups:
+      {{- $realmConfig.groups | toYaml | nindent 6 }}
+    {{- end }}
+    {{- if $realmConfig.clientRoles }}
+    roles:
+      client:
+        {{- range $client, $roles := $realmConfig.clientRoles }}
+        {{ $client }}:
+          {{- range $role := $roles }}
+          - name: {{ $role.name }}
+            description: {{ $role.description }}
+            clientRole: true
+          {{- end }}
+        {{- end }}
+    {{- end }}
     clientScopes:
       - name: groups
         description: "Users keycloak groups"
