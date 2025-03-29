@@ -1,0 +1,8 @@
+labels:
+  backend: local
+
+steps:
+  - name: hello-local-agent
+    image: bash
+    commands:
+      - echo "Hello from local agent!"

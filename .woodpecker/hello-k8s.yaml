@@ -1,0 +1,8 @@
+labels:
+  backend: kubernetes
+
+steps:
+  hello-kubernetes-agent:
+    image: alpine:latest
+    commands:
+      - echo "Hello from Kubernetes agent!"
