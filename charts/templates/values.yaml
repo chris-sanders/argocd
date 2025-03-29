@@ -32,6 +32,7 @@
 #   - serviceName: 
 #     servicePort: 
 #     host: 
+#     scheme: h2c (optional)
 #     path: (optional)
 #     routeName: (optional)
 #     https: false (optional)

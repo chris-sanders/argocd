@@ -1,0 +1,172 @@
+labels:
+  backend: kubernetes
+
+when:
+  - event: pull_request
+
+skip_clone: true
+
+steps:
+  - name: debug-env-vars
+    image: alpine:latest
+    environment:
+      SSH_KEY:
+        from_secret: ssh_key
+    commands:
+      - echo "=== User info ==="
+      - id
+      - echo "=== All Environment Variables ==="
+      - env | sort
+
+  - name: detect-changes
+    image: alpine:latest
+    commands:
+      - |
+        # Install required packages
+        apk update
+        apk add --no-cache jq grep
+
+        echo "Detecting changes in values.yaml files..."
+        
+        # Debug: Print the CI_PIPELINE_FILES content
+        echo "CI_PIPELINE_FILES content:"
+        echo "$CI_PIPELINE_FILES"
+        
+        # Use jq to find */values.yaml files and extract directory names
+        if [ -n "$CI_PIPELINE_FILES" ]; then
+          echo "$CI_PIPELINE_FILES" | jq -r '.[] | select(test("^[^/]+/values.yaml$")) | split("/")[0]' > changed_software.txt
+        else
+          echo "CI_PIPELINE_FILES is empty or not set"
+          touch changed_software.txt
+        fi
+
+        # TEMPORARY: Remove gitea from the list for testing
+        grep -v "^gitea$" changed_software.txt > changed_software_filtered.txt
+        mv changed_software_filtered.txt changed_software.txt
+        
+        if [ ! -s changed_software.txt ]; then
+          echo "No matching values.yaml files were changed. Skipping tests."
+          exit 1
+        else
+          echo "Software with changed values.yaml files:"
+          cat changed_software.txt
+        fi
+
+  - name: clone-role-repo
+    image: alpine:latest
+    environment:
+      SSH_KEY:
+        from_secret: ssh_key
+    commands:
+      - |
+        # Check for the existence and content of the file in the workspace
+        if [ ! -f "$${CI_WORKSPACE}/changed_software.txt" ] || [ ! -s "$${CI_WORKSPACE}/changed_software.txt" ]; then
+          echo "No changes detected (changed_software.txt not found or empty in workspace). Skipping clone."
+          exit 0 # Exit successfully, no work to do
+        fi
+        
+        SOFTWARE_NAME=$(head -n 1 "$${CI_WORKSPACE}/changed_software.txt")
+        echo "Selected software for testing: $SOFTWARE_NAME"
+
+        if [ -z "$SOFTWARE_NAME" ]; then
+          echo "Error: SOFTWARE_NAME is empty from changed_software.txt."
+          exit 1
+        fi
+        
+        #echo "$SOFTWARE_NAME" > "$${CI_WORKSPACE}/selected_software.txt"
+
+        # Setup ssh
+        apk add --no-cache openssh-client git
+        
+        # Explicitly check if SSH_KEY environment variable is populated
+        if [ -z "$${SSH_KEY}" ]; then 
+          echo "Error: The SSH_KEY environment variable is empty or not set."
+          echo "Please verify the 'ssh_key' secret is correctly configured in Woodpecker CI settings."
+          exit 1
+        fi
+        
+        echo "Setting up SSH key..."
+        mkdir -p ~/.ssh 
+        chmod 700 ~/.ssh 
+        echo "$${SSH_KEY}" > ~/.ssh/id_rsa 
+        
+        chmod 600 ~/.ssh/id_rsa 
+        echo "SSH key file ~/.ssh/id_rsa configured."
+
+        echo "Cloning repository for $SOFTWARE_NAME..." 
+        export GIT_SSH_COMMAND="ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no" 
+        git clone "git@gitlab.sangdrax.com:ansible/lab/roles/k8s.$${SOFTWARE_NAME}.git" "$${CI_WORKSPACE}/k8s.$${SOFTWARE_NAME}"
+        
+        echo "Repository cloned successfully into $${CI_WORKSPACE}/k8s.$${SOFTWARE_NAME}"
+        echo "Current directory: $PWD"
+        echo "Listing cloned directory:"
+        ls -la "$${CI_WORKSPACE}/k8s.$${SOFTWARE_NAME}"
+        echo "=== CI_WORKSPACE content after clone-role-repo ==="
+        ls -la "$${CI_WORKSPACE}"
+
+  - name: molecule-converge
+    image: ttl.sh/wp-ansible-container:48h # This image should have ansible, molecule, python, git, and openssh-client.
+    environment:
+      # Secrets for Proxmox
+      PROXMOX_HOST:
+        from_secret: proxmox_host
+      PROXMOX_USER:
+        from_secret: proxmox_user
+      PROXMOX_API_TOKEN_ID:
+        from_secret: proxmox_api_token_id
+      PROXMOX_API_TOKEN_SECRET:
+        from_secret: proxmox_api_token_secret
+      SSH_KEY:
+        from_secret: ssh_key
+    commands:
+      - |
+        # Setup SSH
+        mkdir -p ~/.ssh
+        chmod 700 ~/.ssh
+        echo "$${SSH_KEY}" > ~/.ssh/id_rsa
+        chmod 600 ~/.ssh/id_rsa
+        export GIT_SSH_COMMAND="ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no"
+        echo "SSH configured"
+
+        SOFTWARE_NAME=$(head -n 1 "$${CI_WORKSPACE}/changed_software.txt")
+        cd "k8s.$SOFTWARE_NAME" 
+        echo "Executing molecule converge in $PWD"
+        molecule converge -s proxmox
+        
+        echo "Molecule converge for $SOFTWARE_NAME completed."
+
+  - name: molecule-destroy
+    image: ttl.sh/wp-ansible-container:48h 
+    environment:
+      PROXMOX_HOST:
+        from_secret: proxmox_host
+      PROXMOX_USER:
+        from_secret: proxmox_user
+      PROXMOX_API_TOKEN_ID:
+        from_secret: proxmox_api_token_id
+      PROXMOX_API_TOKEN_SECRET:
+        from_secret: proxmox_api_token_secret
+      SSH_KEY:
+        from_secret: ssh_key
+    when:
+      status: [ success, failure ]
+    commands:
+      - |
+        # Setup SSH
+        mkdir -p ~/.ssh
+        chmod 700 ~/.ssh
+        echo "$${SSH_KEY}" > ~/.ssh/id_rsa
+        chmod 600 ~/.ssh/id_rsa
+        export GIT_SSH_COMMAND="ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no"
+        echo "SSH configured"
+
+        echo "--- Attempting Molecule Destroy (Cleanup) ---"
+        SOFTWARE_NAME=$(head -n 1 "$${CI_WORKSPACE}/changed_software.txt")
+
+        echo "Cleaning up Molecule environment for: $SOFTWARE_NAME"
+        cd "k8s.$${SOFTWARE_NAME}"
+
+        echo "Executing molecule destroy in $PWD"
+        molecule destroy -s proxmox
+        
+        echo "Molecule destroy for $SOFTWARE_NAME completed."

@@ -6,7 +6,7 @@ woodpecker:
     image:
       registry: docker.io
       repository: woodpeckerci/woodpecker-agent
-      tag: 'v2.7.3'
+      tag: 'v3.4.0'
       pullPolicy: IfNotPresent
   
     env:
@@ -37,11 +37,11 @@ woodpecker:
     image:
       registry: docker.io
       repository: woodpeckerci/woodpecker-server
-      tag: 'v2.7.3'
+      tag: 'v3.4.0'
       pullPolicy: IfNotPresent
   
     env:
-      WOODPECKER_WEBHOOK_HOST: 'http://woodpecker-server.woodpecker.svc'
+      WOODPECKER_EXPERT_WEBHOOK_HOST: 'http://woodpecker-server.woodpecker.svc'
       WOODPECKER_OPEN: true
       WOODPECKER_GITEA: true
       WOODPECKER_GITEA_URL: 'http://gitea-http.gitea.svc:3000'
