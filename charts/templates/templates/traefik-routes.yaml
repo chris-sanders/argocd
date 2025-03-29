@@ -52,8 +52,8 @@ spec:
           {{- if not $routeConfig.serviceType }}
           port: {{ $routeConfig.servicePort }}
           {{- end }}
-          {{- if $routeConfig.schema }}
-          schema: {{ $routeConfig.schema }}
+          {{- if $routeConfig.scheme }}
+          scheme: {{ $routeConfig.scheme }}
           {{- end }}
         {{- end }}
     {{- end }}
