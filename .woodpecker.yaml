@@ -1,0 +1,17 @@
+pipeline:
+  hello-kubernetes-agent:
+    image: alpine:latest
+    commands:
+      - echo "Hello from Kubernetes agent!"
+    labels:
+      backend: kubernetes
+
+  hello-local-agent:
+    image: alpine:latest
+    commands:
+      - echo "Hello from local agent!"
+    labels:
+      backend: local
+
+# You can manually trigger this workflow from the Woodpecker UI
+# This configuration allows you to test both agents and verify they're working
