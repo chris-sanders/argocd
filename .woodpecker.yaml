@@ -1,4 +1,6 @@
-pipeline:
+version: "3"
+
+steps:
   hello-kubernetes-agent:
     image: alpine:latest
     commands:
