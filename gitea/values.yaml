@@ -17,8 +17,7 @@ gitea:
         #SSH_DOMAIN: 
         SSH_PORT: 2222
       webhook:
-        ALLOWED_HOST_LIST:
-          "*.cluster.local"
+        ALLOWED_HOST_LIST: "*.cluster.local,*.svc"
       database:
         DB_TYPE: postgres
         HOST: postgresql-rw.gitea.svc:5432

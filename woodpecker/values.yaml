@@ -41,7 +41,7 @@ woodpecker:
       pullPolicy: IfNotPresent
   
     env:
-      WOODPECKER_WEBHOOK_HOST: 'http://woodpecker-server.woodpecker.svc'
+      WOODPECKER_EXPERT_WEBHOOK_HOST: 'http://woodpecker-server.woodpecker.svc'
       WOODPECKER_OPEN: true
       WOODPECKER_GITEA: true
       WOODPECKER_GITEA_URL: 'http://gitea-http.gitea.svc:3000'
