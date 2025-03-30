@@ -48,13 +48,17 @@ steps:
         # Clone the repository using SSH
         echo "Cloning repository for devvm"
         git clone "git@gitlab.sangdrax.com:ansible/lab/plays/devvm.git"
-        
+
         echo "Repository cloned successfully"
         echo "$PWD"
         ls -la "devvm"
 
-        cd devvm
-        ./files/initial.sh
+        python3 -m virtualenv ./venv
+        source ./venv/bin/activate
+        pip install --upgrade uv
+        uv pip install ansible
+        ansible-galaxy install -f -r ./devvm/roles/requirements.yml
+        ansible-playbook ./devvm/main.yml
 
   clone-repo:
     image: /usr/bin/bash
