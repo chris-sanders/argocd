@@ -41,25 +41,25 @@ steps:
           cat /tmp/changed_software.txt
         fi
 
-  setup-ansible:
-    image: /usr/bin/bash
-    commands:
-      - |
-        # Clone the repository using SSH
-        echo "Cloning repository for devvm"
-        git clone "git@gitlab.sangdrax.com:ansible/lab/plays/devvm.git"
+  #setup-ansible:
+  #  image: /usr/bin/bash
+  #  commands:
+  #    - |
+  #      # Clone the repository using SSH
+  #      echo "Cloning repository for devvm"
+  #      git clone "git@gitlab.sangdrax.com:ansible/lab/plays/devvm.git"
 
-        echo "Repository cloned successfully"
-        echo "$PWD"
-        ls -la "devvm"
+  #      echo "Repository cloned successfully"
+  #      echo "$PWD"
+  #      ls -la "devvm"
 
-        python3 -m virtualenv ./venv
-        source ./venv/bin/activate
-        pip install --upgrade uv
-        uv pip install ansible
-        #ansible-galaxy install -f -r ./devvm/roles/requirements.yml
-        #ansible-playbook ./devvm/main.yml
-        ansible-galaxy role install -r ./devvm/roles/requirements.yml --force
+  #      python3 -m virtualenv ./venv
+  #      source ./venv/bin/activate
+  #      pip install --upgrade uv
+  #      uv pip install ansible
+  #      #ansible-galaxy install -f -r ./devvm/roles/requirements.yml
+  #      #ansible-playbook ./devvm/main.yml
+  #      ansible-galaxy role install -r ./devvm/roles/requirements.yml --force
 
   clone-repo:
     image: /usr/bin/bash
@@ -85,40 +85,43 @@ steps:
         echo "$PWD"
         ls -la "k8s.$${SOFTWARE_NAME}"
 
-  #run-molecule-tests:
-  #  image: /usr/bin/bash
-  #  commands:
-  #    - |
-  #      # Get the software name from the previous step
-  #      SOFTWARE_NAME=$(cat "$PWD/selected_software.txt")
-  #      echo "Running molecule tests for software: $${SOFTWARE_NAME}"
-  #      
-  #      # Navigate to the repository directory
-  #      cd "$PWD/k8s.$${SOFTWARE_NAME}"
-  #      
-  #      # Run molecule tests and capture output
-  #      echo "Starting molecule tests..."
-  #      
-  #      # Create a log directory and file
-  #      mkdir -p "$PWD/logs"
-  #      LOG_FILE="$PWD/logs/molecule_$${SOFTWARE_NAME}.log"
-  #      
-  #      # Run molecule with output capture
-  #      set +e  # Don't exit on error
-  #      molecule test -s default | tee "$LOG_FILE"
-  #      TEST_RESULT=$?
-  #      set -e  # Return to exit on error
-  #      
-  #      # Log the test result
-  #      echo "Molecule test completed with exit code: $${TEST_RESULT}"
-  #      
-  #      if [ $${TEST_RESULT} -eq 0 ]; then
-  #        echo "✅ Tests PASSED for $${SOFTWARE_NAME}"
-  #      else
-  #        echo "❌ Tests FAILED for $${SOFTWARE_NAME}"
-  #        # Output the last 50 lines of the log to help diagnose failures
-  #        echo "Last 50 lines of the test log:"
-  #        tail -n 50 "$LOG_FILE"
-  #      fi
-  #      
-  #      exit $${TEST_RESULT}
+  run-molecule-tests:
+    image: /usr/bin/bash
+    commands:
+      - |
+        # Activate venv
+        source ~/ansible/venvs/ansible-2.16-venv/bin/activate
+
+        # Get the software name from the previous step
+        SOFTWARE_NAME=$(cat "$PWD/selected_software.txt")
+        echo "Running molecule tests for software: $${SOFTWARE_NAME}"
+        
+        # Navigate to the repository directory
+        cd "$PWD/k8s.$${SOFTWARE_NAME}"
+        
+        # Run molecule tests and capture output
+        echo "Starting molecule tests..."
+        
+        # Create a log directory and file
+        mkdir -p "$PWD/logs"
+        LOG_FILE="$PWD/logs/molecule_$${SOFTWARE_NAME}.log"
+        
+        # Run molecule with output capture
+        set +e  # Don't exit on error
+        molecule test -s default | tee "$LOG_FILE"
+        TEST_RESULT=$?
+        set -e  # Return to exit on error
+        
+        # Log the test result
+        echo "Molecule test completed with exit code: $${TEST_RESULT}"
+        
+        if [ $${TEST_RESULT} -eq 0 ]; then
+          echo "✅ Tests PASSED for $${SOFTWARE_NAME}"
+        else
+          echo "❌ Tests FAILED for $${SOFTWARE_NAME}"
+          # Output the last 50 lines of the log to help diagnose failures
+          echo "Last 50 lines of the test log:"
+          tail -n 50 "$LOG_FILE"
+        fi
+        
+        exit $${TEST_RESULT}
