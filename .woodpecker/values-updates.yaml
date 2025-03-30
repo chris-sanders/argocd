@@ -90,7 +90,7 @@ steps:
     commands:
       - |
         # Activate venv
-        source $$HOME/ansible/venvs/ansible-2.16-venv/bin/activate
+        source /home/woodpecker/ansible/venvs/ansible-2.16-venv/bin/activate
 
         # Get the software name from the previous step
         SOFTWARE_NAME=$(cat "$PWD/selected_software.txt")
