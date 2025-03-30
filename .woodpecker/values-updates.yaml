@@ -8,6 +8,8 @@ when:
 labels:
   backend: local
 
+skip_clone: true
+
 steps:
   detect-changes:
     image: /usr/bin/bash
@@ -33,66 +35,31 @@ steps:
         
         if [ ! -s /tmp/changed_software.txt ]; then
           echo "No matching values.yaml files were changed. Skipping tests."
+          exit 1
         else
           echo "Software with changed values.yaml files:"
           cat /tmp/changed_software.txt
         fi
 
-  #run-base-tests:
-  #  image: bash:latest
-  #  commands:
-  #    - |
-  #      if [ ! -f /tmp/changed_software.txt ]; then
-  #        echo "No changes detected. Skipping tests."
-  #        exit 0
-  #      fi
-  #      
-  #      # Process each software name
-  #      cat /tmp/changed_software.txt | while read -r SOFTWARE_NAME; do
-  #        echo "Testing software: $SOFTWARE_NAME"
-  #        
-  #        # Clone the corresponding k8s repository
-  #        git clone "https://github.com/your-org/k8s.${SOFTWARE_NAME}.git" "/tmp/k8s.${SOFTWARE_NAME}"
-  #        cd "/tmp/k8s.${SOFTWARE_NAME}"
-  #        
-  #        # Run initial molecule tests
-  #        echo "Running initial molecule tests for $SOFTWARE_NAME..."
-  #        # Assuming molecule is installed or using a container with molecule
-  #        molecule test -s default
-  #        
-  #        # Save the exit status for the next step
-  #        echo "$?" > "/tmp/${SOFTWARE_NAME}_base_test_status.txt"
-  #      done
-
-  #run-upgrade-tests:
-  #  image: bash:latest
-  #  commands:
-  #    - |
-  #      if [ ! -f /tmp/changed_software.txt ]; then
-  #        echo "No changes detected. Skipping upgrade tests."
-  #        exit 0
-  #      fi
-  #      
-  #      # Process each software name
-  #      cat /tmp/changed_software.txt | while read -r SOFTWARE_NAME; do
-  #        echo "Running upgrade tests for software: $SOFTWARE_NAME"
-  #        
-  #        # Check if base tests passed
-  #        if [ -f "/tmp/${SOFTWARE_NAME}_base_test_status.txt" ] && [ "$(cat "/tmp/${SOFTWARE_NAME}_base_test_status.txt")" != "0" ]; then
-  #          echo "Base tests failed for $SOFTWARE_NAME. Skipping upgrade tests."
-  #          continue
-  #        fi
-  #        
-  #        cd "/tmp/k8s.${SOFTWARE_NAME}"
-  #        
-  #        # Modify molecule variables to target the PR branch
-  #        echo "Updating molecule variables to target PR branch..."
-  #        # Example of modifying molecule.yml or group_vars to target PR branch
-  #        # This will depend on your molecule setup
-  #        sed -i "s/target_branch: main/target_branch: $CI_COMMIT_BRANCH/" molecule/default/molecule.yml
-  #        
-  #        # Run molecule tests again for upgrade validation
-  #        echo "Running upgrade tests for $SOFTWARE_NAME..."
-  #        molecule test -s default --destroy=never
-  #      done
-
+  clone-repo:
+    image: /usr/bin/bash
+    commands:
+      - |
+        if [ ! -f /tmp/changed_software.txt ] || [ ! -s /tmp/changed_software.txt ]; then
+          echo "No changes detected. Skipping clone."
+          exit 0
+        fi
+        
+        # Get the first software from the list
+        SOFTWARE_NAME=$(head -n 1 /tmp/changed_software.txt)
+        echo "Selected software for testing: $SOFTWARE_NAME"
+        
+        # Save the software name for the next step
+        echo "$SOFTWARE_NAME" > "$PWD/selected_software.txt"
+        
+        # Clone the repository using SSH
+        echo "Cloning repository for $SOFTWARE_NAME..."
+        git clone "git@gitlab.sangdrax.com:ansible/lab/roles/k8s.${SOFTWARE_NAME}.git"
+        
+        echo "Repository cloned successfully"
+        ls -la
