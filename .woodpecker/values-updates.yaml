@@ -62,6 +62,7 @@ steps:
         git clone "git@gitlab.sangdrax.com:ansible/lab/roles/k8s.$${SOFTWARE_NAME}.git"
         
         echo "Repository cloned successfully"
+        echo "$PWD"
         ls -la "k8s.$${SOFTWARE_NAME}"
 
   run-molecule-tests:
