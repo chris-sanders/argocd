@@ -21,7 +21,7 @@ steps:
         
         # Use jq to find */values.yaml files and extract directory names
         if [ -n "$CI_PIPELINE_FILES" ]; then
-          echo "$CI_PIPELINE_FILES" | jq -r '.[] | select(test("^[^/]+/values\\.yaml$")) | split("/")[0]' > /tmp/changed_software.txt
+          echo "$CI_PIPELINE_FILES" | jq -r '.[] | select(test("^[^/]+/values.yaml$")) | split("/")[0]' > /tmp/changed_software.txt
         else
           echo "CI_PIPELINE_FILES is empty or not set"
           touch /tmp/changed_software.txt
