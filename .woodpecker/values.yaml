@@ -14,23 +14,25 @@ steps:
     commands:
       - |
         echo "Detecting changes in values.yaml files..."
-        # Parse CI_PIPELINE_FILES to find */values.yaml changes (exclude deeper nested files)
+        
+        # Debug: Print the CI_PIPELINE_FILES content
+        echo "CI_PIPELINE_FILES content:"
+        echo "$CI_PIPELINE_FILES"
+        
+        # Use jq to find */values.yaml files and extract directory names
         if [ -n "$CI_PIPELINE_FILES" ]; then
-          echo "$CI_PIPELINE_FILES" | jq -r '.[]' | grep -E '^[^/]+/values\.yaml$' | while read -r file; do
-            # Extract software name from directory
-            SOFTWARE_NAME=$(dirname "$file")
-            echo "Found change in ${SOFTWARE_NAME}/values.yaml"
-            # Save to file for later steps
-            echo "$SOFTWARE_NAME" >> /tmp/changed_software.txt
-          done
+          echo "$CI_PIPELINE_FILES" | jq -r '.[] | select(test("^[^/]+/values\\.yaml$")) | split("/")[0]' > /tmp/changed_software.txt
+        else
+          echo "CI_PIPELINE_FILES is empty or not set"
+          touch /tmp/changed_software.txt
         fi
         
-        if [ ! -f /tmp/changed_software.txt ]; then
+        if [ ! -s /tmp/changed_software.txt ]; then
           echo "No matching values.yaml files were changed. Skipping tests."
-          exit 0
+        else
+          echo "Software with changed values.yaml files:"
+          cat /tmp/changed_software.txt
         fi
-        
-        cat /tmp/changed_software.txt
 
   #run-base-tests:
   #  image: bash:latest
