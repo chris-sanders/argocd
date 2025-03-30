@@ -6,7 +6,7 @@ when:
 
 steps:
   - name: debug-env-vars
-    image: bash
+    image: /usr/bin/bash
     commands:
       - echo "=== All Environment Variables ==="
       - env | sort
