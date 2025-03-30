@@ -59,7 +59,7 @@ steps:
         
         # Clone the repository using SSH
         echo "Cloning repository for $SOFTWARE_NAME..."
-        git clone "git@gitlab.sangdrax.com:ansible/lab/roles/k8s.${SOFTWARE_NAME}.git"
+        git clone "git@gitlab.sangdrax.com:ansible/lab/roles/k8s.$${SOFTWARE_NAME}.git"
         
         echo "Repository cloned successfully"
         ls -la
