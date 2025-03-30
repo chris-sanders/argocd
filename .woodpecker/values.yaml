@@ -1,0 +1,89 @@
+
+# Only run pipeline when values.yaml files are changed
+when:
+  event: [pull_request]
+  path:
+    include: ["*/values.yaml"]
+
+steps:
+  detect-changes:
+    image: bash:latest
+    commands:
+      - |
+        echo "Detecting changes in values.yaml files..."
+        # Parse CI_PIPELINE_FILES to find */values.yaml changes (exclude deeper nested files)
+        if [ -n "$CI_PIPELINE_FILES" ]; then
+          echo "$CI_PIPELINE_FILES" | jq -r '.[]' | grep -E '^[^/]+/values\.yaml$' | while read -r file; do
+            # Extract software name from directory
+            SOFTWARE_NAME=$(dirname "$file")
+            echo "Found change in ${SOFTWARE_NAME}/values.yaml"
+            # Save to file for later steps
+            echo "$SOFTWARE_NAME" >> /tmp/changed_software.txt
+          done
+        fi
+        
+        if [ ! -f /tmp/changed_software.txt ]; then
+          echo "No matching values.yaml files were changed. Skipping tests."
+          exit 0
+        fi
+        
+        cat /tmp/changed_software.txt
+
+  #run-base-tests:
+  #  image: bash:latest
+  #  commands:
+  #    - |
+  #      if [ ! -f /tmp/changed_software.txt ]; then
+  #        echo "No changes detected. Skipping tests."
+  #        exit 0
+  #      fi
+  #      
+  #      # Process each software name
+  #      cat /tmp/changed_software.txt | while read -r SOFTWARE_NAME; do
+  #        echo "Testing software: $SOFTWARE_NAME"
+  #        
+  #        # Clone the corresponding k8s repository
+  #        git clone "https://github.com/your-org/k8s.${SOFTWARE_NAME}.git" "/tmp/k8s.${SOFTWARE_NAME}"
+  #        cd "/tmp/k8s.${SOFTWARE_NAME}"
+  #        
+  #        # Run initial molecule tests
+  #        echo "Running initial molecule tests for $SOFTWARE_NAME..."
+  #        # Assuming molecule is installed or using a container with molecule
+  #        molecule test -s default
+  #        
+  #        # Save the exit status for the next step
+  #        echo "$?" > "/tmp/${SOFTWARE_NAME}_base_test_status.txt"
+  #      done
+
+  #run-upgrade-tests:
+  #  image: bash:latest
+  #  commands:
+  #    - |
+  #      if [ ! -f /tmp/changed_software.txt ]; then
+  #        echo "No changes detected. Skipping upgrade tests."
+  #        exit 0
+  #      fi
+  #      
+  #      # Process each software name
+  #      cat /tmp/changed_software.txt | while read -r SOFTWARE_NAME; do
+  #        echo "Running upgrade tests for software: $SOFTWARE_NAME"
+  #        
+  #        # Check if base tests passed
+  #        if [ -f "/tmp/${SOFTWARE_NAME}_base_test_status.txt" ] && [ "$(cat "/tmp/${SOFTWARE_NAME}_base_test_status.txt")" != "0" ]; then
+  #          echo "Base tests failed for $SOFTWARE_NAME. Skipping upgrade tests."
+  #          continue
+  #        fi
+  #        
+  #        cd "/tmp/k8s.${SOFTWARE_NAME}"
+  #        
+  #        # Modify molecule variables to target the PR branch
+  #        echo "Updating molecule variables to target PR branch..."
+  #        # Example of modifying molecule.yml or group_vars to target PR branch
+  #        # This will depend on your molecule setup
+  #        sed -i "s/target_branch: main/target_branch: $CI_COMMIT_BRANCH/" molecule/default/molecule.yml
+  #        
+  #        # Run molecule tests again for upgrade validation
+  #        echo "Running upgrade tests for $SOFTWARE_NAME..."
+  #        molecule test -s default --destroy=never
+  #      done
+
