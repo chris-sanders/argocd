@@ -6,9 +6,9 @@ steps:
     image: bash
     commands:
       - echo "=== All Environment Variables ==="
-      #- env | sort
-      #- echo "=== Commit and File Info ==="
-      #- echo "CI_COMMIT_SOURCE_BRANCH: $${CI_COMMIT_SOURCE_BRANCH}"
+      - env | sort
+      - echo "=== Commit and File Info ==="
+      - echo "CI_COMMIT_SOURCE_BRANCH: $${CI_COMMIT_SOURCE_BRANCH}"
       #- echo "CI_COMMIT_TARGET_BRANCH: $${CI_COMMIT_TARGET_BRANCH}"
       #- echo "CI_COMMIT_SHA: $${CI_COMMIT_SHA}"
       #- echo "CI_COMMIT_BRANCH: $${CI_COMMIT_BRANCH}"
