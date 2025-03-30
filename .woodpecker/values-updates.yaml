@@ -57,8 +57,9 @@ steps:
         source ./venv/bin/activate
         pip install --upgrade uv
         uv pip install ansible
-        ansible-galaxy install -f -r ./devvm/roles/requirements.yml
-        ansible-playbook ./devvm/main.yml
+        #ansible-galaxy install -f -r ./devvm/roles/requirements.yml
+        #ansible-playbook ./devvm/main.yml
+        ansible-galaxy role install -r ./devvm/roles/requirements.yml --force
 
   clone-repo:
     image: /usr/bin/bash
