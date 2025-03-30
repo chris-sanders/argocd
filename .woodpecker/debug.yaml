@@ -3,7 +3,7 @@ labels:
 
 steps:
   - name: debug-env-vars
-    image: alpine
+    image: bash
     commands:
       - echo "=== All Environment Variables ==="
       - env | sort
