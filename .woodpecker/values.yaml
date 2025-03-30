@@ -5,6 +5,9 @@ when:
   path:
     include: ["*/values.yaml"]
 
+labels:
+  backend: local
+
 steps:
   detect-changes:
     image: /usr/bin/bash
