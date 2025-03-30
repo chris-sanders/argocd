@@ -2,7 +2,7 @@ labels:
   backend: local
 
 when:
-  event: pull_request
+  - event: pull_request
 
 steps:
   - name: debug-env-vars
