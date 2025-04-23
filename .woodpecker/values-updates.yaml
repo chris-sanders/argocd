@@ -91,7 +91,7 @@ steps:
       # Run the talos container with necessary mounts and privileges
       - |
         echo "Starting Talos container for environment setup..."
-        podman run --rm --privileged \
+        podman run --pull never --rm --privileged \
           -v /var/lib/libvirt:/var/lib/libvirt \
           -v $HOME/.vagrant.d:$HOME/.vagrant.d \
           -e "HOST_VAGRANT_HOME=$HOME/.vagrant.d" \
