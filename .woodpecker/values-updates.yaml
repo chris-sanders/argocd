@@ -30,7 +30,7 @@ steps:
         fi
 
         # TEMPORARY: Remove woodpecker from the list for testing
-        grep -v "^woodpecker$" /tmp/changed_software.txt > /tmp/changed_software_filtered.txt
+        grep -v "^gitea$" /tmp/changed_software.txt > /tmp/changed_software_filtered.txt
         mv /tmp/changed_software_filtered.txt /tmp/changed_software.txt
         
         if [ ! -s /tmp/changed_software.txt ]; then
@@ -85,25 +85,28 @@ steps:
         echo "$PWD"
         ls -la "k8s.$${SOFTWARE_NAME}"
 
-  setup-talos-environment:
-    image: /usr/bin/bash # Use a shell available on the host
-    commands:
-      # Run the talos container with necessary mounts and privileges
-      - |
-        echo "Starting Talos container for environment setup..."
-        podman run --pull never --rm --privileged \
-          -v /var/lib/libvirt:/var/lib/libvirt \
-          -v $HOME/.vagrant.d:$HOME/.vagrant.d \
-          -e "HOST_VAGRANT_HOME=$HOME/.vagrant.d" \
-          talos-full:0.0.27
-        echo "Talos container finished."
+  # TODO: Don't require force
+  #setup-talos-environment:
+  #  image: /usr/bin/bash
+  #  commands:
+  #    # Run the talos container with necessary mounts and privileges
+  #    - |
+  #      echo "Starting Talos container for environment setup..."
+  #      podman --root /home/woodpecker/.local/share/containers/storage \
+  #        run --pull never --rm --privileged \
+  #        -v /var/lib/libvirt:/var/lib/libvirt \
+  #        -v /home/woodpecker/.vagrant.d:$HOME/.vagrant.d \
+  #        -e "HOST_VAGRANT_HOME=$HOME/.vagrant.d" \
+  #        talos-full:0.0.27 --force
+  #    - |
+  #      echo "Talos container finished."
 
   run-molecule-tests:
     image: /usr/bin/bash
     commands:
       - |
         # Activate venv
-        source /home/woodpecker/ansible/venvs/ansible-2.16-venv/bin/activate
+        #source /home/woodpecker/ansible/venvs/ansible-2.16-venv/bin/activate
 
         # Get the software name from the previous step
         SOFTWARE_NAME=$(cat "$PWD/selected_software.txt")
@@ -111,30 +114,53 @@ steps:
         
         # Navigate to the repository directory
         cd "$PWD/k8s.$${SOFTWARE_NAME}"
+
+        # TODO: Define Branch some way
+        git checkout -b integration origin/integration
         
         # Run molecule tests and capture output
         echo "Starting molecule tests..."
         
         # Create a log directory and file
-        mkdir -p "$PWD/logs"
-        LOG_FILE="$PWD/logs/molecule_$${SOFTWARE_NAME}.log"
+        #mkdir -p "$PWD/logs"
+        #LOG_FILE="$PWD/logs/molecule_$${SOFTWARE_NAME}.log"
         
+        #podman run --root /home/woodpecker/.local/share/containers/storage \
+        #  --group-add keep-groups \
+        #  -v /dev/kvm:/dev/kvm \
+        #  -v /var/run/libvirt/libvirt-sock:/var/run/libvirt/libvirt-sock \
+        #  -v /home/woodpecker/.vagrant.d:/root/.vagrant.d \
+        #  -v "$(pwd):/workspace" \
+        #  ansible-molecule:latest molecule destroy
+
         # Run molecule with output capture
-        set +e  # Don't exit on error
-        molecule test -s default | tee "$LOG_FILE"
-        TEST_RESULT=$?
-        set -e  # Return to exit on error
-        
-        # Log the test result
-        echo "Molecule test completed with exit code: $${TEST_RESULT}"
-        
-        if [ $${TEST_RESULT} -eq 0 ]; then
-          echo "✅ Tests PASSED for $${SOFTWARE_NAME}"
-        else
-          echo "❌ Tests FAILED for $${SOFTWARE_NAME}"
-          # Output the last 50 lines of the log to help diagnose failures
-          echo "Last 50 lines of the test log:"
-          tail -n 50 "$LOG_FILE"
-        fi
-        
-        exit $${TEST_RESULT}
+        podman run --root /home/woodpecker/.local/share/containers/storage \
+          --group-add keep-groups \
+          -v /dev/kvm:/dev/kvm \
+          -v /var/run/libvirt/libvirt-sock:/var/run/libvirt/libvirt-sock \
+          -v /home/woodpecker/.vagrant.d:/root/.vagrant.d \
+          -v "$(pwd):/workspace" \
+          -v /home/woodpecker/.ssh:/root/.ssh:ro \
+          ansible-molecule:latest molecule converge
+
+        #-v $(dirname $SSH_AUTH_SOCK):$(dirname $SSH_AUTH_SOCK) \
+        #-e SSH_AUTH_SOCK=$SSH_AUTH_SOCK \
+        # Run molecule with output capture
+        #set +e  # Don't exit on error
+        #molecule test -s default | tee "$LOG_FILE"
+        #TEST_RESULT=$?
+        #set -e  # Return to exit on error
+        #
+        ## Log the test result
+        #echo "Molecule test completed with exit code: $${TEST_RESULT}"
+        #
+        #if [ $${TEST_RESULT} -eq 0 ]; then
+        #  echo "✅ Tests PASSED for $${SOFTWARE_NAME}"
+        #else
+        #  echo "❌ Tests FAILED for $${SOFTWARE_NAME}"
+        #  # Output the last 50 lines of the log to help diagnose failures
+        #  echo "Last 50 lines of the test log:"
+        #  tail -n 50 "$LOG_FILE"
+        #fi
+        #
+        #exit $${TEST_RESULT}

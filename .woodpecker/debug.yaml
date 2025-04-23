@@ -8,6 +8,8 @@ steps:
   - name: debug-env-vars
     image: /usr/bin/bash
     commands:
+      - echo "=== User info ==="
+      - id
       - echo "=== All Environment Variables ==="
       - env | sort
       #- echo "=== Commit and File Info ==="
