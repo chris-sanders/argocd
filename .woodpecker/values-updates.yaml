@@ -95,7 +95,7 @@ steps:
           -v /var/lib/libvirt:/var/lib/libvirt \
           -v $HOME/.vagrant.d:$HOME/.vagrant.d \
           -e "HOST_VAGRANT_HOME=$HOME/.vagrant.d" \
-          localhost/talos-full:0.0.27
+          talos-full:0.0.27
         echo "Talos container finished."
 
   run-molecule-tests:
