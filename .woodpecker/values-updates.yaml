@@ -86,9 +86,17 @@ steps:
         ls -la "k8s.$${SOFTWARE_NAME}"
 
   setup-talos-environment:
-    image: localhost/talos-full:0.0.27
+    image: /usr/bin/bash # Use a shell available on the host
     commands:
-      - echo "Running setup using Talos container..."
+      # Run the talos container with necessary mounts and privileges
+      - |
+        echo "Starting Talos container for environment setup..."
+        podman run --rm --privileged \
+          -v /var/lib/libvirt:/var/lib/libvirt \
+          -v $HOME/.vagrant.d:$HOME/.vagrant.d \
+          -e "HOST_VAGRANT_HOME=$HOME/.vagrant.d" \
+          localhost/talos-full:0.0.27
+        echo "Talos container finished."
 
   run-molecule-tests:
     image: /usr/bin/bash
