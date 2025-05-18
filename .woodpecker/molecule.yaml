@@ -17,3 +17,34 @@ steps:
     image: ttl.sh/wp-ansible-container:48h
     commands:
       - ls -lah
+  - name: detect-changes
+    image: alpine:latest
+    commands:
+      - |
+        echo "Detecting changes in values.yaml files..."
+        
+        # Debug: Print the CI_PIPELINE_FILES content
+        echo "CI_PIPELINE_FILES content:"
+        echo "$CI_PIPELINE_FILES"
+        
+        # Use jq to find */values.yaml files and extract directory names
+        if [ -n "$CI_PIPELINE_FILES" ]; then
+          echo "$CI_PIPELINE_FILES" | jq -r '.[] | select(test("^[^/]+/values.yaml$")) | split("/")[0]' > /tmp/changed_software.txt
+        else
+          echo "CI_PIPELINE_FILES is empty or not set"
+          touch /tmp/changed_software.txt
+        fi
+
+        # TEMPORARY: Remove woodpecker from the list for testing
+        #grep -v "^gitea$" /tmp/changed_software.txt > /tmp/changed_software_filtered.txt
+        #mv /tmp/changed_software_filtered.txt /tmp/changed_software.txt
+        
+        if [ ! -s /tmp/changed_software.txt ]; then
+          echo "No matching values.yaml files were changed. Skipping tests."
+          exit 1
+        else
+          echo "Software with changed values.yaml files:"
+          cat /tmp/changed_software.txt
+        fi
+
+
