@@ -12,3 +12,8 @@ steps:
       - id
       - echo "=== All Environment Variables ==="
       - env | sort
+
+  - name: hello-world
+    image: ttl.sh/wp-ansible-container:48h
+    commands:
+      - ls -lah
