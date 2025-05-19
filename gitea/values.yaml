@@ -9,6 +9,8 @@ gitea:
     enabled: false
   postgresql:
     enabled: false
+  strategy:
+    type: "Recreate"
   gitea:
     config:
       server:
