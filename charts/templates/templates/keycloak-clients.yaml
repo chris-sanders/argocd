@@ -39,6 +39,10 @@ spec:
     optionalClientScopes:
       - "address"
       - "phone"
+    {{- if $clientConfig.protocolMappers }}
+    protocolMappers:
+    {{- toYaml $clientConfig.protocolMappers | nindent 4 }}
+    {{- end }}
     access:
       view: true
       configure: true
