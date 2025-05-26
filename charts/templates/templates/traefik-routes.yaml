@@ -28,16 +28,28 @@ spec:
     {{- range $route := $routeConfig.routes | default (list (dict "path" "")) }}
     - kind: Rule
       match: Host(`{{ $host }}`){{ if .path }} && Path(`{{ .path }}`){{ end }}{{ if .pathPrefix }} && PathPrefix(`{{ .pathPrefix }}`){{ end }}
-      {{- if or .redirectPath .authGroups .whitelist }}
+      {{- if or .redirectPath .auth .authGroups .authRoles .whitelist }}
       middlewares:
         {{- if .redirectPath }}
         - name: {{ include "getMiddlewareName" (dict "host" $host "path" (or .path .pathPrefix)) }}-redirect
         {{- end }}
-        {{- if .authGroups }}
+
+        {{- if or .auth .authGroups .authRoles }}
         - name: {{ include "getMiddlewareName" (dict "host" $host "path" (or .path .pathPrefix)) }}-auth
+        {{- end }}
+
+        {{- if .authGroups }}
         - name: {{ include "getMiddlewareName" (dict "host" $host "path" (or .path .pathPrefix)) }}-inject-groups
+        {{- end }}
+
+        {{- if .authRoles }}
+        - name: {{ include "getMiddlewareName" (dict "host" $host "path" (or .path .pathPrefix)) }}-inject-roles
+        {{- end }}
+
+        {{- if or .auth .authGroups .authRoles }}
         - name: {{ include "getMiddlewareName" (dict "host" $host "path" (or .path .pathPrefix)) }}-authz
         {{- end }}
+
         {{- if .whitelist }}
         - name: {{ include "getMiddlewareName" (dict "host" $host "path" (or .path .pathPrefix)) }}-whitelist
         {{- end }}
@@ -61,25 +73,26 @@ spec:
 
 {{- range $host, $routeConfig := .Values.traefikRoutes }}
   {{- range $route := $routeConfig.routes }}
-    {{- if .redirectPath }}
+    {{- $base := dict "host" $host "path" (or $route.path $route.pathPrefix) }}
+    {{- if $route.redirectPath }}
 ---
 apiVersion: traefik.io/v1alpha1
 kind: Middleware
 metadata:
-  name: {{ include "getMiddlewareName" (dict "host" $host "path" (or .path .pathPrefix)) }}-redirect
+  name: {{ include "getMiddlewareName" $base }}-redirect
 spec:
   redirectRegex:
-    regex: ^https?://{{ $host | replace "." "\\." }}{{ or .path .pathPrefix | default "/" | replace "/" "\\/" }}/?$
-    replacement: https://{{ $host }}{{ .redirectPath }}
+    regex: ^https?://{{ $host | replace "." "\\." }}{{ or $route.path $route.pathPrefix | default "/" | replace "/" "\\/" }}/?$
+    replacement: https://{{ $host }}{{ $route.redirectPath }}
     permanent: true
     {{- end }}
 
-    {{- if .authGroups }}
+    {{- if or $route.auth $route.authGroups $route.authRoles }}
 ---
 apiVersion: traefik.io/v1alpha1
 kind: Middleware
 metadata:
-  name: {{ include "getMiddlewareName" (dict "host" $host "path" (or .path .pathPrefix)) }}-auth
+  name: {{ include "getMiddlewareName" $base }}-auth
 spec:
   forwardAuth:
     address: http://oauth2-proxy.oauth2-proxy.svc.cluster.local:80
@@ -90,31 +103,46 @@ spec:
 apiVersion: traefik.io/v1alpha1
 kind: Middleware
 metadata:
-  name: {{ include "getMiddlewareName" (dict "host" $host "path" (or .path .pathPrefix)) }}-inject-groups
-spec:
-  headers:
-    customRequestHeaders:
-      X-Required-Groups: {{ join "," .authGroups | quote }}
----
-apiVersion: traefik.io/v1alpha1
-kind: Middleware
-metadata:
-  name: {{ include "getMiddlewareName" (dict "host" $host "path" (or .path .pathPrefix)) }}-authz
+  name: {{ include "getMiddlewareName" $base }}-authz
 spec:
   plugin:
     jwt:
       OpaUrl: http://opa.opa.svc:8181/v1/data/keycloak/authz
       Required: true
       Keys:
-      - {{ include "authUrl" (dict "traefikHost" $host "auth" $routeConfig.auth) }}
+        - {{ include "authUrl" (dict "traefikHost" $host "auth" $routeConfig.auth) }}
     {{- end }}
 
-    {{- if .whitelist }}
+    {{- if $route.authGroups }}
 ---
 apiVersion: traefik.io/v1alpha1
 kind: Middleware
 metadata:
-  name: {{ include "getMiddlewareName" (dict "host" $host "path" (or .path .pathPrefix)) }}-whitelist
+  name: {{ include "getMiddlewareName" $base }}-inject-groups
+spec:
+  headers:
+    customRequestHeaders:
+      X-Required-Groups: {{ join "," $route.authGroups | quote }}
+    {{- end }}
+
+    {{- if $route.authRoles }}
+---
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: {{ include "getMiddlewareName" $base }}-inject-roles
+spec:
+  headers:
+    customRequestHeaders:
+      X-Required-Roles: {{ join "," $route.authRoles | quote }}
+    {{- end }}
+
+    {{- if $route.whitelist }}
+---
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: {{ include "getMiddlewareName" $base }}-whitelist
 spec:
   ipAllowList:
     sourceRange:
