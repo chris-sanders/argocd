@@ -24,8 +24,9 @@ spec:
     groups:
       {{- $realmConfig.groups | toYaml | nindent 6 }}
     {{- end }}
-    {{- if $realmConfig.clientRoles }}
+    {{- if or $realmConfig.realmRoles $realmConfig.clientRoles }}
     roles:
+      {{- if $realmConfig.clientRoles }}
       client:
         {{- range $client, $roles := $realmConfig.clientRoles }}
         {{ $client }}:
@@ -35,6 +36,14 @@ spec:
             clientRole: true
           {{- end }}
         {{- end }}
+      {{- end }}
+      {{- if $realmConfig.realmRoles }}
+      realm:
+        {{- range $role := $realmConfig.realmRoles }}
+        - name: {{ $role.name }}
+          description: {{ $role.description | quote }}
+        {{- end }}
+      {{- end }}
     {{- end }}
     clientScopes:
       - name: groups
