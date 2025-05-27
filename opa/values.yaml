@@ -24,14 +24,14 @@ opa:
   bootstrapPolicies:
     keycloak: |
       package keycloak.authz
-      import rego.v1                      # use the new dialect
+      import rego.v1                               # v1 dialect
       
       default allow        := false
       default log_decision := true
       
       # ---------- helpers ----------
       parse_header(str) = items if {
-          items := [trim(x) | x := split(str, ",")]
+          items := [trim(x, " ") | x := split(str, ",")]        # ← fixed
       }
       
       required_groups := parse_header(input.headers["X-Required-Groups"][0]) if
@@ -42,21 +42,21 @@ opa:
       
       token_roles := array.concat(
           [r |
-              r := input.tokenPayload.realm_access.roles[_]
+              r := input.tokenPayload.realm_access.roles[_]      # safe bind
           ],
           [r |
-              some svc
+              some svc                                           # declare svc
               r := input.tokenPayload.resource_access[svc].roles[_]
           ],
       )
       
       matching_groups := {g |
-          g := input.tokenPayload.groups[_]
+          g := input.tokenPayload.groups[_]                      # safe bind
           required_groups[_] == g
       }
       
       matching_roles := {r |
-          r := token_roles[_]
+          r := token_roles[_]                                    # safe bind
           required_roles[_] == r
       }
       
