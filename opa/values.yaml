@@ -16,10 +16,10 @@ opa:
     decision_logs:
       #console: false
       console: true
-    request_context:
-      http:
-        headers:
-        - Authorization 
+      request_context:
+        http:
+          headers:
+          - Authorization 
 
   bootstrapPolicies:
     keycloak: |
