@@ -35,6 +35,7 @@ spec:
       - "groups"
       - "profile"
       - "email"
+      - "roles"
     optionalClientScopes:
       - "address"
       - "phone"
