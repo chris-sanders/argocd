@@ -25,12 +25,12 @@ opa:
     keycloak: |
       package keycloak.authz
 
-      import future.keywords
+      import future.keywords  # keep if you're on rego.v1; remove otherwise
       
       default allow = false
       default log_decision = true
       
-      # Helper ─ split comma‑separated header values
+      # ---------- helpers ---------------------------------------------------------
       parse_header(str) = items { items := split(str, ",") }
       
       required_groups := parse_header(input.headers["X-Required-Groups"][0]) {
@@ -41,15 +41,14 @@ opa:
           input.headers["X-Required-Roles"]
       }
       
-      # Flatten roles that Keycloak puts under realm_access and resource_access
-      token_roles := [r |
-          some i
-          input.tokenPayload.realm_access.roles[i] == r
-      ] ++ [r |
-          some svc
-          some i
-          input.tokenPayload.resource_access[svc].roles[i] == r
-      ]
+      # Collect *all* realm‑ and client‑level roles into one array
+      token_roles := array.concat(
+          [r | input.tokenPayload.realm_access.roles[_] == r],
+          [r |
+              some svc
+              input.tokenPayload.resource_access[svc].roles[_] == r
+          ]
+      )
       
       matching_groups := {g | required_groups[_] == g; g == input.tokenPayload.groups[_]}
       matching_roles  := {r | required_roles[_] == r; r == token_roles[_]}
@@ -57,7 +56,7 @@ opa:
       allow { count(matching_groups) > 0 }
       allow { count(matching_roles)  > 0 }
       
-      # --- Logging helpers ---------------------------------------------------------
+      # ---------- logging ---------------------------------------------------------
       deny_log {
           not allow
           print({"msg": "Access denied",
