@@ -31,7 +31,8 @@ opa:
       
       # ---------- helpers ----------
       parse_header(str) = items if {
-          items := [trim(x, " ") | x := split(str, ",")]        # ← fixed
+        parts := split(str, ",")
+        items := [trim(s, " ") | s := parts[_]]
       }
       
       required_groups := parse_header(input.headers["X-Required-Groups"][0]) if
