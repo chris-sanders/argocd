@@ -1,7 +1,7 @@
 opa:
   image: 
     repository: openpolicyagent/opa
-    tag: 0.68.0
+    tag: 1.4.2
 
   mgmt:
     enabled: false
@@ -12,9 +12,10 @@ opa:
   useHttps: false
 
   opa:
+    log_level: debug
     decision_logs:
-      console: false
-      #console: true
+      #console: false
+      console: true
     request_context:
       http:
         headers:
@@ -23,46 +24,59 @@ opa:
   bootstrapPolicies:
     keycloak: |
       package keycloak.authz
-      
+
       import future.keywords
       
-      default log_decision = true
       default allow = false
+      default log_decision = true
       
-      parse_required_groups(groups_str) = groups {
-          groups := split(groups_str, ",")
+      # Helper ─ split comma‑separated header values
+      parse_header(str) = items { items := split(str, ",") }
+      
+      required_groups := parse_header(input.headers["X-Required-Groups"][0]) {
+          input.headers["X-Required-Groups"]
       }
       
-      matching_groups := [g |
-          some required_group in parse_required_groups(input.headers["X-Required-Groups"][0])
-          some user_group in input.tokenPayload.groups
-          required_group == user_group
-          g := required_group
+      required_roles := parse_header(input.headers["X-Required-Roles"][0]) {
+          input.headers["X-Required-Roles"]
+      }
+      
+      # Flatten roles that Keycloak puts under realm_access and resource_access
+      token_roles := [r |
+          some i
+          input.tokenPayload.realm_access.roles[i] == r
+      ] ++ [r |
+          some svc
+          some i
+          input.tokenPayload.resource_access[svc].roles[i] == r
       ]
       
-      allow {
-          count(matching_groups) > 0
-      }
-
+      matching_groups := {g | required_groups[_] == g; g == input.tokenPayload.groups[_]}
+      matching_roles  := {r | required_roles[_] == r; r == token_roles[_]}
+      
+      allow { count(matching_groups) > 0 }
+      allow { count(matching_roles)  > 0 }
+      
+      # --- Logging helpers ---------------------------------------------------------
       deny_log {
           not allow
-          print({
-              "msg": "Access denied",
-              "user": input.tokenPayload.preferred_username,
-              "tokenPayload": input.tokenPayload,
-              "required_groups": parse_required_groups(input.headers["X-Required-Groups"][0])
-          })
+          print({"msg": "Access denied",
+                 "user": input.tokenPayload.preferred_username,
+                 "required_groups": required_groups,
+                 "required_roles": required_roles,
+                 "token": input.tokenPayload})
       }
-
-      # Log all decisions with user information
+      
       log_decision {
           result := {
               "decision": allow,
               "user": input.tokenPayload.preferred_username,
-              "email": input.tokenPayload.email,
-              "required_groups": parse_required_groups(input.headers["X-Required-Groups"][0]),
+              "required_groups": required_groups,
+              "required_roles": required_roles,
               "user_groups": input.tokenPayload.groups,
-              "matching_groups": matching_groups
+              "user_roles": token_roles,
+              "matching_groups": matching_groups,
+              "matching_roles": matching_roles,
           }
           print({"msg": "Authorization decision", "details": result})
       }
