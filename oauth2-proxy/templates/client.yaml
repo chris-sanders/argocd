@@ -39,6 +39,17 @@ spec:
     optionalClientScopes:
       - "address"
       - "phone"
+    protocolMappers:
+      - name: "realm roles"
+        protocol: "openid-connect"
+        protocolMapper: "oidc-usermodel-realm-role-mapper"
+        consentRequired: false
+        config:
+          "id.token.claim": "true"
+          "access.token.claim": "true"
+          "claim.name": "realm_access.roles"
+          "jsonType.label": "String"
+          "multivalued": "true"
     access:
       view: true
       configure: true
