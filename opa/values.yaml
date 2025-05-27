@@ -24,42 +24,46 @@ opa:
   bootstrapPolicies:
     keycloak: |
       package keycloak.authz
-      
-      import rego.v1
+      import rego.v1                      # use the new dialect
       
       default allow        := false
       default log_decision := true
       
-      # -- helpers ----------------------------------------------------------
-      
+      # ---------- helpers ----------
       parse_header(str) = items if {
-          items := split(str, ",")
+          items := [trim(x) | x := split(str, ",")]
       }
       
-      required_groups := parse_header(input.headers["X-Required-Groups"][0]) if {
-          input.headers["X-Required-Groups"]
-      }
+      required_groups := parse_header(input.headers["X-Required-Groups"][0]) if
+                         input.headers["X-Required-Groups"]
       
-      required_roles := parse_header(input.headers["X-Required-Roles"][0]) if {
-          input.headers["X-Required-Roles"]
-      }
+      required_roles  := parse_header(input.headers["X-Required-Roles"][0]) if
+                         input.headers["X-Required-Roles"]
       
       token_roles := array.concat(
-          [r | input.tokenPayload.realm_access.roles[_] == r],
+          [r |
+              r := input.tokenPayload.realm_access.roles[_]
+          ],
           [r |
               some svc
-              input.tokenPayload.resource_access[svc].roles[_] == r
+              r := input.tokenPayload.resource_access[svc].roles[_]
           ],
       )
       
-      matching_groups := {g | required_groups[_] == g; g == input.tokenPayload.groups[_]}
-      matching_roles  := {r | required_roles[_] == r; r == token_roles[_]}
+      matching_groups := {g |
+          g := input.tokenPayload.groups[_]
+          required_groups[_] == g
+      }
+      
+      matching_roles := {r |
+          r := token_roles[_]
+          required_roles[_] == r
+      }
       
       allow if count(matching_groups) > 0
       allow if count(matching_roles)  > 0
       
-      # -- logging ----------------------------------------------------------
-      
+      # ---------- logging ----------
       deny_log if not allow {
           print({
               "msg": "Access denied",
@@ -70,7 +74,7 @@ opa:
           })
       }
       
-      log_decision if true {        # always runs
+      log_decision if true {
           result := {
               "decision": allow,
               "user": input.tokenPayload.preferred_username,
