@@ -2,7 +2,7 @@ keycloak:
   operator:
     image:
       repository: quay.io/keycloak/keycloak-operator
-      tag: "25.0.6"  # Operator version
+      tag: "26.2.5"  # Operator version
       pullPolicy: IfNotPresent
   replicaCount: 1
   # required
