@@ -10,7 +10,11 @@
 #  host.example.com:
 #    serviceName: my-serviceName
 #    servicePort: my-servicePort
-#    #Optional: Override the auth settings
+#    # Optional: Override service type (default: Service)
+#    #serviceType: TraefikService
+#    # Optional: Override service scheme
+#    #scheme: h2c
+#    # Optional: Override the auth settings
 #    #auth:
 #    #  domain: example.com
 #    #  host: auth
@@ -24,10 +28,15 @@
 #      authGroups:
 #        - admin
 #        - superuser
+#      authRoles:
+#        - admin-role
 #    - path: /old-path
 #      redirectPath: /new-path
 #    - pathPrefix: /docs
 #      auth: true
+#      whitelist: true
+#      # Optional: Override whitelist depth for IP strategy
+#      #whitelistDepth: 1
 # traefikRoute:
 #   - serviceName: 
 #     servicePort: 

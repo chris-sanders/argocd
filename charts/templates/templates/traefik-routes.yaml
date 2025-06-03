@@ -148,6 +148,10 @@ spec:
     sourceRange:
       - 192.168.0.0/23
       - 10.244.0.0/16
+    {{- if $route.whitelistDepth }}
+    ipStrategy:
+      depth: {{ $route.whitelistDepth }}
+    {{- end }}
     {{- end }}
   {{- end }}
 {{- end }}
