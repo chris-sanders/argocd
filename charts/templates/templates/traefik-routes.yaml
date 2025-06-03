@@ -30,6 +30,10 @@ spec:
       match: Host(`{{ $host }}`){{ if .path }} && Path(`{{ .path }}`){{ end }}{{ if .pathPrefix }} && PathPrefix(`{{ .pathPrefix }}`){{ end }}
       {{- if or .redirectPath .auth .authGroups .authRoles .whitelist }}
       middlewares:
+        {{- if .whitelist }}
+        - name: {{ include "getMiddlewareName" (dict "host" $host "path" (or .path .pathPrefix)) }}-whitelist
+        {{- end }}
+
         {{- if .redirectPath }}
         - name: {{ include "getMiddlewareName" (dict "host" $host "path" (or .path .pathPrefix)) }}-redirect
         {{- end }}
@@ -48,10 +52,6 @@ spec:
 
         {{- if or .auth .authGroups .authRoles }}
         - name: {{ include "getMiddlewareName" (dict "host" $host "path" (or .path .pathPrefix)) }}-authz
-        {{- end }}
-
-        {{- if .whitelist }}
-        - name: {{ include "getMiddlewareName" (dict "host" $host "path" (or .path .pathPrefix)) }}-whitelist
         {{- end }}
       {{- end }}
       services:
