@@ -6,7 +6,7 @@ woodpecker:
     image:
       registry: docker.io
       repository: woodpeckerci/woodpecker-agent
-      tag: 'v3.4.0'
+      tag: 'v3.5.0'
       pullPolicy: IfNotPresent
   
     env:
