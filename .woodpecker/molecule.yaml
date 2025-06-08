@@ -2,7 +2,9 @@ labels:
   backend: kubernetes
 
 when:
-  - event: pull_request
+  - event: 
+    - pull_request
+    - manual
 
 skip_clone: true
 
