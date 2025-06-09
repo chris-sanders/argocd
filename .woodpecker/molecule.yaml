@@ -107,7 +107,7 @@ steps:
         ls -la "$${CI_WORKSPACE}"
 
   - name: molecule-converge
-    image: ttl.sh/wp-ansible-container:48h # This image should have ansible, molecule, python, git, and openssh-client.
+    image: gitea.v2.zarek.cc/twinlabs/ansible-molecule:latest
     environment:
       # Secrets for Proxmox
       PROXMOX_HOST:
@@ -138,7 +138,7 @@ steps:
         echo "Molecule converge for $SOFTWARE_NAME completed."
 
   - name: molecule-destroy
-    image: ttl.sh/wp-ansible-container:48h 
+    image: gitea.v2.zarek.cc/twinlabs/ansible-molecule:latest
     environment:
       PROXMOX_HOST:
         from_secret: proxmox_host
