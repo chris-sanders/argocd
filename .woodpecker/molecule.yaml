@@ -120,7 +120,6 @@ steps:
         from_secret: proxmox_api_token_secret
       SSH_KEY:
         from_secret: ssh_key
-      CI_COMMIT_SOURCE_BRANCH: ${CI_COMMIT_SOURCE_BRANCH}
     commands:
       - |
         # Setup SSH
