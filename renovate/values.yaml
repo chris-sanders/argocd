@@ -1,0 +1,38 @@
+renovate:
+  apiVersionOverrides:
+    cronjob: batch/v1
+  cronjob:
+    # Every hour
+    schedule: '0 * * * *'
+    annotations: {}
+    labels: {}
+    concurrencyPolicy: ''
+    failedJobsHistoryLimit: ''
+    successfulJobsHistoryLimit: ''
+    jobRestartPolicy: Never
+  
+  image:
+    repository: ghcr.io/renovatebot/renovate
+    tag: 40.48.7@sha256:dc18678cad04dc441ecd7a58f70aa1a69159c511e35b1cd52a8b46c5c756954c
+    pullPolicy: IfNotPresent
+  
+  existingSecret: 'renovate-env'
+
+  env:
+    LOG_LEVEL: "debug"
+
+  # Repository configuration - can be overridden by Ansible
+  repositories:
+    - "chris-sanders/argocd-home"
+    - "chris-sanders/argocd"
+
+  renovate:
+    # See https://docs.renovatebot.com/self-hosted-configuration
+    config: |
+      {
+        "platform": "gitea",
+        "autodiscover": false,
+        "dryRun": "",
+        "printConfig": true,
+        "repositories": {{ .Values.renovate.repositories | toJson }}
+      }
