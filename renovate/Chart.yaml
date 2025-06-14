@@ -2,6 +2,6 @@ name: renovate
 version: 1.0.0
 apiVersion: v2
 dependencies:
-    - name: renovate
-      version: '^40.49.0'
-      repository: https://docs.renovatebot.com/helm-charts
+  - name: renovate
+    version: "^40.49.0"
+    repository: "https://docs.renovatebot.com/helm-charts"
