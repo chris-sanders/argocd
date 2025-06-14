@@ -1,6 +1,4 @@
 renovate:
-  apiVersionOverrides:
-    cronjob: batch/v1
   cronjob:
     # Every hour
     schedule: '0 * * * *'
@@ -21,11 +19,6 @@ renovate:
   env:
     LOG_LEVEL: "debug"
 
-  # Repository configuration - can be overridden by Ansible
-  repositories:
-    - "chris-sanders/argocd-home"
-    - "chris-sanders/argocd"
-
   renovate:
     # See https://docs.renovatebot.com/self-hosted-configuration
     config: |
@@ -34,5 +27,5 @@ renovate:
         "autodiscover": false,
         "dryRun": "",
         "printConfig": true,
-        "repositories": {{ .Values.renovate.repositories | toJson }}
+        "repositories": [repo-list-here]
       }
