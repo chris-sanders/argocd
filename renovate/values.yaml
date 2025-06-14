@@ -25,7 +25,6 @@ renovate:
       {
         "platform": "gitea",
         "autodiscover": false,
-        "dryRun": "",
         "printConfig": true,
         "repositories": [repo-list-here]
       }
