@@ -28,26 +28,37 @@ steps:
         apk update
         apk add --no-cache jq grep
 
-        echo "Detecting changes in values.yaml files..."
+        echo "Detecting changes in chart files..."
         
         # Debug: Print the CI_PIPELINE_FILES content
         echo "CI_PIPELINE_FILES content:"
         echo "$CI_PIPELINE_FILES"
         
-        # Use jq to find */values.yaml files and extract directory names
+        # Use jq to find any files in chart directories and extract unique directory names
         if [ -n "$CI_PIPELINE_FILES" ]; then
-          echo "$CI_PIPELINE_FILES" | jq -r '.[] | select(test("^[^/]+/values.yaml$")) | split("/")[0]' > changed_software.txt
+          echo "$CI_PIPELINE_FILES" | jq -r '.[] | select(test("^[^/]+/[^/]+")) | split("/")[0]' | sort -u > changed_software.txt
         else
           echo "CI_PIPELINE_FILES is empty or not set"
           touch changed_software.txt
         fi
 
         if [ ! -s changed_software.txt ]; then
-          echo "No matching values.yaml files were changed. Skipping tests."
+          echo "No chart files were changed. Skipping tests."
           exit 1
         else
-          echo "Software with changed values.yaml files:"
+          echo "Charts with modified files:"
           cat changed_software.txt
+          
+          # Validate only one chart is changed
+          CHART_COUNT=$(wc -l < changed_software.txt)
+          if [ "$CHART_COUNT" -gt 1 ]; then
+            echo "ERROR: Multiple charts detected in this PR:"
+            cat changed_software.txt
+            echo "Only one chart can be changed per PR."
+            exit 1
+          fi
+          
+          echo "Single chart validation passed."
         fi
 
   - name: clone-role-repo
