@@ -42,10 +42,6 @@ steps:
           touch changed_software.txt
         fi
 
-        # TEMPORARY: Remove gitea from the list for testing
-        grep -v "^gitea$" changed_software.txt > changed_software_filtered.txt
-        mv changed_software_filtered.txt changed_software.txt
-        
         if [ ! -s changed_software.txt ]; then
           echo "No matching values.yaml files were changed. Skipping tests."
           exit 1
