@@ -113,6 +113,31 @@ steps:
         echo "=== CI_WORKSPACE content after clone-role-repo ==="
         ls -la "$${CI_WORKSPACE}"
 
+  - name: validate-role-branch-config
+    image: alpine:latest
+    commands:
+      - |
+        SOFTWARE_NAME=$(head -n 1 "$${CI_WORKSPACE}/changed_software.txt")
+        CONVERGE_FILE="$${CI_WORKSPACE}/k8s.$${SOFTWARE_NAME}/molecule/proxmox/converge.yml"
+        
+        if [ ! -f "$CONVERGE_FILE" ]; then
+          echo "ERROR: converge.yml not found at $CONVERGE_FILE"
+          exit 1
+        fi
+        
+        # Check if role has branch variable configuration
+        # Look for the role-specific branch variable pattern
+        EXPECTED_VAR="k8s_$${SOFTWARE_NAME}_branch"
+        
+        if ! grep -q "$${EXPECTED_VAR}.*CI_COMMIT_SOURCE_BRANCH\|$${EXPECTED_VAR}.*CI_COMMIT_BRANCH" "$CONVERGE_FILE"; then
+          echo "ERROR: Role k8s.$${SOFTWARE_NAME} missing branch configuration!"
+          echo "converge.yml must include: $${EXPECTED_VAR}: \"{{ lookup('env', 'CI_COMMIT_SOURCE_BRANCH') | default('master', true) }}\""
+          echo "Without this, tests run against 'master' instead of PR branch."
+          exit 1
+        fi
+        
+        echo "✓ Role has proper branch configuration with variable: $${EXPECTED_VAR}"
+
   - name: molecule-converge
     image: gitea.v2.zarek.cc/twinlabs/ansible-molecule:latest
     environment:
