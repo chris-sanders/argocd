@@ -165,7 +165,7 @@ steps:
         SOFTWARE_NAME=$(head -n 1 "$${CI_WORKSPACE}/changed_software.txt")
         cd "k8s.$SOFTWARE_NAME" 
         echo "Executing molecule converge in $PWD"
-        molecule converge -s proxmox
+        molecule converge -s proxmox -e "site_chart_url=https://gitea.v2.zarek.cc/twinlabs/argocd"
         
         echo "Molecule converge for $SOFTWARE_NAME completed."
 
