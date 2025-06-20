@@ -50,4 +50,18 @@ spec:
       toPorts:
         - ports:
             - port: "443"
+    - toFQDNs:
+        - matchName: "zarek.cc"
+        - matchName: "sangdrax.com"
+      toPorts:
+        - ports:
+            - port: "443"
+              protocol: TCP
+    - toFQDNs:
+        - matchName: "zarek.cc"
+        - matchName: "sangdrax.com"
+      toPorts:
+        - ports:
+            - port: "1000-9999" 
+              protocol: TCP
 {{- end }}
