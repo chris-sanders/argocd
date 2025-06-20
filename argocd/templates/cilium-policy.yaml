@@ -53,14 +53,12 @@ spec:
     - toFQDNs:
         - matchName: "zarek.cc"
         - matchName: "sangdrax.com"
+        - matchPattern: "*.zarek.cc"
+        - matchPattern: "*.sangdrax.com"
       toPorts:
         - ports:
             - port: "443"
               protocol: TCP
-    - toFQDNs:
-        - matchName: "zarek.cc"
-        - matchName: "sangdrax.com"
-      toPorts:
         - ports:
             - port: "1000-9999" 
               protocol: TCP
