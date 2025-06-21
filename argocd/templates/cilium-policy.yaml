@@ -54,6 +54,7 @@ spec:
         - matchName: "zarek.cc"
         - matchName: "sangdrax.com"
         - matchPattern: "*.zarek.cc"
+        - matchPattern: "*.v2.zarek.cc"
         - matchPattern: "*.sangdrax.com"
       toPorts:
         - ports:
