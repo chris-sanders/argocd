@@ -9,26 +9,23 @@ when:
 skip_clone: true
 
 steps:
-  - name: debug-env-vars
+  - name: setup-and-validate
     image: alpine:latest
     environment:
       SSH_KEY:
         from_secret: ssh_key
     commands:
-      - echo "=== User info ==="
-      - id
-      - echo "=== All Environment Variables ==="
-      - env | sort
-
-  - name: detect-changes
-    image: alpine:latest
-    commands:
       - |
         # Install required packages
         apk update
-        apk add --no-cache jq grep
+        apk add --no-cache jq grep openssh-client git
 
-        echo "Detecting changes in chart files..."
+        echo "=== User info ==="
+        id
+        echo "=== All Environment Variables ==="
+        env | sort
+
+        echo "=== Detecting changes in chart files ==="
         
         # Debug: Print the CI_PIPELINE_FILES content
         echo "CI_PIPELINE_FILES content:"
@@ -61,18 +58,7 @@ steps:
           echo "Single chart validation passed."
         fi
 
-  - name: clone-role-repo
-    image: alpine:latest
-    environment:
-      SSH_KEY:
-        from_secret: ssh_key
-    commands:
-      - |
-        # Check for the existence and content of the file in the workspace
-        if [ ! -f "$${CI_WORKSPACE}/changed_software.txt" ] || [ ! -s "$${CI_WORKSPACE}/changed_software.txt" ]; then
-          echo "No changes detected (changed_software.txt not found or empty in workspace). Skipping clone."
-          exit 0 # Exit successfully, no work to do
-        fi
+        echo "=== Cloning role repository ==="
         
         SOFTWARE_NAME=$(head -n 1 "$${CI_WORKSPACE}/changed_software.txt")
         echo "Selected software for testing: $SOFTWARE_NAME"
@@ -81,11 +67,6 @@ steps:
           echo "Error: SOFTWARE_NAME is empty from changed_software.txt."
           exit 1
         fi
-        
-        #echo "$SOFTWARE_NAME" > "$${CI_WORKSPACE}/selected_software.txt"
-
-        # Setup ssh
-        apk add --no-cache openssh-client git
         
         # Explicitly check if SSH_KEY environment variable is populated
         if [ -z "$${SSH_KEY}" ]; then 
@@ -98,7 +79,6 @@ steps:
         mkdir -p ~/.ssh 
         chmod 700 ~/.ssh 
         echo "$${SSH_KEY}" > ~/.ssh/id_rsa 
-        
         chmod 600 ~/.ssh/id_rsa 
         echo "SSH key file ~/.ssh/id_rsa configured."
 
@@ -113,11 +93,8 @@ steps:
         echo "=== CI_WORKSPACE content after clone-role-repo ==="
         ls -la "$${CI_WORKSPACE}"
 
-  - name: validate-role-branch-config
-    image: alpine:latest
-    commands:
-      - |
-        SOFTWARE_NAME=$(head -n 1 "$${CI_WORKSPACE}/changed_software.txt")
+        echo "=== Validating role branch configuration ==="
+        
         CONVERGE_FILE="$${CI_WORKSPACE}/k8s.$${SOFTWARE_NAME}/molecule/proxmox/converge.yml"
         
         if [ ! -f "$CONVERGE_FILE" ]; then
@@ -172,6 +149,44 @@ steps:
           -e "k8s_argocd_private_repos='$K8S_ARGOCD_PRIVATE_REPOS'"
         
         echo "Molecule converge for $SOFTWARE_NAME completed."
+
+  - name: molecule-verify
+    image: gitea.v2.zarek.cc/twinlabs/ansible-molecule:latest
+    environment:
+      # Secrets for Proxmox
+      PROXMOX_HOST:
+        from_secret: proxmox_host
+      PROXMOX_USER:
+        from_secret: proxmox_user
+      PROXMOX_API_TOKEN_ID:
+        from_secret: proxmox_api_token_id
+      PROXMOX_API_TOKEN_SECRET:
+        from_secret: proxmox_api_token_secret
+      SSH_KEY:
+        from_secret: ssh_key
+      K8S_ARGOCD_PRIVATE_REPOS:
+        from_secret: k8s_argocd_private_repos
+    commands:
+      - |
+        # Setup SSH
+        mkdir -p ~/.ssh
+        chmod 700 ~/.ssh
+        echo "$${SSH_KEY}" > ~/.ssh/id_rsa
+        chmod 600 ~/.ssh/id_rsa
+        export GIT_SSH_COMMAND="ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no"
+        echo "SSH configured"
+
+        SOFTWARE_NAME=$(head -n 1 "$${CI_WORKSPACE}/changed_software.txt")
+        cd "k8s.$SOFTWARE_NAME" 
+        
+        # Check if verify.yml exists in the proxmox scenario
+        if [ -f "molecule/proxmox/verify.yml" ]; then
+          echo "Executing molecule verify in $PWD"
+          molecule verify -s proxmox
+          echo "Molecule verify for $SOFTWARE_NAME completed."
+        else
+          echo "No verify.yml found for $SOFTWARE_NAME - skipping verification step"
+        fi
 
   - name: molecule-destroy
     image: gitea.v2.zarek.cc/twinlabs/ansible-molecule:latest
