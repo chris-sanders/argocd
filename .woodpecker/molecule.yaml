@@ -145,8 +145,7 @@ steps:
         cd "k8s.$SOFTWARE_NAME" 
         echo "Executing molecule converge in $PWD"
         molecule converge -s proxmox -- \
-          -e "site_chart_url=ssh://git@gitea.v2.zarek.cc:8222/twinlabs/argocd.git" \
-          -e "k8s_argocd_private_repos='$K8S_ARGOCD_PRIVATE_REPOS'"
+          -e "site_chart_url=ssh://git@gitea.v2.zarek.cc:8222/twinlabs/argocd.git"
         
         echo "Molecule converge for $SOFTWARE_NAME completed."
 
