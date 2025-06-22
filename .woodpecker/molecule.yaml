@@ -104,7 +104,7 @@ steps:
         
         # Check if role has branch variable configuration
         # Look for the role-specific branch variable pattern
-        EXPECTED_VAR="k8s_$${SOFTWARE_NAME}_branch"
+        EXPECTED_VAR="k8s_$(echo $${SOFTWARE_NAME} | tr '-' '_')_branch"
         
         if ! grep -q "$${EXPECTED_VAR}.*CI_COMMIT_SOURCE_BRANCH\|$${EXPECTED_VAR}.*CI_COMMIT_BRANCH" "$CONVERGE_FILE"; then
           echo "ERROR: Role k8s.$${SOFTWARE_NAME} missing branch configuration!"
