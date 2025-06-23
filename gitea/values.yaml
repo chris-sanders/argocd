@@ -1,7 +1,7 @@
 gitea:
   image:
     repository: gitea/gitea
-    tag: 1.22.3
+    tag: 1.22.6
   persistence:
     annotations:
       helm.sh/resource-policy: delete
