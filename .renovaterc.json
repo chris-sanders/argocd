@@ -16,7 +16,7 @@
         "helm",
         "docker"
       ],
-      "automerge": false
+      "automerge": true
     },
     {
       "matchDatasources": [
