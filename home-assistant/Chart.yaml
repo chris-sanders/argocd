@@ -6,7 +6,7 @@ type: application
 dependencies:
   - name: common
     repository: https://bjw-s-labs.github.io/helm-charts/
-    version: '3.5.1'
+    version: '3.7.3'
   - name: templates
     version: '*'
     repository: file://../charts/templates
