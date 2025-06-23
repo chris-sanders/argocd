@@ -8,20 +8,19 @@
   "separateMinorPatch": true,
   "packageRules": [
     {
-      "matchManagers": [
-        "helm-requirements",
-        "helm-values"
-      ],
-      "matchDatasources": [
-        "helm",
-        "docker"
-      ],
+      "comment": "Label major updates for manual review and do NOT automerge.",
+      "matchUpdateTypes": ["major"]
+    },
+    {
+      "comment": "Automerge minor and patch updates for Helm charts.",
+      "matchDatasources": ["helm"],
+      "matchUpdateTypes": ["minor", "patch", "pin", "digest"],
       "automerge": true
     },
     {
-      "matchDatasources": [
-        "docker"
-      ],
+      "comment": "Automerge minor and patch updates for Docker images.",
+      "matchDatasources": ["docker"],
+      "matchUpdateTypes": ["minor", "patch", "pin", "digest"],
       "automerge": true
     }
   ]
