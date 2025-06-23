@@ -6,6 +6,7 @@
   "separateMajorMinor": true,
   "separateMultipleMajor": true,
   "separateMinorPatch": true,
+  "commitMessage": "chore(deps): update {{depName}} from {{currentValue}} to {{newValue}}",
   "packageRules": [
     {
       "comment": "Label major updates for manual review and do NOT automerge.",
