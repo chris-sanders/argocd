@@ -56,11 +56,4 @@ spec:
         - matchPattern: "*.zarek.cc"
         - matchPattern: "*.v2.zarek.cc"
         - matchPattern: "*.sangdrax.com"
-      toPorts:
-        - ports:
-            - port: "443"
-              protocol: TCP
-        - ports:
-            - port: "1000-9999" 
-              protocol: TCP
 {{- end }}
