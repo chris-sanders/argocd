@@ -11,7 +11,7 @@ renovate:
   
   image:
     repository: ghcr.io/renovatebot/renovate
-    tag: 40.48.7@sha256:dc18678cad04dc441ecd7a58f70aa1a69159c511e35b1cd52a8b46c5c756954c
+    tag: 40.48.11@sha256:1b7d1d6aa2b6427815eb211a21997041f5628eb4534ff906f936610538c3783e
     pullPolicy: IfNotPresent
   
   existingSecret: 'renovate-env'
