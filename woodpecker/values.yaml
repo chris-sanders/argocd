@@ -37,7 +37,7 @@ woodpecker:
     image:
       registry: docker.io
       repository: woodpeckerci/woodpecker-server
-      tag: 'v3.4.0'
+      tag: 'v3.7.0'
       pullPolicy: IfNotPresent
   
     env:
