@@ -3,7 +3,7 @@ apiVersion: v2
 version: 1.0.0
 dependencies:
   - name: cilium
-    version: '1.15.18'
+    version: '1.17.5'
     repository: https://helm.cilium.io/
   - name: templates
     version: '*'
